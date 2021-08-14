@@ -3840,3 +3840,33 @@ Initialized empty Git repository in C:/xampp/htdocs/Laravel_Course/.git/
 -بدنا نضيف كل ملفات المشروع الى عنا داخل فولدر .git الجديد عن طريق الامر التانى git add .
 
 -حكتله نقطة يعنى ضيف كل حاجة ...ما عدا الى بملف .gitignore خلى بالك 
+-عملنا الامر وبياخد وقته 
+
+hs@DESKTOP-7ULSH1U MINGW64 /c/xampp/htdocs/Laravel_Course (master)
+$ git add .
+
+-هلقيت ضفنا ملفاتنا كلها ماعدا الى معمول الها قيت اقنور ..داخل فولدر القيت الى عنا ..اللوكل يعنى ..يعنى هاد كله لسا عالجهاز تبعنا 
+
+-نيجى للامر التاالت 
+-اى حاجة بضيفها لازم اعمل بعدها كوميت 
+
+hs@DESKTOP-7ULSH1U MINGW64 /c/xampp/htdocs/Laravel_Course (master)
+$ git commit -m="first commit add all files"
+
+-هلقيت لما انا عملت ستيتس ..بقلى انو انت عدلت بالملف teto.txt الى هو الملف هاد 
+الى انا بكتب فيه وبلخص قاعد 
+hs@DESKTOP-7ULSH1U MINGW64 /c/xampp/htdocs/Laravel_Course (master)
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   public/teto.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+-بدى اوقف التلخيص هان واخلص العملية كلها بعدين بلخص 
+
+-يعنى خطوة الكوميت الى عملناها شو معناها ..انا لما اضيف اى حاجة لازم اعمل بعدها كوميت ..عشان القيت يعتمدها خلص ازا عملتلها كومت لانو بخاف تتراجع عن حاجة مسلا ملف رفعته بالغلط بدك تشيلو 
+
+
