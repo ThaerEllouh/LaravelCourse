@@ -3900,4 +3900,70 @@ git push -u origin master
 
 -وهيك خلص ورفعلى كل ملفاتى ..روح اعمل تحديث للصفحة الريبو ..راح تلاقى كل الملفات ارتفعت ما عدا ..الى معول الها اقنور 
 
+-كل الخطوات الى عملناها فوق هادى بتكون بس لاول مرة اول ما انشا الريبو 
 
+-هلقيت انت اى تعديل بتعمله عندك بالمشروع باى ملف 
+-لازم بعد ما تخلص شغلك ..تعملو اد بعدين كوميت بعدين ببلش عشان ترفع التعديلات 
+
+-وانا ملاحظ وانا بكتب بالملف هان ..يعنى صار هيك تعديل جديد ..بتلاقى المحرر
+لون الى اسم الملف بالاصفر انو صار عندك هان تعديل وبدك تعلو ببلش للريموت عشان تحفظ شغلك وترفع تعديلاتك 
+
+-هلقيت انا عدلت هان شو الخطوات 
+
+==================
+
+لاحظ الخطوات الى عملتها 
+
+hs@DESKTOP-7ULSH1U MINGW64 /c/xampp/htdocs/Laravel_Course (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   public/teto.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+hs@DESKTOP-7ULSH1U MINGW64 /c/xampp/htdocs/Laravel_Course (master)
+$ git add public/teto.txt
+
+hs@DESKTOP-7ULSH1U MINGW64 /c/xampp/htdocs/Laravel_Course (master)
+$ git commit -m="modifiy teto.txt"
+[master 2e9e791] =modifiy teto.txt
+ 1 file changed, 31 insertions(+)
+
+hs@DESKTOP-7ULSH1U MINGW64 /c/xampp/htdocs/Laravel_Course (master)
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+
+hs@DESKTOP-7ULSH1U MINGW64 /c/xampp/htdocs/Laravel_Course (master)
+$ git push -u origin master
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 869 bytes | 217.00 KiB/s, done.
+Total 4 (delta 3), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To https://github.com/ThaerEllouh/LaravelCourse.git
+   18f7a66..2e9e791  master -> master
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+
+hs@DESKTOP-7ULSH1U MINGW64 /c/xampp/htdocs/Laravel_Course (master)
+$
+
+=============================
+
+-عملت ستيتس ...بقلى انو عندك تعديل ع ملف تيتو اعملو اد ...عملت اد لملف تيتو 
+بقلى اعمل الو كوميت ...اعملت كوميت ..ورجعت اقله اعطينى الستيتس ..قلى اعملو ببلش ...اعملتله ببلش 
+
+-وزى هيك بدك تضل تعممل ...هى القيت كلو اربع اوامر 
+
+- نيجى هلقيت ننزل مشروع المهندس عنا 
+-عن طريق امر اسمه clone 
