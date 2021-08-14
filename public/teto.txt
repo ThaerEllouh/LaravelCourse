@@ -1,0 +1,3842 @@
+
+اول 10 فيديوهات بيتكلم فيهم بشكل عام عن اللارافيل وشو بيلزمنا فيهم
+بالنسبة للمحرر بى اتش بى ستورم انا نزلته ..وبيعطينه لحال 30 يوم مجانى
+ولكن صاحب الدورة
+منزل ملف باتش بفيديو رقم 8 بالدورة ..حاطه بالوصف تحت الفيدو انا نزلته هيو عندى
+بالداونلود اسمه reset.bat فتحته وغيرت التاريخ فيه خليته نفس الاصدار الى عندى
+لما نزلته كان 2019.2 قال بتخير التاريخ لاى تاريخ بدك يوم الى هو اصدار المحرر
+الى نزلته اعتقد انا الى نزلته مان 2021.2 قال بتغير وبعدين كل اخر شهر
+لما يخلص بتضغط عالملف دبل كليك بحدثلك 30 يوم زيادة
+عشان تغيرو ..بتعمل ايديت بيفتح معك الملف ..بس قال هو مرة واحدة بيتغير بعدين
+كل اخر شهر بتضغط عليه مرتين خلص بحدثلك 30 يوم زيادة
+
+-بالنسة للتيرمينال الى موجود عنا بالمحرر سواء الفيجول كود او البى اتش ستورم
+عشان تنزل عليه القيت ...بس بتعطيه الامر git هو لحاله خلص بحمله معو وبتصير
+تشتغل قيت من نفس التيرمينال تاع المحرر
+
+======================================================================================
+
+-فتحت ع موقع اللارافيل ع الراوت وكنت اقرا عنها
+
+//ازا حابب امرر بارميتر اختيار سواء كتبته ولا لا ..مثثال من الموقع نفسه من شرح الراوت
+
+Route::get('user/{name?}', function ($name = null) {
+  return $name;
+});
+
+Route::get('user/{name?}', function ($name = 'John') {
+  return $name;
+});
+
+=============================
+
+//مثال تانى باستخدام دالة الوير لو حابب تحط قيود ع الاى دى انو يكون ارقام فقط
+//والاسم يكون احرف فقط ...لو كتب اى شى غير القيد الى انا حاطه بيطلعله ايرور 404
+//يا بتغير اسم الراوت user لاسم تانى عشان ما يتعارض مع الى فوق
+//او بتوقف واحد وشغل واحد ..او سميه اى اسم وخلص سميه ثائر وفوت عليه
+
+Route::get('user/{id}/{name}', function ($id, $name) {
+  return "your id is [ " . $id ." ] and your name is [ " . $name . " ] ";
+})->where(['id' => '[0-9]+', 'name' => '[a-z]+']);
+
+
+===============================
+/**
+ * لو حابب يكون القيد عام ع كل الموقع ..اى اى دى امرره لازم يكون ارقم فقط
+ * بدل ما استخدم دالة الوير زى المثال الى فوق ..الموقع شارحلى الطريقة هاى
+ */
+
+Global Constraints
+If you would like a route parameter to always be constrained by a given regular expression, you may use the pattern method. You should define these patterns in the boot method of your RouteServiceProvider:
+
+/**
+ * Define your route model bindings, pattern filters, etc.
+ *
+ * @return void
+ */
+public function boot()
+{
+    Route::pattern('id', '[0-9]+');
+
+    parent::boot();
+}
+Once the pattern has been defined, it is automatically applied to all routes using that parameter name:
+
+Route::get('user/{id}', function ($id) {
+    // Only executed if {id} is numeric...
+});
+
+ /**
+  * بروح ع ملف app/Providers/RouteServiceProvider.php
+  *او اكتب فوق بالبحث بيطلعلك
+  *بنفوت جوا الملف بنلاقى فى عنا دالة اسمهاboot
+  * بلاقيها فاضية زى هيك ازا اول مرة استخدمها
+  */
+
+  public function boot()
+    {
+        //
+
+        parent::boot();
+    }
+
+  /**
+   * بكتب فيها الامر Route::pattern('id', '[0-9]+');
+   * بدها تصير هيك
+   */
+
+   public function boot()
+    {
+        //
+        Route::pattern('id', '[0-9]+');
+
+        parent::boot();
+    }
+
+   /**
+   * وبروح ع ملف الراوت بعمل شغلى وبمرر ال اى دى
+   */
+
+
+Route::get('users/{id}', function ($id) {
+    // Only executed if {id} is numeric...
+    return "your id is [ " . $id . " ]";
+
+});
+=================================================
+
+-شارح كمان شغلة وجربتها
+
+Encoded Forward Slashes
+The Laravel routing component allows all characters except /. You must explicitly allow / to be part of your placeholder using a where condition regular expression:
+
+Route::get('search/{search}', function ($search) {
+    return $search;
+})->where('search', '.*');
+
+-اخدت الروات هاد وحطيته عندى بملف الروات ..وهيك لما اكتب بالرابط بعد كلمة
+سيؤش اى حاجة برجعلى اياها ..كتبت اتش 1 رجلعى اياها بس لما كتبت سكريبت ما رجعها
+
+-مش فاهم الفكرة تبعت القيد بس اعتقد عشان البحث انو اى كلمة ببحث عنها
+بس اعتقد فى كاركترز ما رضى فيها
+
+-يعنى انا دخلت بالرابط هيك
+http://127.0.0.1:8000/search/tyfd25_)$<h1>teto</h1>
+
+-طبعلى
+tyfd25_)$
+teto
+
+-تيتو طبعها بالخط العريض ك اتش 1
+
+========================================================
+
+
+
+
+=====================================================================================
+
+         #011 - Create First Laravel Project - انشاء مشروع لارافل
+
+-بيشرح كيف ننشا مشروع لارافيل جديد بالطريقتين الى شرحهم الزيرو
+
+-بس لما انشا المشروع دخا لاامر هيك خلى الفيرجن اخر اشى
+composar creat-project laravel/laravel Starter "6.*"
+
+-ممكن انت المشروع الفاضى هاد الى نزلنا تاخده وتحطه ع جنبه ولما بدك مسلا مشروع ع فيرجن 7 تيجى تاخده نفسه بدل ما تضل تنزله من جديد
+
+-انت لما ترفع مشروعك عالقيت هاب ما بيرفع معو ملف الفيندور ..ملف الفيندور ضخم جدا
+هو روح المشروع فى كل اكواد اللارافيل والباكيجات تبعهتها
+
+-ولو حابب تعطى المشروع لصحابك بتعطيه اياه ع فلاش بدون ملف الفيندور
+مسلا لو كان مشروع 500 ميجا بتلاقى ملف الفيندور لحاله يمكن 400
+
+-انت بتعطيه مشروع بدون الفيندور ...وكل حاجة موجودة بالفيندور كانت ..راح تكون موجودة
+بملف الكمبوزر الى انت اعطبته اياه
+
+-هو لما ياخد المشروع بدون الفيندور عندو ...بس بيكتب امر واحد
+composer istall
+
+-وهو هاد الامر بنزلو ملف الفيندور الى كان عندك ..بدى اجربها اخد المشروع بدون الفيندور واروح اعمل الامر هاد
+
+-فعلا اخدته بدون الفيندور وعملت الامر composer install نزل عندى الفيندر
+ضل ينزل ينزل بالفيندور وباكيجاته اخر اشى كتبلى
+Package manifest generated successfully.
+74 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+PS C:\xampp\htdocs\TetoLaravel>
+
+-من ضمن اوامر الكومبوزر لما تكتب كومبوزر ويطبلعك كل الاوامر كاتبلى عن الانستول
+install   Installs the project dependencies from the composer.lock file if present,
+          or falls back on the composer.json.
+
+-ملاحظة اخرى
+عنا ملف بالمشروع اسمه .gitignore
+كاتبلك فيه شو هى الملفات الى ما بيرفعه مع البروجيكت لما ترفعه عالقيت
+من اسم الملف قيت اقنور ..يعنى ما برتفع عالقيت
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+-ازا بتلاحظ من ضمنها ملف الفيندور
+-وازا فيه ملفات مش مهمة انا ما بدى اياها تروح معى عالقيت لما ارفعه ..بحط اسمها بالملف هاد بروضو عشان ما ترتفع
+
+-ملف ال .env هاد الى فيه الربط تبع الداتا بيز تبعتنا
+
+-المهندس راح يعمل بوش لكل محاضرة بيعملها عالقيت هاب عالريبو تبع البروجيكت
+وانت بس عليك تعمل pull وتاخد اى تحديث بصير
+
+================================================================================
+
+       #012 - What Is Laravel Routing - routes شرح
+
+-الروات هو الرابط اليو ار ال الموجود عنا فوق
+-موجود فى فولدر الراوت فى ملف web.php
+
+-كاتب النا انو روات صفحة الويلكم هو الباك سلاش /
+-لما نعمل رن للمشروع بنفتحه بنفتحك هيك
+http://localhost:8000
+-نفسها كانى كتبت http://localhost:8000/
+ولكن الباك سلاش الاخيرة ما بنكتبها
+
+-الراوت ممكن يرجع فيو ..ممكن يرجع سترنق ..ممكن يرجع قيمة ..اى حاجة زى ما درسنا مع الزيرو
+
+-الروات الها اكتر من شكل get - post - put - patch -delete - opyions
+-فى ناس بتستغنى عن البوت ..بالبوست او الباتش
+
+-القيت مفهوم ...البوست لما يكون عنا فورم وبنبعت للداتا بيز وبنرجع وهكذا
+
+-الديليت والبوت ممكن نستغنى عنهم بالبوست
+
+-ولنفترضو انو عنا زر تحت كل الاعلان ..الزر هاد لما اضغط عليه بيمسح الاعلان
+لما اضغط عالزر ..بيبعتنى ع رابط الرابط هاد بيبعتنى ع مكان بالكونترولر
+الى انا بكون كاتب فيه كود الحذف من الداتا بيز
+
+-الرابط هاد نوعه شو بكون ...الستاندرد بكون انو استخمده ديليت طالما بدك تحذف
+ولكن انت ممكن تستبدله ب بوست
+
+-طبيعة الراوت بينكتب زى هيك
+Route::get('/test', function () {
+    return "Hello Teto";
+});
+
+-ولكن انا الميثود هادى الى هان او الفنكشن لقدام راح نستبدلها بكونترولر
+لانو ما بينفع نكتب كود هان ..الكود بنكتبه بالكنترولر والراوت هاد بيعتنى عالكونترولر
+وبالكنترولر ان بعمل ريتيرن للفيو الى بدى اياها
+
+
+==========
+
+Route With Parameters
+-ممكن امرر بارميتر للروات ..مسلا انا عندى زر بيعمل عرض تفاصيل المنتج ..لما اضغط عليه
+يبعتنى ع الاى دى تبعت المنتج هاد نفسه
+
+-البارميتر نوعين ...اجبارى واختيارى
+-الاجبارى ..غصب عنك لازم تمرر باميتير لو ما مررت راح يطلعلك ايرور
+الاختيار بدك تمرر مرر ..ما بدك خلص ..راح نستخدمها بحالات كتيرة بمشروعنا
+
+-اجبارى
+Route::get('/test1/{id}', function ($id) {
+    return "Hello Teto Your id = " . $id ;
+});
+
+-اختيارى ..لو مررت او ما مررت راح تشتغل
+Route::get('/test2/{id?}', function () {
+    return "Hello Teto Your id is Optinal " ;
+});
+
+==============
+
+- name of route
+
+Route::get('/test3', function () {
+    return "Hello Teto Your id is Optinal " ;
+})->name("teto");
+
+بدل ما اقله بالفيو عندى للنافبار لما استدعى الراوت هاد بدل اقله هيك
+<li><a href="/Laravel_Course/public/test3">About</a></li>
+
+او
+
+<li><a href="{{ url("/test3") }}">About</a></li>
+
+-بقله باسم الروت الى اعطيته اياه
+<li><a href="{{ route('teto') }}">About</a></li>
+
+route: تسمى helper method
+
+-لو الو بارميتر
+
+Route::get('/test3/{id?}', function ($id) {
+    return "Hello Teto Your id is Optinal " . $id  ;
+})->name("teto");
+
+-هان لازم اباسى معو بارميتر
+<li><a href="{{ route('teto', 55) }}">About</a></li>
+
+====================================================================================
+
+                 #013 - Route Structure & Route Service Provider
+
+-ك شغلة احترافية وعشان تظم شغلك وتكون محترف
+-مش صح تحط كل الروات تبعتك بملف واحد كلهم تحت بعض ..هى صح بس عشان تحترف
+خلى كل راوت معين بصفحة لحاله
+
+-مسلا خلى بصفحة الويب هاى الرئيسة ..الراوت الخاصة بالموقع الرئيسى
+خد منها نسخها وسميها admin.php مسلا ...هاى الصفحة بتحط فيها الروابط
+الخاصة بصفحة الادمن مسلا ...عند مسلا بالموقع جزء مشرفين
+يا بتخليهم بفحة روابط الادمن او بتعملههم صفحة راوت لحالهم وهكذا
+
+-بدى اعمل صفحى اسميها ادمن واخلى فيها الراوت الخاص بالادمن
+
+-هلقيت عملنا ملف اسمه ادمن ..زيه زى الويب وحطينا فيه راوت ..ولكن لو انت رحت تزوره
+مش راح يفتح معك راح يقلك الصفحة غير موجودة 404
+
+-عشان نخليه يزبط معنا زى ملف الويب
+لازم نربطه بملف الروت سيرفر بروفايدر RouteServiceProvider.php
+
+-موجود بفولدر app->Providers->RouteServiceProvider.php
+
+-هاد الملف بنحط فيه ملفات الراوت تبعتنا اازا بدنا نقسمها لاكتر من صفحة زى ما حكينا
+عشان نظم شغلنا ...لما نفتح راح نلاحظ مكتوب هيك
+
+public function map()
+    {
+        $this->mapApiRoutes();
+
+        $this->mapWebRoutes();
+
+        //
+    }
+
+-وبعدها عامل الميثود تبعت ملف الويب
+protected function mapWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
+    }
+
+-ازا بتلاحظ بفنكش الماب اول واحطة حاطط $this->mapWebRoutes(); لملف الويب
+بدنا نعمل نفس الخطوة لملف الادمن الجديدة مع مراعاة الكامل كيس اكتبها زى هيك
+$this->mapAdminRoutes();
+
+-بدها تصير عناه هيك
+
+public function map()
+    {
+        $this->mapApiRoutes();
+
+        $this->mapWebRoutes();
+
+        $this->mapAdminRoutes();
+
+        //
+    }
+
+-هيك احنا عملنا الميثود
+-الخطوة التانية .. لازم نكريت هاى الميثود عنا تحت زى ما هو مكريت ميثود الويب
+-هاى ميثود الويب
+protected function mapWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
+    }
+
+-بدنا ننسخها ونحطها تحتها ولكن نخليها لملف الادمن ..يعنى اخر سطر فيها
+بدنا اياه يبعتنا ع راوت صفحة الادمن مش صفحة الويب واسمها نخليه ادمن بدل ويب
+-وبالنسبة للميدل وير هان  مش عايزينه هو المفروض يكون ادمن لكن ..لسا بدنا نعرفه ونشرحه لقدام
+
+-صارت ميثود تبعت ملف الادمن هيك
+protected function mapAdminRoutes()
+    {
+        Route::namespace($this->namespace)
+            ->group(base_path('routes/admin.php'));
+    }
+
+-وكل كلف راوت بنعمل جديد ..لازم نيجى عالملف هاد ونعمل نفس هاى الخطوات
+-هلقيت روح افتح الراوت الى عملنا بصفحة الادمن راح يفتح معك عادى
+
+-وهيك انا قسمت روابط موقعى ..روابط الموقع لحال وروابط الادمن لحال ..ولقدام راح نخلى روابط الموبايل لحال وهكذا
+
+===================================================================================
+
+               #014 - Naming Routing and Namespaces - شرح routes
+
+-انا قريت الراوت كله من الموقع
+
+-هلقيت هان بدو يشرح الروت نيم سبيس ..كيف نعمل راوت ل نيم سبيس معين
+النيسم سبيس تقدر تقول عنو فولدر لحاجة معين ..مسلا بدى اعمل راوح لنيم سبيس
+الفرونت ..بس لازم اسمها يكون كابيل لتر
+
+Route::namespace('Front')->group(function() {
+
+    //all route only access controller or method in folder name Front
+    Route::get('users/{id}', function ($id) {
+
+    });
+
+});
+
+-القروب راح نشرحها ..القروب يعنى مجموعة روابط معينة بحطها مع بعض
+-طيب هان انا بقله نيم سبيس اسمها فرونت
+-يعنى كل الروات الى بحطها هان ..لازم تبعتنى على كونترولر موجود بالنيم سبيس الى
+اسمه فرونت
+
+-الفكرة العامة الى لازم تفهمها ...الروات بيبعتنى ع كونترولر ..والكونترولر
+بكون فى الاكود تبعتنا والشغل والميثودات تعتنا ..والكنترولر هو الى برجعلى فيو معينة او اى شى
+
+-هلقيت مبدايا الكنترولر موجود بفولدر app->Http->controllers
+-انا مسلا بدى اعمل للفرونت الرئيسى فولدر لحاله  للكنترولز تبعته
+بروح بعمل فولدر جوا فولدر الكنترولر بسميه Front
+
+-جوا الفولدر هاد بحط الكنترولر الى بدى اياه
+بدنا نعمل داخله مسلا كنترولر اسمه UserController.php
+- بدى اعمل الميثود هاى جوا الكنترولر الى عملته
+
+-هى الكنترولر الى عملته وعملت فيه ميثود
+<?php
+
+namespace App\Http\Controllers\Front;
+
+// use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+// use Illuminate\Foundation\Bus\DispatchesJobs;
+// use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
+
+class UserController extends BaseController
+{
+    public function showUserName(){
+        return "thaer Ellouh";
+    }
+}
+
+-اخدت نسخ من الكنترولر الى كان معنا الاصلى بس النيم سبيس كانت
+namespace App\Http\Controllers;
+
+-انا عدلتها ضفت الها ملفه الفرونت الى عملته
+namespace App\Http\Controllers\Front;
+
+-هلقتيت بملف الويب تبع الراوت بقله
+
+Route::namespace('Front')->group(function() {
+
+    //all route only access controller or method in folder name Front
+
+    Route::get("user", "UserController@showUserName");
+
+});
+
+-اى راوت انا بعمله هان لازم تكون الكنترولر الى بيبعتنى عليها تكون موجودة بفولد الفرونت
+او نيم سبيس الفرونت
+@ : يعنى بدى انادى على ميثود داخل هاى الكنترولر الى هى showUserName
+
+-وهاى الميثود بتعمل ريتيرن لاسمى ثائر اللوح
+
+-هلقيت مفروض انا اكتب الراوت هيك
+
+    Route::get("user", "Front\UserController@showUserName");
+
+-ولكن عشان انا جوا النيم سبيس نفسها الى اسمها فرونت خلص ما بكتبها
+لو كان عندى 50 راوت بكتب اسم الكنترولر مباشرة بدون ما احط قبله اسم النيم سبيس تبتعه الى هى فرونت ..لانو انا فعليا جوا الفرونت بالطريقة هاى
+
+-هلقيت لو تفوت عالرابط
+http://localhost:8000/user
+فعلا راح يطبعلنا Thaer Ellouh
+
+-لو كتبناها بالطريقة التانية غلط
+-لو بدك تكتبها بهاى الطريقة
+    Route::get("user", "Front\UserController@showUserName");
+-بتعمل الروات تبعك بدون ما تقله النيم سبيس فوق وهو بيفهم هيك
+
+
+-اخر ملعومة ..هلقيت لو انا حطيت اى كنترولر مش موجود بالنيم سبيس الى اسمه فرونت
+بالراوت هاد تبعنا ..راح يطلعلى ايرور ....اى كنترولر بدك تحطها لازم تكون جوا الفولدر فرونت الى انت حاكيله عنه
+
+-يعنى هلقيت لما اقول نيم سبيس يعنى انت افهم انو فولدر
+
+-الطريقة هاى عشان نرتب شغلنا يعنى مسلا كان عندى 50 روات انا اسمهم زى هيك
+    Route::get("user", "Front\UserController@showUserName");
+    Route::get("user", "Front\UserController@showUserName");
+    Route::get("user", "Front\UserController@showUserName");
+    Route::get("user", "Front\UserController@showUserName");
+    Route::get("user", "Front\UserController@showUserName");
+
+-انا ليش اضل اكتبه بالطريقة هاى ...خلص بكتب النيم سبيس تبعتهم فوق ..وبصير اكتبهم بدون كلمة فرونت ...عشان تكون محترف يعنى ومش مبتدا
+
+====================================================================================
+
+          #015 - laravel Route Group , prefix and middleware - routes شرح
+
+-Route Groups
+Route groups allow you to share route attributes, such as middleware or namespaces, across a large number of routes without needing to define those attributes on each individual route. Shared attributes are specified in an array format as the first parameter to the Route::group method.
+
+-الراوت قروب بتسمح الك مشاركة السمات الى بتشترك فيها كل الراوت الى عندك
+مسلا كل الروات الى عنا تابعين ل نيم سبيس معين
+زى ما عملنا الدرس الى فات بنكتب النيم سبيس بعدين بنقله قروب وبنحط فيه كل
+الروات الى بتتعامل مع النيم سبيس هاد
+
+-غير النيم سبيس ..مسلا كل الراوت الى عنا الها نفس البريفكس ..البادئة يعنى
+مسلا بدى اياهم كلهم يبدا بكلمة ادمن مسلا ..او كلهم يبدا بكلمة يوزر مسلا
+بحط الكلمة هاى عندى فوق بدالة بريفكس ..وعشان تنطبق عليهم كلهم بعملهم بقروب
+
+-غير هيك كمان مسلا بدهم يشتركو بنفس الميدل وير ..الميدل وير راح نشرحه لقدام
+بس حاليا انت اعرف انو هو زى قيد ..زى لا كنا نقله ازا الشخصص هاد ادمن خليه يفوت
+ع الكنترول بانيل ازا مش ادمن ..حوله ع صفحة الدخول او نبعته ع اى صفحة مسلا
+-مسلا عندى قيد معين ميدل وير معين انا عامله وبدى كل الروات الى اعملها يكون عليها الميدل وير هاد ....خلص بحطهم بقروب وقبل القروب بقله الميدل وير كزا ..بالتالى كل الراوت الى انا عامله جوا القروب هاد راح تاخد نفس الميدل وير
+
+-هى هاد القروب
+
+-نيجى نشرح البريفكس
+
+Route Prefixes
+The prefix method may be used to prefix each route in the group with a given URI. For example, you may want to prefix all route URIs within the group with admin:
+
+Route::prefix('admin')->group(function () {
+    Route::get('users', function () {
+        // Matches The "/admin/users" URL
+    });
+});
+
+-معناها البائة ..مسلا بدى كل الراوت الى احطها بالقروب هاط يبقى قبلها كلمة ادمن
+خلص بحط كلمة ادمن فوق
+-يعنى الروات هاد الى انا كتبته
+Route::get('users', function () {
+        // Matches The "/admin/users" URL
+    });
+
+-لما اروح ادخل عليه لازم يكون اسمه
+http://localhost:8000/admin/users
+
+-هى معنى البريفكس
+
+-الكلام الى شرحه المهندس
+
+//Group And Prefix
+Route::prefix('users')->group(function() {
+    Route::get("show", "UserController@showUserName");
+    Route::delete("delete", "UserController@showUserName");
+    Route::get("edit", "UserController@showUserName");
+    Route::put("update", "UserController@showUserName");
+});
+
+-انا هيك لازم اكتب
+http://localhost:8000/users/show
+http://localhost:8000/users/edit
+
+-هدول القيت ..اما الديليت والبوت الهم شغل تانى
+
+-وعشان يشتغلو معى صح بالكنترولر الى انا عامله لازم اضيف النيم سبيس فوق كمان
+
+//Group And Prefix
+Route::prefix('users')->namespace('Front')->group(function() {
+    Route::get("show", "UserController@showUserName");
+    Route::delete("delete", "UserController@showUserName");
+    Route::get("edit", "UserController@showUserName");
+    Route::put("update", "UserController@showUserName");
+});
+
+-يعنى القروب الى عندى هاد ..اشترك بالبريفكس واشترك بالنيم سبيس كمان
+-هلقيت لو رحت كتبت
+http://localhost:8000/users/show
+راح يطبعلى اسمى الى انا عامله ريتيرن بالميثود
+-ولو كتبته برضو
+http://localhost:8000/users/edit
+-برضو راح يطبعلى نفس لااشى لانو انا مستخدم نفس الميثود بس عشان ابين الفكرة
+
+-طيب هلقيت فى طريقة تانية هاى لكتابتها وهى الى راح نمشى عليها دايما
+
+-جوا القروب بمرر الميزات المشتركة معى باريه زى هيك
+
+Route::group(['prefix' => 'users'],function() {
+    Route::get("show", "UserController@showUserName");
+    Route::delete("delete", "UserController@showUserName");
+    Route::get("edit", "UserController@showUserName");
+    Route::put("update", "UserController@showUserName");
+});
+
+-ازا كان الها نيم سبيس بمررها برضو
+
+Route::group(['prefix' => 'users', 'namespace' => 'Front'],function() {
+    Route::get("show", "UserController@showUserName");
+    Route::delete("delete", "UserController@showUserName");
+    Route::get("edit", "UserController@showUserName");
+    Route::put("update", "UserController@showUserName");
+});
+
+-ازا كان بيشتركوا بنفس الميدل وير برضو بمررها عادى
+
+-هلقيت لو انا عملت راوت يبعتنى عالباك سلاش لحالها
+Route::group(['prefix' => 'users', 'namespace' => 'Front'],function() {
+    Route::get('/', function () {
+        return "teto";
+    });
+    Route::get("show", "UserController@showUserName");
+    Route::delete("delete", "UserController@showUserName");
+    Route::get("edit", "UserController@showUserName");
+    Route::put("update", "UserController@showUserName");
+});
+
+-هاد معناه انى اكتبه users لحالها انا كتبتها لحالها او بعدها باك سلاش نفس الاشى مهى
+هان برجعلى كلمة تيتو
+-زى هيك
+http://localhost:8000/users
+-بيطبعلى تيتو
+
+
+
+-خلينا نشوف شو هى الميدل وير
+Middleware
+To assign middleware to all routes within a group, you may use the middleware method before defining the group. Middleware are executed in the order they are listed in the array:
+
+Route::middleware(['first', 'second'])->group(function () {
+    Route::get('/', function () {
+        // Uses first & second Middleware
+    });
+
+    Route::get('user/profile', function () {
+        // Uses first & second Middleware
+    });
+});
+
+-نيجى لشرح المهندس
+
+الميدل وير هو الية معينة بتسمحلك انو انت تفوت عالرابط هاد او ما تفوت بناءا على كود معين ...زى لما حكتلك السماح لدخول اصفحة الادمن ازا انت ادمن بسمحلك ..مش ادمن برجعلك ع صفحة تسجيل الدخول ...هيك كنا نعمل زمان
+
+-اللارفيل نفسها ..عاملة ميدل وير اسمه auth الاس هاد نفس تبعنا زمان الادمن
+هما هان عاملينه ازا انت مسجل بالموقع وعامل تسجيل دخول ...يسمحلك تفوت عالروابط
+ازا مش عامل تسجيل دخول بحولك ع صفحة اسمها اللوق ان
+
+-وقدام راح نعرفها بالتفسصيل وكيف انشا ميدل وير وشو هى الميدل وير
+
+-الميدل وير بنكتب بكزا طريقة ....ازا عندك قروب زى ما كنا نعمل
+
+-اوا ازا عندك راوت لحاله وبدك تحط عليه ميدل وير بتنكتب بالطريقة هاى
+
+-بدنا نتعامل مبدايا بالميدل وير الى عاملاه لارارفيل نفسها اسمه اوس
+-ازا حطيته ع اى رابط ...بيمنعك تفوت عالرابط هاد الا تكون عامل اوثونتيكيتد
+يعنى عامل تسجيل دخول والك يوزر نيم وباسورد غير هيك ما بدخلك
+
+-لو عنا راوت لحاله بينكتب بالشكل هاد
+Route::get('chek', function () {
+    return "teto";
+})->middleware('auth');
+
+-هلقيت لو رحت دخلت عالرابط هاد
+http://localhost:8000/chek
+
+-منعنى وطلعلى اكسبشن
+Symfony\Component\Routing\Exception\RouteNotFoundException
+Route [login] not defined.
+
+-بقلى صفحة اللوق ان غير موجودة ..وفعلا احنا لسا مش عاملينها وع فكرة هى جاهزة بتكون باللارفيل بس لسا ما علمناها ...لانو الميدل وير الاوس هاد حكينا انو لو انا مش عامل تسجيل دخول ..برجعنى ع صفحة اللوق ان ...وهان عشان ثفحة اللوق ان مش موجودة طلعلى اكسبشن
+
+-طيب لو عملنا الروات هيك بدون ميدل وير
+Route::get('chek', function () {
+    return "teto";
+});
+
+-دخلنى عليه عاد وطبعلى تيتو
+
+-طيب لو عنا مجموعة روابط مشتركة بنفس الميدل وير بتنكتب بالطريقة الى كنا نشتغل فيها
+Route::group(['prefix' => 'users', 'namespace' => 'Front', 'middleware' => 'auth'],function() {
+    Route::get('/', function () {
+        return "teto";
+    });
+    Route::get("show", "UserController@showUserName");
+    Route::delete("delete", "UserController@showUserName");
+    Route::get("edit", "UserController@showUserName");
+    Route::put("update", "UserController@showUserName");
+});
+
+-صارو الروابط هدول بيشتركو بنفس البريفكس ونفس النيم سبيس ونفس الميدل وير
+-وهيك ولا رابط راح يفتحلى الا اكون عامل تسجيل دخول
+
+-الشكل الاحترافى الى ممكن نمشى عليه طول عمرنا بكتابة الكود هو هاد الى عملناه اخر اشى
+نكتب القروب وفيها نعمل اريه ونمرر الاشياء المشتركة
+
+===========
+
+-معلومة اخيرة وجبتها من الموقع ما حكى عنها المهندس
+
+Route Name Prefixes
+The name method may be used to prefix each route name in the group with a given string. For example, you may want to prefix all of the grouped route's names with admin. The given string is prefixed to the route name exactly as it is specified, so we will be sure to provide the trailing . character in the prefix:
+
+Route::name('admin.')->group(function () {
+    Route::get('users', function () {
+        // Route assigned name "admin.users"...
+    })->name('users');
+});
+
+=====================================================================================
+
+             #016 - creating Laravel Controller - شرح لارافل controllers
+
+-الكونترولر هو المكان الى انا بكتب فيه اللوجيك تبعى ..الكود تبعى
+باى ديفولت لما انا انشا كونترولر ..بينزل بفولدر الكونترولر نفسه
+ولكن لو انا بدى اعمل نيم سبيس لكونترولر معينة ..عادى بعمل فولدر جوا فولدر الكنترولر زى ما عملنات الفرونت قبل هيك وبحط فيه الكنترولر تعينى
+
+-يعنى الكود او البيزنس او اللوجيك سميها زى ما تحب بنكتبه بالكنترولر
+
+-كيف بدنا ننشا كنترولر جديد ..ممكن زى ما عملنا بالاول ..ناخد الكنترولر الى موجود عنا وننسخ منو بملف تانى ونعطيه تسمية
+
+-وومكن بطريقة التيرمينال اعطيه امر
+
+php artisan make:controller FirstController
+
+-هيك انشا الى كنترولر اسمه FirstController داخل فولدر الكنترولر نفسه
+-هيو هيك انشاه الى
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class FirstController extends Controller
+{
+    //
+}
+
+-ازا بتلاحظ النيم سبيس فوق اسمها namespace App\Http\Controllers; انو بفولدر الكنترولر نفسه
+
+-بالنسة للاسم سميه اى اسم تحبه ولكن يبدا بحرف كابيتل
+-هان المهندس بحب يعطيه الاسم وبعده كلمة كنترولر عشان هاى طريقة بحبها وماشى عليها
+مسلا بدو يسمى دكتور كنترولر ..يوزر كنترولر ..ادمن كنترولر
+
+-لو بدى انشا كنترولر بالنيم سبيس او الفولدر الى انا عملته الى اسمه فروند
+بنقله داخل الفولدر فرونت الى عنا وبغير الني سبيس بضيف بالاخر الها م\كلمة فرونت
+namespace App\Http\Controllers\Front;
+
+=====================================================================================
+
+               #017 - Laravel Controllers & Namespaces
+
+========================
+
+-هاد الكلام عرفته وعملته لحالى قبل ما اشوف شرح المهندس
+
+-لو بدى انشا الكنترولر داخل النيم سبيس فرونت نفسها
+
+ php artisan make:controller Front/FirstController
+
+-هيك عملى كنترولر اسمها FirstController جوا الني سبيس فرونت نفسها
+
+-لاحظ هان كيف نزل شكلها
+
+<?php
+
+namespace App\Http\Controllers\Front;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class FirstController extends Controller
+{
+    //
+}
+
+-جابها جاهزة ..خلى النيم سبيس فوق كامل بدون ما افوت اعدل عليه
+-وعملى ايمبورت لهاى
+use App\Http\Controllers\Controller;
+-عشان انا عامل اكستند من الكنترولر ..ف لازم اعمله ايمبورت عندى عشان يشوفه
+هو عملى اياه لحاله
+
+-هلقيت بدنا نفهم الكلام هاد شو يعنى
+
+-ك انى انا ما عملت المثال الى فوق بالطريقة الجديدة ..خلينى امشى مع شرح المهندس ..لسا ما حكى كيف اعمل الكنترولر جوا فولدر يكون جوا فولدر الكنترولر هو  ... بس انا عملت الامر لحالى وزبط
+
+=====================================
+
+-نبدا محاضررة المهندس
+
+-مسلا انا انشات كنترولر بدى اسمها secondController داخل فولدر الكنترولر نفسه
+-اعطبته الامر
+ php artisan make:Controller SecondController
+
+-انشالى الكنترولر الجديد السكند
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class SecondController extends Controller
+{
+    //
+}
+
+-لاحظ انو هو بالنيم سبيس كنترولر نفسها ..الفولدر الرئيسى
+
+-بدى اعمل فيها ميثود اسميها showString مسلا
+-واروح اعمللها راوت
+
+-صارت عنا هيك
+class SecondController extends Controller
+{
+    public function showString(){
+        return "Teto..Second Controller";
+    }
+}
+
+-بدنا نعمللها راوت خلينى اسميها second مسلا عشان اعرف بس ع وين بدو يبعتنى
+Route::get('second', 'SecondController@showString');
+
+-انا هان كتبت اسم الكنترولر مباشرة بدون ما حط قبله نيم سبيس
+لانو هو بالنيم سبيس الاصلى الكنترولرز ..خلص ما بحطها قبله
+ولكن لو هو بالنيم سبيس الفرونت لازم اكتبه هيك
+Route::get('second', 'Front/SecondController@showString');
+
+-هلقيت رحت عالرابط هاد
+http://localhost:8000/second
+-فعلا طبعلى
+Teto..Second Controller
+
+-طيب هلقيت خلينا ننقل هاد الكنترولر للنيم سبيس فرونت نعمله نسخ لصق مسلا
+او تعمل قص لصق المهم انقله جوا ..نفسه هو هوا بس بدنا ننقله داخل النيم سبيس الفرونت
+-او خلينا نعمل فولدر جديد ..يعنى نيم سبيس جديد نسميه Admin وننقل هاد الكنترولر عليه
+
+-سحبته بالماوس الكنترولر سكند ..ورميته بالنيم سبيس الجديد الادمن
+-هلقيت لو تروح تفوت ع نفس الرابط ..راح يطلعلك اكبشن خطا
+lluminate\Contracts\Container\BindingResolutionException
+Target class [App\Http\Controllers\SecondController] does not exist.
+http://localhost:8000/second
+
+-بقلك الكنترولر هاد [App\Http\Controllers\SecondController]
+مش موجود ..وهو فعلا فش كنترولر اسمه سكند كنترولر بالنيم سبيس الى اسمها كنترولرز
+لانو انا نقله ع الادمن هلقيت
+
+-شو بدنا نعمل ...بدنا نروح نقله بالراوت خليه هيك
+Route::get('second', 'Admin\SecondController@showString');
+
+-برضو راح يطلعلى نفس الغلط ..ليش لانو انا نقلته زى ما هو وما غيرت النيم سبيس تبعته
+-انا نقلته هيك
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class SecondController extends Controller
+{
+    public function showString(){
+        return "Teto..Second Controller";
+    }
+}
+
+-لازم اخليه هيك
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use Illuminate\Http\Request;
+
+class SecondController extends Controller
+{
+    public function showString(){
+        return "Teto..Second Controller";
+    }
+}
+
+-ضفنا كلمة ادمن عالنيم سبيس صارت هيك namespace App\Http\Controllers\Admin;
+
+-هلقيت اول ما ضفتها ..طلعلى خطا بالاحمر المحرر تحت كلمة كنترولر
+class SecondController extends Controller
+الى انا عامل وراثة اكستند منها ..لانو هو هيك بطل شايفها ...بالاول لما كانت النيم سبيس ..كنترولز كان شايف كلاس الكنترولر نفسه ..لكن هلقيت لما غيرت النيم سبيس
+بطل شايفها ...انت عامل اكستند من كنترولر مين هو هاد كنترول انا مش عارفه
+-بالتالى بدى اروح اعمله ايمبورت عندى عشان يشوفه
+
+-قبل ما نعمل ايمبورت ..خلينا نروح عالرابط نشوف شو يقللنا
+طلعلى نفس الى كان يطلعه ..بس المرة كتبتلى ايرور
+Error
+Class 'App\Http\Controllers\Admin\Controller' not found
+http://localhost:8000/second
+
+-لازم اروح اعمله ايمبورت
+
+-هلقيت الكنترولر هاد الى بعمل منو اكستند class SecondController extends Controller
+هاد باى ديفولت لارفيل عاملاه ..ولكن هو لما انت غيرت النيم سبيس تبعه بطل شايفه
+
+-عشان اعمله ايمبورت بعد ما غيرت النيم سبيس ...بالنسبة للمحر تبعى الفيجول كود
+بروح بمسح كلمة كنترولر وبكتبها من جديد ..اول ما بكتب حرفين تلاتة منها المحرر بكمل معى وبيطلعلى اسمها جاهز بضغط عليها ..بعرفلى اياه فوق مباشرة بعمللها ايمبورت زى هيك
+use App\Http\Controllers\Controller;
+
+-عمل الها يوز مباشرة
+
+-صارت عندى الكنترولر سكند الى بالنيم سبيس ادمن زى هيك
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class SecondController extends Controller
+{
+    public function showString(){
+        return "Teto..Second Controller";
+    }
+}
+
+-ولكن هاى use Illuminate\Http\Request; صارت باللون الفاتح خلص انا ما استخدمتها لهلقيت ...هاى اعتقد كانت ايمبورت لكلاس الكنترولر الى بالنيم سبيس الاصلى
+ولكن انا هان غيرت النيم سبيس صارت ادمن ..ف صار يستخدم الكنترولر الى ماخده من هان
+se App\Http\Controllers\Controller;
+
+-بالنسبة للمهندس بيشتغل عالبى اتش بى ستورم ..كان يقف ع كلمة كنترولر ..وتطلعلو قائمة يضغط عليها يعمل ايبمورت مباشرة
+
+-هلقيت الراوت تبعنا صار  هيك
+Route::get('second', 'Admin\SecondController@showString');
+
+-صار يشتغل عادى معنا ..دخلت ع نفس الرابط
+http://localhost:8000/second
+وطبعلى
+Teto..Second Controller
+
+-ولو بدك تستخدك طريقة النيم سبيس تبعتنا الى تعلمناه عادى برضو
+Route::group(['namespace' => 'Admin'], function() {
+    Route::get('second', 'SecondController@showString');
+});
+
+-نفس الى فوق هى هى
+
+-بالنسبة لكل الشرح الى شرحته بس عشان اعرفك الاخطاء وكيف تتعامل معها
+
+-ولا انت ريح راسك واعمل الكنترولر بالنيم سبيس الى بدك اياها مباشرة زى ما شرحت باول الدرس ..بيعطيك اياها جاهز وعاملة ايمبورت للكنترولر جاهز كله
+
+-بالنسبة للراوت ممكن تمرر فيه باراميتر عادى زى ما شرحنا قبل ..وبالبارميتر هاد تبعته للكنترولر تستخدمه بالميثود عادى ..هاد لقدام راح نشرحه
+
+-هينى عملتها لحالى
+
+Route::group(['namespace' => 'Admin'], function() {
+    Route::get('second/{id}', 'SecondController@showString');
+});
+
+-وبالميثود استخدمته هيك ..انى طبعته
+
+class SecondController extends Controller
+{
+    public function showString($id){
+        return "Teto..Second Controller " . $id;
+    }
+}
+
+-هلقيت روح فوت عالرابط --بس هان اجبارى بدك تكتب بعد كلمة سكند اى دى
+http://localhost:8000/second/50
+
+-طبعلى
+Teto..Second Controller 50
+
+=================================
+
+-اخر ملعومة برضو عرفتها لحالى
+-بالنسبة لكلاس الكنترولر الى بنعمل منو اكستند ...هو نفسه الاصلى الموجود بفولدر الكنترولز الاصلى اسمه Controller.php لو تفوت عليه تفتحه
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
+
+class Controller extends BaseController
+{
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+}
+
+-هو كلاس ...ونفسه عامل اكستند من كلاس تانى  اسمه BaseController
+
+-عشان هيك لما اعمل كنترولر بالفولدر الاصلى او النيم سبيس الاصلى
+ما بيعمل ايمبورت لكلاس الكنترولر ...ليش لانه بشوفو خلص لانو بنفس النيم سبيس اصلا ..جنب بعض الاتنين بنيمم سبيس واحدة
+
+-ولكن لما اعمل نيم سبيس جديدة جواتها ..واستخدم هاد الكلاس الى اسمه كنترولر
+واعمل استند منو ...بدى اعرف النيم سبيس الجديدة تبعتى وين هاد الكلاس الى اسمه كنترولر موجود ..ف بعمله ايمبورت بقلى لما اعمل ايمبورت الو
+use App\Http\Controllers\Controller;
+
+-يعنى استخدم كلاس الكنترولر الموجود بالكنترولز الموجود بالتش تى تى بى الموجود بال ااب الرئيسى
+-يعنى كانو صار عندى بالصفحة وانا شايفه لما استخدمت كلمة يوز
+زى ما درسنا بالتريت ازا بتتزكر
+
+=======================================
+
+=================================================================================
+
+            #018 - Laravel Controller Middleware شرح وبناء
+
+Controller Middleware
+Middleware may be assigned to the controller's routes in your route files:
+
+Route::get('profile', 'UserController@show')->middleware('auth');
+However, it is more convenient to specify middleware within your controller's constructor. Using the middleware method from your controller's constructor, you may easily assign middleware to the controller's action. You may even restrict the middleware to only certain methods on the controller class:
+
+class UserController extends Controller
+{
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('log')->only('index');
+
+        $this->middleware('subscribed')->except('store');
+    }
+}
+Controllers also allow you to register middleware using a Closure. This provides a convenient way to define a middleware for a single controller without defining an entire middleware class:
+
+$this->middleware(function ($request, $next) {
+    // ...
+
+    return $next($request);
+});
+
+You may assign middleware to a subset of controller actions; however, it may indicate your controller is growing too large. Instead, consider breaking your controller into multiple, smaller controllers.
+
+====================
+
+-شرح المهندس
+-عرفن كيف نحط الميدل وير عالراوت لحاله بنكتبه ..وبارخ بنقله ميدل وير كزا
+يعنى الميدل وير راح يتطبق بس ع هاد الراوت ..او نعمل بطريقة القروب يكون
+ع اكتر من راوت ....هاد ع مستوى الراوت
+
+-طيب ع مستوى الكنترولر
+-عنا طريقة تانية نحط الميدل وير عالكنترولر نفسه ..يعنى اى ميثود موجودة
+داخل هاد الكنترولر يتطبق عليها هاد الميدل وير ...عن طريق ميثود كونستركت
+
+-بدى اعمل كنترولر جديد داخل النيم سبيس ادمن اسميه ThirdController عشان بدى اشتغل عليه الدرس هاد
+-عملنا الكنترولر تبعنا
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class ThirdController extends Controller
+{
+    //
+}
+
+
+-بدى اعمل فيه اكثر من ميثود
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class ThirdController extends Controller
+{
+    public function showString0(){
+        return "This Is String 0";
+    }
+
+    public function showString1(){
+        return "This Is String 1";
+    }
+
+    public function showString2(){
+        return "This Is String 2";
+    }
+
+    public function showString3(){
+        return "This Is String 3";
+    }
+}
+
+
+-هلقيت بدنا نروح ع صفحة الراوت ..صفحة الويب ونعمل شغلنا
+-او خلينا نعملهم بصفحة الادمن ..راوتات الادمن عشان انسق برضو
+
+-عملت هاد الراوت
+Route::get('third0', 'Admin\ThirdController@showString0');
+
+http://localhost:8000/third0
+-طبعلى This Is String 0
+
+-لو بدى احط عليه الميدل وير اوث
+
+Route::get('third0', 'Admin\ThirdController@showString0')->middleware('auth');
+
+-حولنى ع صفحة اللوق ان وعشانها مش موجودة قلى
+Symfony\Component\Routing\Exception\RouteNotFoundException
+Route [login] not defined.
+
+-طيب خلينا نعمل راوت يبعتنا ع صفحة اللوق ان عشان ما يضل يقللنا مش  موجودة
+
+Route::get('login', function () {
+    return "You Must Log In In This Site To See This Route";
+});
+
+-لو عملتها زى هيك برضو مش راح يتعرف عليها ...لازم تقلو النيم تبعتها لوق ان
+هيك باى ديفولت اللارفيل عاملاها ..انو النيم لوق ان
+
+-صار شغلنا هيك
+
+Route::get('third0', 'Admin\ThirdController@showString0')->middleware('auth');
+
+Route::get('login', function () {
+    return "You Must Log In In This Site To See This Route";
+})->name('login');
+
+-هلقيت انا عامل ميدل وير اوس ع اول راوت لو دخلت عليها ..مباشرة راح يحولنى
+ع راوت اللوق ان
+
+-دخلت هان
+http://localhost:8000/third0
+
+-حولنى هانhttp://localhost:8000/login
+-طبعلى
+You Must Log In In This Site To See This Route
+
+
+-عشان اادك الك انو هو بيعترف بانيم تكون لوق ان ..لو غيرت اسم الراوت لتيتو
+وخليت النيم لوق ان
+
+Route::get('third0', 'Admin\ThirdController@showString0')->middleware('auth');
+
+Route::get('teto', function () {
+    return "You Must Log In In This Site To See This Route";
+})->name('login');
+
+-حولنى ع رابط http://localhost:8000/teto
+-وطبعلى نفس الجملة
+You Must Log In In This Site To See This Route
+
+
+--===========================
+
+-نيجى هلقيت لو بدنا نعلم اكتر من راوت
+
+
+Route::group(['namespace' => 'Admin'], function () {
+    Route::get('third0', 'ThirdController@showString0')->middleware('auth');
+    Route::get('third1', 'ThirdController@showString1');
+    Route::get('third2', 'ThirdController@showString2');
+    Route::get('third3', 'ThirdController@showString3')->middleware('auth');
+
+});
+
+-لو دخلت على 0 و3 راح يحولنى عاللوق ان
+-لو دخلت ع third1 و third2  راح يدخل معى عادى ويطبعلى اياهم
+
+-طيب لو خليت الميدل وير فوق من ضمن القروب
+Route::group(['namespace' => 'Admin', 'middleware' => 'auth'], function () {
+    Route::get('third0', 'ThirdController@showString0');
+    Route::get('third1', 'ThirdController@showString1');
+    Route::get('third2', 'ThirdController@showString2');
+    Route::get('third3', 'ThirdController@showString3');
+
+});
+
+-هيك كلهم راح يحولنى عاللوق ان
+
+-هاد الكلام كلو مفهوم من الدرس الى فات
+
+=========================
+
+-نيجى هلقيت كيف نعمل الميدل وير على الكنترولر نفسه
+-بعمل ميثود كنستراكت ...عشان اى ميثود تانية عندى جوا الكنترولر ..تتطبق عليها الكونستراكت هاى ...لانو ااحنا عارفين الكونستراكت دايما اول حاجة بتستدعى
+
+-نروح عالكنترولر ونعمل شغلنا
+
+-الراوت عنا هيك بدون ميدل وير
+Route::group(['namespace' => 'Admin'], function () {
+    Route::get('third0', 'ThirdController@showString0');
+    Route::get('third1', 'ThirdController@showString1');
+    Route::get('third2', 'ThirdController@showString2');
+    Route::get('third3', 'ThirdController@showString3');
+});
+
+-الكنترولر حطيت فيه الميدل وير بميثود كنستراكت
+class ThirdController extends Controller
+{
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function showString0(){
+        return "This Is String 0";
+    }
+
+    public function showString1(){
+        return "This Is String 1";
+    }
+
+    public function showString2(){
+        return "This Is String 2";
+    }
+
+    public function showString3(){
+        return "This Is String 3";
+    }
+}
+
+-هى الميدل وير الى حطيته
+public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+-هلقيت اى راوت موجود فيه اى ميثود من هدول الى داخل الكنترولر هاد الى انا
+عامل عليه ميدل وير ..راح ينطبق عليه الميدل وير اوث هاد
+
+-يعنى لو رحت ع اى راوت من الاربعة الى عنا ..راح يحولنى عاللوق ان
+
+-طيب انا عملت راوت جديد جوا القروب ...بس ما بدى يكون فيها ميوثد وكنترولر
+Route::group(['namespace' => 'Admin'], function () {
+    Route::get('third0', 'ThirdController@showString0');
+    Route::get('third1', 'ThirdController@showString1');
+    Route::get('third2', 'ThirdController@showString2');
+    Route::get('third3', 'ThirdController@showString3');
+
+    Route::get('third4', function () {
+        return "This Rout Did Not Auth";
+    });
+
+});
+
+-هلقيت لو فتت على راوت Third4 راح يشتغل معك عادى
+http://localhost:8000/third4
+-طبعلى
+This Rout Did Not Auth
+
+====================================
+
+-نرجع للدرس ..فرضا انا عملت ميدل وير عالكنترولر كلو ...وفيه ميثود واحدة
+ما بدى ينطبق عليها هاد الميدل وير بستخدم كلمة except وبحط فيها الدالة
+تبعتى الى ما بدى ينطبق عليها
+
+public function __construct()
+    {
+        $this->middleware('auth')->except('showString1');
+    }
+
+-هلقيت كلهم راح ينطبق عليهم الميدل ويل ..الا ميثود showString1
+
+-يعنى الروات الى بيبعتنى عالميثود هاى راح يفتح معى عادى الى هو
+    Route::get('third1', 'ThirdController@showString1');
+
+-يعنى لما افوت ع هاى الراوت
+http://localhost:8000/third1
+-راح يطبعلى عادى ..لانو انا استثنيت الميثود تبعته
+
+-طيب لو بدى استثنى ميثود 0 كمان هى و 1
+public function __construct()
+    {
+        $this->middleware('auth')->except('showString1', 'showString0');
+    }
+
+-هيك اول راوتين بيفتحوا عادى معى لكن راوت 2 و 3 راح يكون عليهم ميدل وير
+
+=============================
+
+-طيب لو بدى احط الميدل وير ع ميثود واحدة فقط بستخدم دالة only
+
+public function __construct()
+    {
+        $this->middleware('auth')->only('showString1');
+    }
+
+-هيك كلهم راح يفتحو معى ما عدا راوت الى بتعامل مع ميثود 1 راح يكون عليه ميدل وير الاوس
+
+-طيب لو بدى اطبقه ع ميثود لحالهم
+
+public function __construct()
+    {
+        $this->middleware('auth')->only('showString1', 'showString0');
+    }
+
+-هيك ميثود 0 وميثود 1 هما بس الى عليهم الميدل وير
+
+================================================================================
+
+              #019 - laravel controller and route resource شرح
+
+Resource Controllers
+Laravel resource routing assigns the typical "CRUD" routes to a controller with a single line of code. For example, you may wish to create a controller that handles all HTTP requests for "photos" stored by your application. Using the make:controller Artisan command, we can quickly create such a controller:
+
+php artisan make:controller PhotoController --resource
+This command will generate a controller at app/Http/Controllers/PhotoController.php. The controller will contain a method for each of the available resource operations.
+
+Next, you may register a resourceful route to the controller:
+
+Route::resource('photos', 'PhotoController');
+This single route declaration creates multiple routes to handle a variety of actions on the resource. The generated controller will already have methods stubbed for each of these actions, including notes informing you of the HTTP verbs and URIs they handle.
+
+You may register many resource controllers at once by passing an array to the resources method:
+
+Route::resources([
+    'photos' => 'PhotoController',
+    'posts' => 'PostController',
+]);
+
+Actions Handled By Resource Controller
+
+Verb	    URI	                  Action	  Route Name
+
+GET	        /photos	              index	      photos.index
+GET	        /photos/create        create      photos.create
+POST        /photos	              store	      photos.store
+GET	        /photos/{photo}	      show	      photos.show
+GET	        /photos/{photo}/edit  edit	      photos.edit
+PUT/PATCH	/photos/{photo}	      update	  photos.update
+DELETE	    /photos/{photo}	      destroy	  photos.destroy
+
+======================
+
+-شرح المهندس
+
+-احنا انواع الروات عارفينهم 5 انواع حكينا
+get  post put patch delete
+
+-لسا راح نشرحهم قدام بالتفصيل لما نبدا نتعامل مع الداتا بيز وناخد بيناتا ونبعت بيانات ونحذف ونعدل وهكذا
+
+-طيب مثلا انا عندى البوست ..او الاعلان ..او صورة
+صح كنا نعمل الهم بوست ..بعدين نعمللهم انسسيرت بعدين ايدت بعدين ابديت بعدين ديليت
+
+-ونخلى كل واحدة بزر ...وهكذا ...وهان عنا بلارفيل نفس القصة
+لو انت عندك اعلان ..بددك تعمله اضافة من الفورم للداتا بيز ...بعدين لو بدك تعمله
+تعديل ..بعدين كان عنا حاجة التحديث لو حابب تعمله ابديت ..يعدين كنا نعمل الحذف
+
+-عنا هان بنعرف كيف نعمل الكنترولر ...بيعطينى كنترولر فاضى ..وانت
+تكتب فيه الميثودات تبعينك
+
+-لارفيل اعطتنا حاجة حلوة اسمها اسمها
+-Resource Controllers
+
+-هاى بتعملى كنترولر كامل بكل ميثوداته ..الى حكينا عنها ..بدل ما اكتبها بايدى
+
+-بيعطينى كنترولر فيه ميثود البوست والحذف والايديت والابديت وغيره
+
+-يعنى بتنفعنا بحاجة مهمة جدا اسمها Crud شو يعنى creat  read  update  delete
+-اختصار لهدول الاربعة ..بس الريد مش عارف شو هى ..شكلها الانسير والاصافة وباقى العمليات
+
+-زى مسلا البوس ..انت بتعمل شو ..بعدين ايديت ..بعدين ابديت ..بعدين لو حابب بتعمل كرييت لبوست معين
+
+-كلهم راح نفهمه لقدام لما نشوف الفيوز ونتعامل معها
+
+-اليوم بس بدنا نفهم ايش يعنى ريسورسس
+
+-بدى اعمل كنترولر ريسورس داخل النسم سبيس الى اسمها ادمن عشان اشتغل عليه
+
+-الامر تبعنا الى بيعمللنا كنترولر ريسورس كامل ..زى هيك
+-نفس الامر القديم ولكن بالاخر بتقله --resource
+-بدى اعمل كنترولر اسميها PostController وتكون ريسورس
+
+php artisan make:controller Admin\PostController --resource
+
+-هى الكنترولر تبعنا ..شوف كم ميثود عملى فيه لحاله وريحنى
+
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class PostController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}
+
+===========
+
+-نيجى هلقيت نشرح حاجة اسمها راوت ريسورس ..هاى الى بتتعامل مع الكنترولر ريسورس
+
+-Route Resource
+
+-كنا لما نعمل الراوت نقله ..قيت يا بوست يا ديليت ...هلقيت بنستخدم حاجة اسمها راوت ريسورس ...يعنى بيتعامل مع كل الميثودات الى موجودة عندى
+
+-يعنى ما بنحدد الو ميثود فيها ..لانو راح يتعامل معهم كلهم ..انا بس بنادى ع اسم الكنترولر نفسه الى عملنا ريسورس
+
+Route::resource('post', 'PostController');
+Route::resource('post', 'Admin\PostController');
+
+
+-هيك انا عملت الو الراوت ..بدون ما انادى على اى ميثود فيهم
+
+-هلقيت لو تكتب هاد الامر
+λ php artisan route:list
+
+-بيعطيك كل الراوت الى احنا عاملينها وبفصلك اياهم
+راح تلاحظ من ضمن الرواتات انى عاملى 7 او 8 راوت  انا ما عملتهم
+هو عملى اياهام مجرد ما انا عملت روات الريسورس تبع الكنترولر ريسورس
+
+
+λ php artisan route:list
++--------+-----------+------------------+--------------+--------------------------------------------------------+------------+
+| Domain | Method    | URI              | Name         | Action                                                 | Middleware |
++--------+-----------+------------------+--------------+--------------------------------------------------------+------------+
+|        | GET|HEAD  | /                |              | Closure                                                | web        |
+|        | GET|HEAD  | admin            |              | Closure                                                |            |
+|        | GET|HEAD  | api/user         |              | Closure                                                | api        |
+|        |           |                  |              |                                                        | auth:api   |
+|        | GET|HEAD  | chek             |              | Closure                                                | web        |
+|        |           |                  |              |                                                        | auth       |
+|        | POST      | post             | post.store   | App\Http\Controllers\Admin\PostController@store        |            |
+|        | GET|HEAD  | post             | post.index   | App\Http\Controllers\Admin\PostController@index        |            |
+|        | GET|HEAD  | post/create      | post.create  | App\Http\Controllers\Admin\PostController@create       |            |
+|        | DELETE    | post/{post}      | post.destroy | App\Http\Controllers\Admin\PostController@destroy      |            |
+|        | PUT|PATCH | post/{post}      | post.update  | App\Http\Controllers\Admin\PostController@update       |            |
+|        | GET|HEAD  | post/{post}      | post.show    | App\Http\Controllers\Admin\PostController@show         |            |
+|        | GET|HEAD  | post/{post}/edit | post.edit    | App\Http\Controllers\Admin\PostController@edit         |            |
+|        | GET|HEAD  | second/{id?}     |              | App\Http\Controllers\Admin\SecondController@showString | web        |
+|        | GET|HEAD  | test             |              | Closure                                                | web        |
+|        | GET|HEAD  | test1/{id}       |              | Closure                                                | web        |
+|        | GET|HEAD  | test2/{id?}      |              | Closure                                                | web        |
+|        | GET|HEAD  | test3/{id?}      | teto         | Closure                                                | web        |
+|        | GET|HEAD  | teto             | login        | Closure                                                |            |
+|        | GET|HEAD  | third0           |              | App\Http\Controllers\Admin\ThirdController@showString0 | auth       |
+|        | GET|HEAD  | third1           |              | App\Http\Controllers\Admin\ThirdController@showString1 | auth       |
+|        | GET|HEAD  | third2           |              | App\Http\Controllers\Admin\ThirdController@showString2 |            |
+|        | GET|HEAD  | third3           |              | App\Http\Controllers\Admin\ThirdController@showString3 |            |
+|        | GET|HEAD  | third4           |              | Closure                                                |            |
+|        | GET|HEAD  | user             |              | App\Http\Controllers\Front\UserController@showUserName | web        |
+|        | GET|HEAD  | users            |              | Closure                                                | web        |
+|        | DELETE    | users/delete     |              | App\Http\Controllers\Front\UserController@showUserName | web        |
+|        | GET|HEAD  | users/edit       |              | App\Http\Controllers\Front\UserController@showUserName | web        |
+|        | GET|HEAD  | users/show       |              | App\Http\Controllers\Front\UserController@showUserName | web        |
+|        | PUT       | users/update     |              | App\Http\Controllers\Front\UserController@showUserName | web        |
++--------+-----------+------------------+--------------+--------------------------------------------------------+------------+
+
+
+
+-عملى هدول من ضمنهم وانا فعليا ما عملتهم بايدى
+
+Method      URI    Name          Action
+POST        post    post.store   App\Http\Controllers\Admin\PostController@store
+
+GET|HEAD   post     post.index   App\Http\Controllers\Admin\PostController@index
+
+GET|HEAD post/create post.create App\Http\Controllers\Admin\PostController@create
+
+DELETE post/{post} post.destro  App\Http\Controllers\Admin\PostController@destroy
+
+PUT|PATCH post/{post} post.updateApp\Http\Controllers\Admin\PostController@update
+
+GET|HEAD  post/{post}  post.show  App\Http\Controllers\Admin\PostController@show
+
+GET|HEAD post/{post}/edit post.editApp\Http\Controllers\Admin\PostController@edit
+
+-هيو عامل الى 7 راوت ب 7 ميثود ..لحاله بدون ما اتعب فيهم
+ومعى للروات نيم كمان ازا بتلاحظ ..ولما تروح تكتب الرابط فوق بتكب ال URI هاد
+الى معطيك اياه
+
+-يعنى هو وفر عليا انى اكتب الروتس هاى كلها
+
+Route::post('post', 'Admin\PostController@store');
+Route::get('post', 'Admin\PostController@index');
+Route::get('post/create', 'Admin\PostController@create');
+Route::delete('post/{post}', 'Admin\PostController@destroy');
+Route::put('post/{post}', 'Admin\PostController@update');
+Route::get('post/{post}', 'Admin\PostController@show');
+Route::get('post/{post}/edit', 'Admin\PostController@edit');
+
+-بدل ما اكتبهم كلهم ..كتبت بس
+
+Route::resource('post', 'Admin\PostController');
+
+-طبعا انت ممكن ما تحتاج كل الوظايف هاى بكنترولر معين ..مسلا لدك اضافة وتعديل بس
+خلص بتعملهم بايدك ..ولكن لو انت بدك كل هاى الوظايف بتعملها عن طريق الريسورس
+
+-وع فكرة ازا انت بدك تعملو بايدك ..الميثود بتسميها ايش ما بدك مش ضرورى اندكس وشو
+المهم تكون بتعبر عن شغلك
+
+-لكن بالريسورس هو هيك بسميهم
+
+-خلينا هلقيت نشتغل ع الميثودات الى بتتعامل مع القيت عشان اقدر ازورهم الى هما
+
+public function index()
+    {
+        return "this is index method";
+    }
+
+public function create()
+    {
+        return "this is create method";
+    }
+
+public function show($id)
+    {
+        return "this is show metho <br> This Post id is : " . $id;
+    }
+
+public function edit($id)
+    {
+        return "this is edit metho <br> This Edit Post id is : " . $id;
+    }
+
+-انا عمرلت راوت الريسورس ..خلينى اروح ازورهم
+
+http://localhost:8000/post
+-طبعلى
+this is index method
+
+http://localhost:8000/post/create
+-طبعلى
+this is create method
+
+http://localhost:8000/post/20
+-طبعلى
+this is show metho
+This Post id is : 20
+
+http://localhost:8000/post/20/edit
+-طبعلى
+this is edit metho
+This Edit Post id is : 20
+
+-وهيك عرفنا كيف نزور الرواتس القيت ..بضل عنا الرات تبعت البوست والديليت
+وميثوداتهم كيف نتعامل معهم راح نفهمهم لقدام
+
+public function store(Request $request)
+    {
+        //
+    }
+
+-راح نفهم ايش يعنى ريقويست هاى الى موجودة عنا لقدام
+
+================================================================================
+
+             #021 - introduction to laravel view - ماهو view
+
+-معلومة ...انا ممكن اكون بدى افتح 2 بروجيكت مع بعض ممكن اعمللهم رن كل واحد لحال
+عن طريقى انى اغير البورت
+php artisan serve --port=8001
+
+-الداتا تبعتنا بتنعرض لليوزر ك اتش تى ام ال وسى اس اس ..جوا الفيوز
+
+-ممكن داخل ملف الفيوز اعمل فولدرات انظم شغلى ..فولدر ادمن فولدر فرونت فولدر لياوت فولدر للى بدى اعمللهم انكلود وهكذا
+
+-الفولدرات هان بكون سمول ..ولكن بالكنترولر والامور الى فوق حكينا كابيتل اول حرفين
+
+-بدى اعمل عنا فولدرين ..ادمن وفرونت
+
+-الفيو اما بنادى عليه من الراوت مباشرة ..او الروات بنادى ع ميثود بالكنترولر
+والكنترولر هو الى بنادى عالفيو وهو هاد الطريقة الصح
+
+-عملت فيو اسمها about.blade.php داخل فولدر front
+<body>
+    <h1>Hello {{$name}}</h1>
+</body>
+-رحت ع الكنترولر الى اسمه FirstController داخل فولدر Front
+وناديت عالفيو هاى
+
+class FirstController extends Controller
+{
+    public function showString(){
+        return view('front.about', [
+        'name'=> 'Thaer'
+        ]);
+    }
+}
+
+-هلقيت بصفحة الويب تبعت الروات بدنا نعمل راوت ينده على الفيو الكنترولر هاد
+الى بنادى على الفيو تبعتى
+Route::get('about', 'Front\FirstController@showString');
+
+
+==============================================================================
+
+   #022 - laravel passing data to views from controller - عرض البيانات
+
+-كيف نمرر الدااتا للفيو
+
+-اول طريقة نمرر داتا من الراوت نفسه ..ولكن هذا مش الطريقة الصحيحة ..
+حكينا الصح انو الراوت يبعت ع كنترلر والكنترولر يستدعى الفيو
+
+-عملنا فيو الكنتاكت جوا فولدر الفرونت
+<h1>Hello Your Id is {{$id}}</h1>
+
+-وهى مررنا الداتا من الروات نفسه
+Route::get('contact', function () {
+    return view('front.contact')->with('id', 2);
+});
+
+-قدر امرر اكتر من داتا واكتر من نوع ..سترنق انتجر اوبجيكت اى حاجة
+
+Route::get('contact', function () {
+    return view('front.contact')->with([
+        'id' => 2,
+        'name' => "thaer"
+    ]);
+});
+
+-طبعتها هيك بالفيو
+<body>
+    <h1>Hello {{$name}} Your Id is {{$id}}</h1>
+</body>
+
+-ممكن بطريقة الى حكاها الزيرو ع طول بعد اسم الفيو بدون كلمة وذ
+Route::get('contact', function () {
+    return view('front.contact', [
+        'id' => 5,
+        'name' => "teto"
+    ]);
+});
+
+-طريقة تالتة لو كان عندى داتا كتيرة بالمشاريع الكبيرة ..بخليها باريه
+
+Route::get('contact', function () {
+    $data = [];
+    $data['pass'] = 'tate123';
+    $data['name'] = 'Thaer';
+    $data['email'] = 't@gmail.com';
+    return view('front.contact', $data);
+});
+
+<div>
+    hello {{$name}} your password is {{$pass}}  And your email is {{$email}}
+</div>
+
+-هلقيت حكينا هاى الطريقة مش صح ..الطريقة الصح انو الروات يبعتنى عالكنترولر
+وبالكنترولر بعمل كل عملياتى اللوجيك وبمرر بياناتى
+
+-بدى اعمل نفس الى عملته ولكن بالكنترولر
+
+Route::get('contact', 'Front\FirstController@showContact');
+
+-الكنترولر
+public function showContact(){
+        $data = [];
+        $data['id'] = 4;
+        $data['name'] = 'teto';
+        $data['pass'] = 'thaer1475';
+        $data['email'] = 't@hotmail.com';
+
+        return view('front/contact', $data);
+    }
+
+-الفيو
+
+<div>
+        hello {{$name}} <br>
+        your password is {{$pass}} <br>
+        And your email is {{$email}} <br>
+        And your id is {{$id}}
+
+    </div>
+
+-طبعلى
+hello teto
+your password is thaer1475
+And your email is t@hotmail.com
+And your id is 4
+
+==================
+-يعنى هاى هى الطريقة الصح ...عدا ازا كنت بدك تعرف كونستانت ثابت
+ممكن نخليه بصفحة الروات نفسه
+زى مسلا لقدام لما نيجى نشتغل بالباجينيشن ..الى هو تعدد الصفحات
+ممكن اعرفله ثابت اقله انو عدد العناصر مسلا يكون بكل صفحة 5 مسلا ع مستوى الموقع كله بروح بقله عادى
+define('PAGINATE', 5);
+-بس هاد الكلام لسا قدام راح نشرحه
+===================
+
+-ممكن امرر الداتا بكمان طريقة ..لو مسلا عندى اوبجيكت كبير جدا
+-بدى اعمل اوبجيكت مسلا ..واحط فيه بروبيرتز تبعينه
+-وعشان امرره للفيو ..عنا ميثود من البى اتش بى اسمها compact بمرر الها هاد المتغير تبع الاوبجيكت من غير علامة الدولار
+
+public function showContact(){
+
+        $obj = new FirstController();
+        $obj-> gender = 'male';
+        $obj-> name = 'teto';
+        $obj-> univ = 'Al-Azher';
+        $obj-> email = 't@hotmail.com';
+        $obj-> id = 'teto525';
+
+
+        return view('front/contact', compact('obj'));
+    }
+
+-عملنا اوبجيكت من اى كلاس هان بس لتوضيح الفكرة
+-كيف بدى استقبلهم بالفيو
+
+<div>
+        hello {{ $obj -> name }} <br>
+        you are {{ $obj -> gender }} <br>
+        your Univercity is {{ $obj -> univ }} <br>
+        And your email is {{ $obj -> email }} <br>
+        And your id is {{ $obj -> id }}
+    </div>
+
+-طبعلى
+
+hello teto
+you are male
+your Univercity is Al-Azher
+And your email is t@hotmail.com
+And your id is teto525
+
+-طيب بدى امرر الاريه القديمة والوبجيكت مع بعض ..بقدر اه طبعا
+
+public function showContact(){
+        $data = [];
+        $data['id'] = 4;
+        $data['name'] = 'teto';
+        $data['pass'] = 'thaer1475';
+        $data['email'] = 't@hotmail.com';
+
+        $obj = new FirstController();
+        $obj-> gender = 'male';
+        $obj-> name = 'teto';
+        $obj-> univ = 'Al-Azher';
+        $obj-> email = 't@hotmail.com';
+        $obj-> id = 'teto525';
+
+
+        return view('front/contact', compact('obj'), $data);
+    }
+
+-الفيو هيك
+
+<body>
+
+    <div>
+        hello {{$name}} <br>
+        your password is {{$pass}} <br>
+        And your email is {{$email}} <br>
+        And your id is {{$id}}
+    </div>
+
+    <br>
+
+    <div>
+        hello {{ $obj -> name }} <br>
+        you are {{ $obj -> gender }} <br>
+        your Univercity is {{ $obj -> univ }} <br>
+        And your email is {{ $obj -> email }} <br>
+        And your id is {{ $obj -> id }}
+    </div>
+
+</body>
+
+-طبعلى
+hello teto
+your password is thaer1475
+And your email is t@hotmail.com
+And your id is 4
+
+hello teto
+you are male
+your Univercity is Al-Azher
+And your email is t@hotmail.com
+And your id is teto525
+
+===============================================================================
+
+          #023 - create Landing Page with laravel blade and bootstrap
+
+-بدنا نعمل لاندق بيج نحطها عنا بمشروعنا ..عان بعد هيك نفهم الفيو انهيريتانس
+-مش الوراثة الى بنعرفها ..لا كيف نقسم صفحتنا لفوتر وهيدر والكلام الى شفناه مع الزيرو
+
+-بالنسبة للبيج الى بدنا نركبها انا حملتها وهى موجودة عنا بالدوانلود اسمها
+startbootstrap-freelancer-gh-pages
+حملتها من الموقع من هان
+https://startbootstrap.com/theme/freelancer
+
+-فكيت الضغط عنها ..فيها ملف سى اس اس وملف جافا سكريبت وملف اسيست وصفحة الاندكس
+
+-بدنا نتعلم كيف نحطهم بموقعنا ووين نحطهم
+
+-او جرب ع اى مشروع من القدام الى عنا جرب تحطه بالبروجيكت هان واشتغل عليه
+
+-الملفات الى عنا كلها بناخدها وبنحطها بفولدر public لانو حيكنا انو هاد الملف بتحط فيه ملفات السى اس اس وغيرها ..الامور الى بتنشاف
+
+-صفحة الاندكس ..طبعا بدنا نحطها بملف الفيوز
+روح اعمل صفحة مسلا اسمها Landing.blade.php
+وانسخ صفحة الاندكسس زى ما هى وحطها بالصفحة الجديدة تبعتنا
+
+-هلقيت كيف بدنا نصل للفيو هاى الى عملناها ..بدنا نعمللها راوت
+خلينا نعمل روات عالفيو مباشرة عشان ما ناخد وقت بكنترولر ..خلينا نعمله مباشرة عالفيو
+
+Route::get('landing', function () {
+    return view('landing');
+});
+
+-وهيك روح زور الروات http://localhost:8001/landing
+راح يجيبلك الصفحة نفسها
+
+-وهيك صارت الصفحة عنا بالمشروع بالسى اس اس تبعها بكل اشى
+
+-نيجى نعرف كيف نتعامل مع ملفات السى اس اس والجاف الى بالبليك
+
+-هان ازا بتلاحظ تعرف عالملفات مباشرة لانهم موجودين مباشرة داخل ملف البابليك
+
+-ازا بتلاحظ بصفحتنا ال لاندق الى عملناها ..كيف مستدعى ملف السى اس اس ..هيك
+عنا فولدر اسمه css وفى ملف اسمه style.css
+-عشان الفولدر نفسه موجود داخل الببليك مباشرة ..شافو ع طول زى ما كان مكتوب بصفحة اللاندق زى هيككك
+
+        <link href="css/styles.css" rel="stylesheet" />
+
+-ممكن نخليها هيك ..وممكن نعملو بطريقة تانية عن طريق ميثود هيلبر فنكشن اللارفيل
+عاملاها عشان تفوت تجيب الى الملفات الى جوا فولدر الببليك اسمها asset()
+
+-بالرطيقة الجديدة هيك بدها تصير
+
+        <link href="{{ URL::asset('css/styles.css') }}" rel="stylesheet" />
+
+-ونروح تحت ع ملف الجافا سكريبت نعملهم بنفس الطريقة برضو
+-كان هيك
+        <script src="js/scripts.js"></script>
+
+-خليناه هيكك
+        <script src="{{ URL::asset('js/scripts.js')}}"></script>
+
+-طيب انا فهمت الطريقة وهلقيت عشان ارتب شغلى بدى اعمل ملف اسمه landing-page
+جوا الببليك ..واحط فيها ال3 ملفات تعين اللاندق
+
+-هلقيت لو تروح تشغل لاصفحة راح تلاقيها بدون سى اس اس وبدون جى اس ...لانو ما لقى ملفاتها بعد ما غيرت مكانهم ..راح تشوف الصفحة معفنة زى لما يكون النت بطئ بدون سى اس اس او جى اس
+
+-طيب عشان نشغلهم من مكانهم الجديد الهلقيت ..بدنا نروح نغير المسارات
+-صار عنا ممسار السى اس اس هيك
+<link href="{{ URL::asset('landing-page/css/styles.css') }}" rel="stylesheet" />
+
+-ومسار الجى اس هيك
+        <script src="{{ URL::asset('landing-page/js/scripts.js')}}"></script>
+
+-زودنا قبلهم اسم الفولدر الجديد الى حطيتهم فيه
+
+-يعنى المعلومة الى بدك تعرفها ...انو ما بنكتب قبل المسار اسم فولدر الببليك خلص
+لانو هاى الهيلبر ميثود بتفوت جوا الببليك نفسه وبتبحث عن الملف الى انت بدك اياه
+
+================================================================================
+
+   #024 - laravel multilanguage views & switch language تعدد اللغات بلارافل
+
+-بما انو بنشرح بالفيو والملفات الى حواليها ..خلينا نشرح فولدر اللغات
+-موجود بفولدر resource مملف اسمه lang
+-اللارافيل بتخلينا نعمل موقع متعدد اللغات بطريقة سهلة جدا
+-اللغة الديفولت عنا هان الانجليزية
+
+-مسلا بدنا نعمل ملف اسمه ar
+-كل الملفات الى موجود بملف الانجليزى لازم كلها ناخدها عنا بملف العربى
+عشان نغيرها
+-ولو بدنا نعمل لغة فرنسى بنعمل الها فولدر ..وكل الملفات الى عنا راح ناخدها بنفس الطريقة برضو ونحطها بفولدر الفرنس وهكذا
+
+-عنا بالمشروع الاصلى 4 ملفات ملف الوس والباجينيشن والباسورد والفاليديشن
+
+-كل ملف فيهم موجود فيه كلمات بالكى تبعتها وجو مترجمة بالانجليزى
+
+-نشوف مسلا ملف الباسورد
+ 'reset' => 'Your password has been reset!',
+    'sent' => 'We have emailed your password reset link!',
+    'throttled' => 'Please wait before retrying.',
+    'token' => 'This password reset token is invalid.',
+    'user' => "We can't find a user with that email address.",
+
+-هى الكلمات الموجودة بملف الباسورد مسلا ..لو انت حابب تعمل موقعك عربى كمان
+بتاخد هاد الملف وبتحطه بفولدر العربى وبترجمهم للعربى
+
+-مسلا بدى اعمل صفحة جديدة ..اخليها للكمات الرسائل ..المسجات الى بتطلعى
+-بعمل صفحة اسمها message.php وبحطها بفولدر لعربى وبفولدر الانجليزى ..نفس الاسم لازم تكون خلى بالك
+والكى نفس الكى تبع الكلمات زى ما احنا عارفين
+
+-خد صفحة الباسورد واسنخها جوا صفحة المسجات الى عملناها وامسح كلماتها وابدا اكتب كلمات الى بدك اياها
+
+-عملنا صفحة المسجات وهى بدنا نحط فيها الكلمات
+-صفحة المسجات الى بفولدر العربى
+return [
+
+    'hello admin' => 'مرحبا بك ايها المسؤل فى اللغة العربية ',
+    'hello user' => 'مرحبا بكم ايها الاعضاء فى اللغة العربية ',
+
+
+];
+-صفحة المسجات الى بفولدر لانجلش
+
+
+return [
+
+    'hello admin' => 'hello all admin in English lang',
+    'hello user' => 'hello all user in English lang',
+
+];
+
+
+-هلقيت كيف بدنا نستدعى الكلمات هدول بالفيو
+
+-خلينا نشتغل عالفيو الويلكم الرئيسية
+
+-تحت كلمة لارفيل بدى استدعى اى كلمة من هدول
+
+<div class="title m-b-md">
+    Laravel
+    <p>{{ __('messages.hello admin')}}</p>
+    <p>{{ __('messages.hello user')}}</p>
+</div>
+
+-بكتبهم بالطريقة هادى {{ __('messages.hello admin')}}
+-بقله اسم الملف بعدين دوت ..بعدين بعطيه الكى تبعى الى بدى يجيبلى كلمته
+-هان طبعلنا
+
+Laravel
+hello all admin in English lang
+
+hello all user in English lang
+
+DOCS LARACASTS NEWS BLOG NOVA FORGE VAPOR GITHUB
+
+
+-لانو اللغة الديفولت تبع التطبيق عنا انجليزى
+
+-طيب لو بدنا الموقع عربى ...لقدام راح نتلعم كيف نحول ما بين عربى وانجليزى عن طريق زر مسلا او انو نحطهم فوق بالنافبار وانت تختار منهم
+
+-ولكن هلقيت عشان نشوف الفكرة بس ...بدنا نروح نغير الديفولت تبع الموقع
+نخليه من انجليزى لعربى
+
+-بنروح ع فولدر الكونفيق config  -> بعدين ملف app.php
+
+-راح تلاقى من ضمن الملف كاتبلك اللغة
+
+    'locale' => 'en',
+
+-غيرها خليها
+
+    'locale' => 'ar',
+
+-روح حدث الصفحة راح تلاقيها تغيرت لعربى
+
+Laravel
+مرحبا بك ايها المسؤل فى اللغة العربية
+
+مرحبا بكم ايها الاعضاء فى اللغة العربية
+
+DOCS LARACASTS NEWS BLOG NOVA FORGE VAPOR GITHUB
+
+-رجعها تانى لانجلش ..راح ترجع الصفحة بالانجليزى
+
+
+==============================================================================
+
+        #025 - view inheritance & Layouts extends - شرح layouts
+
+-بدو يشرح كيف نقسم الصفحة ونستخدم الييلد والسكشن ..انا عارفها من الزيرو
+-وهان عنده صار يشتغل ع صفحة اللاندق الى عملها
+
+-انا بدى اجيب المشروع القديم تبعنا الى اسمه template3 واشتغل عليه
+-عملته نفس ما عملت صفحة اللاندق
+-حطيت ملفاته باللبليك
+-وعملت فيو اسمها template3 وحطيت فيها صفحة الاندكس نسختها
+وعدلت عالمسارات انو حطيتهم بالببليك بفولدر اسمه template3
+-حيتى مسارات الصور عدلتها كمان
+
+-بالنسبة للمسارات ممكن اخلى المسارات القديمة عادى ..وممكن اعملها بالطريقة الجديدة الى اخدناها
+
+<!--My Code-->
+    <title>Template3</title>
+    {{-- <link rel="stylesheet" href="template3/css/font-awesome.css"> --}}
+    <link rel="stylesheet" href="{{URL:: asset('template3/css/font-awesome.css') }}">
+    {{-- <link rel="stylesheet" href="template3/css/normalize.css"> --}}
+    <link rel="stylesheet" href="{{URL:: asset('template3/css/normalize.css') }}">
+
+    {{-- <link rel="stylesheet" href="template3/css/style.css"> --}}
+    <link rel="stylesheet" href="{{URL:: asset('template3/css/style.css') }}">
+
+-وعشان تتاكد ..السى اس اس اعملتهم عالطريقة الجديدة
+-والجيكويرى تحت خليتهم عالطريقة القديمة ..وضل شغال عادى الموقع
+
+<script src="template3/js/jquery-3.1.1.min.js"></script>
+<script src="template3/js/jquery.nicescroll.min.js"></script>
+<script src="template3/js/custome.js"></script>
+
+
+-وعملت الها راوت
+
+Route::get('template', function () {
+    return view('template3');
+});
+
+-يعنى فوت عالروات هاد
+http://localhost:8001/template
+
+-بيفتحلك مشروعنا القديم نفسه
+
+-طيب عشان ابدا اقسم مشروعى ...بدى اخد نفس المشروع واعمله بفولدر اسمه
+tanats داخل فولدر الفرونت نفسه
+
+-اعملت فيه فولدرين ..واحد احط فيه صفحات الانكلود ..الهيدر والفوتر
+-والتانى لصفحة اللى اوت ..عملت داخله صفحة اسمها الماستر عشان اورث منها
+
+-وداخل فولدر التناتوس نفسه عملت صفحتين ..2 فيو واحدة اسمها tanatos.blade.php
+بدى اعرض نفس الصفحة القديمة ولكن عن طريق انى اعمل اكستند وانكلود
+
+-وصفحة تانية اسمها tanatos-contact.blade.php
+-بدى اغير حتوى البادى تبعها
+
+-عالعموم عملت للصفحتين لكل واحدة راوت مباشرة بالاول زى هيك
+
+
+Route::get('tanatos', function () {
+    return view('front/tanatos-template/tanatos');
+});
+
+Route::get('tanatos-contact', function () {
+    return view('front/tanatos-template/tanatos-contact');
+});
+
+-بعدين عملتلهم كنترولر جوا فولدر اسمه Tanatos موجود جوا فولدر الكنترولر الاساسى
+-عملت داخله كنترولر عشان اعمل فيه ميثودات واقدر امرر بيانات
+
+Route::group(['namespace' => 'Tanatos'], function() {
+    Route::get('tanatos-home', 'TanatosController@showHome');
+    Route::get('tanatos-contact', 'TanatosController@showContact');
+});
+
+-لما تراجع الشغل راح تفهم كل اشى
+
+===============================================================================
+
+                     #026 - view directives
+
+-بدو يشرح كيف نتعامل بملف البليد مع if if-else
+والشغلاتى هاى كلها
+
+-عملت فيو جديدة اسمها aboutme.blade.php بفولدر التناتس
+وعملتها راوت بميثود ..بيبعتنى ع نفس الكنترولر الى بنشغل فيه
+وضفت ميثود جديدة للفيو الاباوت
+وعملت فيها كل شغلى ...ضرورى تروح شوفها مشروح فيها كل الدرس هاد
+Route::group(['namespace' => 'Tanatos'], function() {
+    Route::get('tanatos-home', 'TanatosController@showHome');
+    Route::get('tanatos-contact', 'TanatosController@showContact');
+    Route::get('tanatos-about', 'TanatosController@showAbout');
+});
+
+-هى الراوت الاخير الى بودى عليها
+
+===============================================================================
+
+  #027-Auth Login and Register with laravel part1 نظام التسجيل وتسجيل الدخول بلارافل
+
+- بدنا نتكلم عن التسجيل وتسجيل الدخول ..اللارافيل عاملاه النا جاهز بس بدنا نعرف كيف نعملهم
+-بعدين بدنا نتعلم كيف نعمل ريسيت للباسورد ..ازا نسيت كلمة السر كيف تعمللها استرجاع
+-بعدين بدنا نتعلم كيف نعمل فيرفيكسشن للايميل ...يعنى التسجيل عنا كيف بكون
+انت بتحط ايميلك والباسورد ..وهو بضيفك عالداتا بيز خلص ..انت بتروح بتعمل تسجيل دخول بعدها
+
+-احنا بدنا نتعلم كمان كيف لما يسجل بالموقع يجى اله ايميل عالايميل تبعه ..اقه روح ع ايميل
+بعتلك ايميل عشان نتاكد انو هاد ايميلك ولا لا ..واضغط علارابط الى بعتلك اياه ..عشان تتفعل عنا بالموقع
+
+-هاد الكلام كل بدا من لارافيل 6 ...لانو الصفحات الجاهزة الى عاملى اياها للوق ان وريجيستر
+معمولين بالفيو جى اس ..واصدارات لارافيل قبل الاصدار السادس ما كان فيها فيو جى اس
+
+-الفيو جى اس ..هى فريم وورك تابعة للجافا سكريبت بنستخدمها عشان نعمل سنقل بيج ابلكيشن
+من غير ما نعمل ريلود ما بين الصفحات ولا ريفريش ولا اى حاجة لما نتنقل بين الصفحات
+
+-ولكن هاد الديفولت لوثنتيكشن ..لوق ان وريجيستر
+-يطب ممكن نعمل لو ان وريجيستر بايدينا من الصفر ..اكيد ممكن..بدون ما تستخدم الديفولت راوتس تبعته ولا الديفولت اوثنتكيش ولا الفيوز الديفولت كل هاد هو بيعطينا اياه جاهز
+
+-ولكن مستقبل انت ممكن تحتاج تعمل تسجيل دخول وتسجيل ..كاستمايز خاص فيك انت ..ممكن تحتاج تعمل لوق ان اوثنتكيشن للدكتور مسلا ..وبنفس الوقت بدك لوق ان اوثنتيكشن للمشرف كمان وبنفس الوقت تعمل لوق ان اوثنتكيشن لليوزر العادين ..كل هاد بنفس المشروع بدك تعمله ...بالتالى اللوق ان الديفولت تبعت اللارافيل مش راح تنفعك هان
+
+
+-نبدا الشغل العملى
+
+-اول حاجة زى ما تعلمنا مع الزيرو وزى ما قرينا بالموقع بدنا نعمل الامر
+The Bootstrap and Vue scaffolding provided by Laravel is located in the laravel/ui Composer package, which may be installed using Composer:
+
+composer require laravel/ui:^2.4
+
+-هاد الامر هو الى بيعمل عنا سيت اب للفيوز تبعتنا والرواتس تعتنا ..جاهزة من غير من نكتب اى اشى
+
+========
+
+-المهندس اول اشى عمل الامر هيك
+
+composer require laravel/ui --dev
+
+dev : قال عنها عشان الديفيلومب عشان التطوير بيستخدموها تبعين النود جى اس ..يعنى زى ما حكى الزيرو وشرحها
+
+-بعدين قال هو بنفذ هاد الامر بنزل النا اللارافيل يو اى..يعنى اليوزر انترفيس
+وبحطها بالديف بيربوس..فى الديفيلوبر...خلى الامر يخلص وبنرجع تانى
+
+========
+معلومة عالهامش ...انا فتحت الامر هاد بلافيل 6 وبلارفيل 7
+
+لارفيل 7 كان هيك بالموقع
+composer require laravel/ui:^1.0 --dev
+
+لارافيل 7 كان هيك بالموقع
+composer require laravel/ui:^2.4
+
+-وانا ع فكرة بشتغل ع 7 مش ع 6 ...والمهندس لسا شكلو راح يرجع يقول طلع عندو خطا من الامر
+
+========
+
+-نرجع للمهندس
+
+-لما خلص الامر عندو طلع عندو خطا ..قال انو ايرور بسيط وبقول انو هو اتعمد انو يعمل هاد الايرور ..عشان يفهمنا الفرق بين لارافيل 6 ولارافيل 7
+
+-بقول انو الخطا تبعه بقله ..انو عامل تنزيل ل لارفيل يو اى 2 ..وفيرجن 2 هاد بينزل مع لارافيل 7 ..ولكن لارفيل 6 الو هو شغال عليه بيشتغل ع لارفيل يو اى الاصدار 1
+
+-راح خلى الامر تبعه هيك
+composer require laravel/ui:^1.2
+
+-انا عشان لارفيل 7 بدى اعمل نفس الامر الى بالموقع واجرب الى هو
+composer require laravel/ui:^2.4
+
+-اعملت الامر وهيو خلص
+C:\xampp\htdocs\Laravel_Course
+λ composer require laravel/ui:^2.4
+./composer.json has been updated
+Running composer update laravel/ui
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 1 install, 0 updates, 0 removals
+  - Locking laravel/ui (v2.4.0)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 1 install, 0 updates, 0 removals
+  - Downloading laravel/ui (v2.4.0)
+  - Installing laravel/ui (v2.4.0): Extracting archive
+Generating optimized autoload files
+> Illuminate\Foundation\ComposerScripts::postAutoloadDump
+> @php artisan package:discover --ansi
+Discovered Package: facade/ignition
+Discovered Package: fideloper/proxy
+Discovered Package: fruitcake/laravel-cors
+Discovered Package: laravel/tinker
+Discovered Package: laravel/ui
+Discovered Package: nesbot/carbon
+Discovered Package: nunomaduro/collision
+Package manifest generated successfully.
+74 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+
+C:\xampp\htdocs\Laravel_Course
+λ
+
+-هلقيت بدنا نفهم ايش الى صار ..والامر وين تنفذ والريكوير يو اى هادى وين راحت
+
+-طالما قلنا بالاومر كومبوزر ..يبقى راح نفتح ملف الكمبوزر دوت جيسون
+
+-لو رحت تفتح ملف composar.json ...راح تلاقيها انضافت جوا الريكوير
+-افتح الملف وروح ع الريكوير راح تلاقيها اخر اشى
+"require": {
+        "php": "^7.2.5|^8.0",
+        "fideloper/proxy": "^4.4",
+        "fruitcake/laravel-cors": "^2.0",
+        "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
+        "laravel/framework": "^7.29",
+        "laravel/tinker": "^2.5",
+        "laravel/ui": "2.4"
+    },
+
+-بالاول كانت هيك بدونها
+"require": {
+        "php": "^7.2.5|^8.0",
+        "fideloper/proxy": "^4.4",
+        "fruitcake/laravel-cors": "^2.0",
+        "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
+        "laravel/framework": "^7.29",
+        "laravel/tinker": "^2.5"
+    },
+
+-بعد ما نقذنا الامر نزلت هان
+
+-هيك شغلنا تمام ..وخلصنا اول خطوة بعد ما نفذنا الامر ونزلنا اللارفيل يو اى بالفيجن تعبها الى حكناله عنو
+
+==========
+لو ترجع عالموقع راح تلاقى الامر التانى
+
+// Generate basic scaffolding...
+php artisan ui bootstrap
+php artisan ui vue
+php artisan ui react
+
+// Generate login / registration scaffolding...
+php artisan ui bootstrap --auth
+php artisan ui vue --auth
+php artisan ui react --auth
+=============
+
+-نرجع للمهندس
+
+-هلقيت نعمل الامر التانى الى هو
+php artisan ui vue --auth
+
+-هاد الامر راح يعملى دبفولت اوثونتكيشن ...الراوتس تعتها والميثود لوق ان
+والميثود ريجيستر بالكنترولر تبعتهم وراح يعملى الديفولت فيوز كمان الهم ..ولكن راح يستخدمهم معهم الفيو جى اس ...يعنى راح تبقى سنقل بيج ابلكيشن ..بنتنقل بينهم بدون ما يصير عنا ريلود بين لاصفحات
+
+-نروح ننفذ الامر ..المهندس لما نفذ الامر ..قلو لازم يكون عندك npm ..صار يشرح شو هو وكيف ننزله
+
+-انا نفذت الامر برضو عمل عندى زى المهندس
+C:\xampp\htdocs\Laravel_Course
+λ php artisan ui vue --auth
+Vue scaffolding installed successfully.
+Please run "npm install && npm run dev" to compile your fresh scaffolding.
+Authentication scaffolding generated successfully
+
+-ااااه ...هان بقلى الفيو ..انستول سكسس ..نزل بنجاح
+-بعدين بقلى اعمل الامر npm install && npm run dev " to compile your fresh scaffolding
+
+-npm install && npm run dev هان عبارة عن امرين زى كانى حكتله الامر الاول بعده الامر التانى زى هيك
+npm install
+npm run dev
+
+-ولكن بينفع ننفذهم بامر واحد عاد زى هيك بعلامة الاند npm install && npm run dev
+-الامر التانى  npm run dev يعنى انا بقله خليها بالمود ديف الى كنا نحكى عنو ايام الزيرو
+
+-انا عندى npm خلينى اعمل الامر الى قلى عليه لنشوف
+-عملت الامر
+npm install && npm run dev
+
+=================
+-طول واخد وقت لما خلص ..وعمل شغل كتير وبلنهاية كتبتلى
+
+98% after emitting SizeLimitsPlugin
+
+ DONE  Compiled successfully in 49850ms                                                                                                                       5:33:43 PM
+
+       Asset      Size   Chunks             Chunk Names
+/css/app.css   179 KiB  /js/app  [emitted]  /js/app
+  /js/app.js  1.41 MiB  /js/app  [emitted]  /js/app
+
+C:\xampp\htdocs\Laravel_Course
+λ
+===================
+
+-هلقيت احنا قلنالها بالامر --dev يعنى للتطوير زى ما قال الزيرو
+
+-لو تروح ع ملف package.json راح تلاقيها انضافت بالتطوير
+
+"devDependencies": {
+        "axios": "^0.19",
+        "bootstrap": "^4.0.0",
+        "cross-env": "^7.0",
+        "jquery": "^3.2",
+        "laravel-mix": "^5.0.1",
+        "lodash": "^4.17.19",
+        "popper.js": "^1.12",
+        "resolve-url-loader": "^2.3.1",
+        "sass": "^1.20.1",
+        "sass-loader": "^8.0.0",
+        "vue": "^2.5.17",
+        "vue-template-compiler": "^2.6.10"
+    }
+
+-هيها ضافلى اياها
+"vue": "^2.5.17",
+
+-وضافلى كمان اعتقد الجيكويرى والبوتستراب معهم وحاجة اسمها بوبر جى اس
+"bootstrap": "^4.0.0",
+"jquery": "^3.2",
+"popper.js": "^1.12",
+
+-شوف الفرق ما بين الملف هان ...والملف بالمشرورع القديم تاع الزيرو قبل ما نعمل الامر هاد
+-بالمشروع القديم كانو بس هدول
+"devDependencies": {
+        "axios": "^0.19",
+        "cross-env": "^7.0",
+        "laravel-mix": "^5.0.1",
+        "lodash": "^4.17.19",
+        "resolve-url-loader": "^3.1.0",
+        "sass": "^1.15.2",
+        "sass-loader": "^8.0.0",
+        "vue-template-compiler": "^2.6.14"
+    }
+
+
+==============
+
+اااااه تزكرت ....هدول الامرين الى عملناهم مع الزيرو برضو الامر الاول لما عملنا
+npn run i وحيكنا هى نفسها npn run install
+
+-الامر الى نزللنا فولدر الكبير الى فيه مئات الملفات node_modules
+-ولكن احنا هان بمشروعنا ما كنا عاملينه
+-عشان هيك لما عملنا الفيو ...حكالنا انو الفيو نزلت وتمت بنجاح ولكن اعمل انستول ل ان بى ام
+
+-والامر التانى
+npm run dev
+هاد الى عملناه مع الزيرو الى كان يضيف النا الميكس الى بتعمللنا كومبايل للملفات
+وللميكس تاسك كلها ...وبينشا النا فولدرين سى اس اس وجى اس جوا البابليك وهيكا
+
+-هو هان هى الامرين الى طلبهم منا ..يعنى لو ما فهمتهم ارجع لشرح الزيرو بتفهمهم
+
+-وازا بتلاحظ هان كمان لما نفذناه برضو ضاف النا الميكس عالديفيلوبر بملف الباكييج جيسون "laravel-mix": "^5.0.1", زى ما انضافت معنا ايام الزيرو
+
+======================
+
+-ما علينا نرجع لمشروعنا
+
+-بعد ما نفذنا الامرين ..راح تلاحظ زى ما حكينا ملف package.json
+شو صار فيه ..وشو انضاف عليه زيادة
+
+-وراح تلاحظ تغير كتير صار عنا بالفولدرات
+
+-مسلا فولدر الفيوز ...راح تلاقيه ضاف النا فولدر اسمه auth
+-داخله ملفات صفحات ...لوق ان..ريجيستر ..فيريفاى
+-وكمان فولدر اسمه passwords
+-داخله 3 صفحات ..كونفيرم ..ايميل ..ريسيت
+-هدول الصفحات الفيوز الى راح تشوفهم بوجهك بالموقع
+
+-لو رحت ع فولدر الكنترولر برضو راح تلاقى عمل النا ملف اسمه auth
+وفى 6 صفحات كنترولر كمان جاهزين
+
+-وبرضو لو رحت ع فولدر البابليك ..راح تلاقى انشا النا ملف سى اس اس وملف جى اس برضو
+وفيهم ملفات سى اس اس معمول الها كومبايل من ملف جديد نحط جنب ملف الساس ..وملف الساس عمل الو ايمبورت لحاله ولما عملت امر الكومبايل طلعه النا ..وكذلك ملف جى اسى
+
+-لو تروح ع ملف الساس ...راح تلاقيه ضاف النا ملف اسمه _variable.scss
+جنب ملف app.scss مباشرة واخد منو ايمبورت ملف الاب
+-ومع امر الكومبايل الى عملناه ..طلعلنا ملف السى اس اس الى بالببليك
+
+-واعتقد كمان انو انضاف معنا فيو جديدة جوا فولدر الفيو مباشرة جنب الويلكم الرئيسية
+اسمها home.blade.php
+
+-الفيوز الجديدة الى نزلت بفولدر auth انت بتقدر تعدل ع اى صفحة فيهم
+عادى جدا ..بتفتحهم وبتعدل فيهم الى بدك اياه
+
+================================================================================
+
+   #028-Auth Login and Register with Laravel 6 laravel 7 part2 - تسجيل الدخول بلارافل
+
+-حكى انو لما اعملنا الامر طلع عنا حاجة اسمها "laravel-mix": "^5.0.1"
+طبعا عارفينها ومشروعه عند الزيرو
+
+-الفولدر الضخم الى نزل عنا لما عملنا npm install الى هو node_modules
+-هل لما نرفع ملفنا عالقيت هب بيترفع معنا ..اكيد لا ..وازا بتروح ع ملف
+.gitignore راح تلاقيه انضاف معهم الى معمول الهم اقنور ..هيو اول واحد
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+-لارافيل عامله حسابها عالكلام هاد ولحالها حطته بملف الاقنور
+
+-نفس ما حكينا ايام ملف الفيندور ..لو المهندس رفع المشروع الى بيشتغل عليه عالقيت هب ..وانا اخدت منو كلون ..اكيد ما راح ينزل معى هاد الفولدر ..بالتالى احنا لحالنا بنروح بنعمل سيت اب بايدينا لل npm i بنعمل داخل المشروع الى اخدناه كلون
+
+================
+
+-نرجع للدرس تبعنا
+
+-كيف بدنا نعمل الرواتس لللفيوز ولكل الشغل الى عملناه تبع اللوق ان والريجيستر
+
+-لارافيل مجمعاه النا كله براوت واحد اسمه
+Auth::routes();
+
+-هيك كانك عملت لكل الميثودات والكنترولز والفيوز الى بخصو اللوق ان والريجيستر ..كانك عملت الهم راوتات
+
+-هلقيت روح عالموقع تبعنا راح تلاقيه ضاف النا فوق
+-كلمة Login وكلمة Register
+-لو تضغط ع لوق ان ..بيبعتك ع صفحة اللوق ان ...الى فيها الفورم
+-لو تضغط عالريجسيتر ..بيبعتك ع صفحة ريجستر الى فيها فورم التسجيل
+
+-ريحنا عالجاهز بس علينا نكتب كلمة
+Auth::routes();
+-حطيناها بملف web.php تحت شغلنا القديم ..تحت الرواتس الى كنا عاملينها بالاول
+
+-ازا بتتزكر زمان ..لما كنا نحط الميدل وير اوس ع اى فيو...كان يقللنا
+انو صفحة اللوق ان مش موجودة ...لانو ميدل وير الاوث بيبعتنا ع صفحة اللوق ان
+
+
+-ورحنا عملنا بادينا راوت اسمه لوق ان ..عشان ما يضل يقلى اللوق ان غير موجودة ..هلقيت خلص مش لازمة الى
+رحت ووقفتها لانو صار عندى صفحة اسمها لوق انو والها روات والها كل اشى
+
+-خلينا هلقيت نروح ع اى روات قديم محطوط عليه الميدل وير اوث ..ونفوت عليه
+نشوف وين بدو يبعتنا
+
+-رحنا عالروات هاد هى محطوط الو ميدل وير الاوس
+
+//Middleware
+Route::get('chek', function () {
+    return "teto";
+})->middleware('auth');
+
+-لو دخلنا الرابط هلقيت
+http://127.0.0.1:8000/chek
+
+-مباشرة راح يحولنى ع صفحة اللوق ان الى فيها الفورم لانو احنا حطيناها خلص مجرد ما عملنا الراوت تبعها الى هو هاد
+Auth::routes();
+
+-طيب جرب وقفها ..يعنى فش عنا روات بيبعتنا عاللوق ان هلقيت ..وروح زور الرابط
+http://127.0.0.1:8000/chek
+
+-راح يطلعلك ايرور انو اللوق ان غير موجودة
+Symfony\Component\Routing\Exception\RouteNotFoundException
+Route [login] not defined.
+http://127.0.0.1:8000/chek
+
+==================================
+
+-نرجع نكمل مع المهندس
+
+-قبل ما نكمل مع المهندس
+-لما عملنا شغلنا وشفنا التغيرات الى بالمشروع صارت
+-انا قلت انو ضاف الى فيو جديدة اسمها home.blade.php
+-ولاحظت انو انضاف الها كنترولر اسمها HomeController بفولدر الكنترلرز مباشرة
+-داخلها فيها ميدل وير الاوث محطوط كونستركت ..وفيها ميثود اندكس
+بتعمل ريتورن لفيو الهوم
+
+-هلقيت المهندس لما عمل الشغل الى عملنا ...هو اعتقد انو طلع عندو بملف الروات الويب
+-انعمل الو عالجاهز هيك
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+-ما بعرف هما انكتبوا لحالهم ..ولا هو كتبهو بايدوا
+
+-بس انا بعد ما عملت شغل اللوق ان والريجيستر ..ما لقيتهم مكتوبين
+انا رحت ع ملف الويب وكتبت
+Auth::routes();
+
+-وهى كتبت الروات التانى تبع صفحة الهوم كمان
+Route::get('/home', 'HomeController@index')->name('home');
+
+-برضو هان لما تروح صفحة الهوم ..بحولك مباشرة ع صفحة اللوق ان
+-روح والى نظرة ع فيو الهوم ..من ضمن الكلام الى فيها
+ {{ __('You are logged in!') }}
+
+-وروح الى نظرة عالكنترولر تبعها كمان ...اعتقد هاى الى بتطللعنا لما نعمل لوق ان
+بتطلعلى رسالة انو انت الان عملت تسجيل دخول
+
+================
+
+-نرجع للمهندس
+-نبدا نشرح هلقيت Register لو ضغطنا عليها راح تطلعلى الفورم تبع التسجيل
+
+-طيب هاى من وين اجت ..من الفيو الى اسمه register.blade.php داخل فولدر الاوث
+
+-روح وشوفها والقى نظرة عليها
+
+-الخطوة الاولى عنا ...انو لازم اعمل هلقيت داتا بيز عندى عشان الى يسجل
+يتسجل بالداتا بيز ع طول ..ولما يعمل لوق ان ..ازا موجود بالداتا بيز ..يعنى عمل ريجستر وسجل ...خلص يعمل لوق ان ويقدر يفوت الموقع
+
+-خلينا نشوف كيف نعمل الداتا بيز عشان نخزن فيها اليوزر
+
+-طالما انا راح اعمل داتا بيز ...يبقى انا لازم اكريت الداتا بيز والربط تبعها
+
+-الربط تبعها بكون بملف .env
+-لو دخلنا الملف ..موجود فيه
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=
+
+-هو بقلى انو اعمل داتا بيز اسمها لارفايل ..اليوزر نيم الروت عارفينه محنا
+وعارفين انو نا فيه باسورد ..من ايام كورس الداتا بيس
+
+-طيب انا فرضا بدى اخلى الداتا بيز تبعتى اسمها authdb مسلا
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=authdb
+DB_USERNAME=root
+DB_PASSWORD=
+
+-هيك انا ربطت مشروع بداتا بيز اسمها authdb
+
+-طيب هلقيت بدنا ننشا الداتا بيز تبعتنا هادى ..صح ولا لا
+
+-خلينا نروح عالداتا بيز وننشا داتا بيز بنفس الاسم هاد
+
+-او خلينى اسميها بنفس اسم المشروع تبعى عشان اعرف انها لمشروع بلاش اتخربط
+خلينى اسمسها laravel_course
+
+-اعمل الربط من جديد بالاسم الجديد
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_course
+DB_USERNAME=root
+DB_PASSWORD=
+
+-عملت الداتا بيز بنفس الاسم ...والداتا بيز لسا فاضية طبعا ما فيها اى جدول
+
+-هلقيت بدنا نحط الجداول الموجودة عنا باى ديفولت ..جوا الداتا بيز هاى ..طالما انا بستخدم الديفولت اوثنتكيش لوق ان والكلام هاد كله تبعنا الى بنشرح فيه ..اكيد الهم جداول جاهزة لارافيل عاملهم
+
+-لو تروح ع فولدر اسمه database  فيها فولدر اسمه migrations
+-لو تفتحه راح تلاقى انو فيه 3 ملفات ..الى هما 3 جداول
+- الاول اسمه
+2014_10_12_000000_create_users_table.php
+
+-التانى اسمه
+2014_10_12_100000_create_password_resets_table.php
+
+-التالت اسمه
+2019_08_19_000000_create_failed_jobs_table.php
+
+-احنا الى بفهمنا اول جدول ..جدول اليوزر الى راح اسجل فيه اليوزر تعونى
+-لو تفتحه راح تلاقيه عبارة عن
+public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+
+-عنا عمود اى دى ..وعمود للاسم وعمود للايميل وعمود لتاكيد الايميل وعمود باسورد
+وعمود التوكين وعمود التايم ستامب
+
+-ولقدام راح نتعلم كيف ننشا جدول عن طريق المايقريشين زى هيك
+او كيف نزود عمود هان او نحذف عمود
+
+-وبينفع تعمل اى جدول بدك اياه بايدك جوا البى اتش بى ادمن عادى زى ما كنا نعمله
+
+
+-طيب هلقيت عشان نبعت هدول الجداول للداتا بيز تبعتنا الى عملناها وربطناها مع المشروع ..بدنا نعطيه الامر
+
+php artisan migrate
+
+-نفذنا الامر
+
+C:\xampp\htdocs\Laravel_Course
+λ php artisan migrate
+Migration table created successfully.
+Migrating: 2014_10_12_000000_create_users_table
+Migrated:  2014_10_12_000000_create_users_table (0.71 seconds)
+Migrating: 2014_10_12_100000_create_password_resets_table
+Migrated:  2014_10_12_100000_create_password_resets_table (0.49 seconds)
+Migrating: 2019_08_19_000000_create_failed_jobs_table
+Migrated:  2019_08_19_000000_create_failed_jobs_table (0.33 seconds)
+
+C:\xampp\htdocs\Laravel_Course
+λ
+
+-هلقيت لو تروح الداتا بيز راح تلاقى فيها ال3 دجداول الى حكينا عنهم
+failed_jobs
+migrations
+password_resets
+users
+
+-هيك راح تلاقيهم بالداتا بيز ..فوت عليهم وشوف  من ايش بيتكونو وشو فيهم اعمدة
+-جدول اليوزر راح تلاقى فيه 8 اعمدة
+الى حكينا عنهم لما شرحناه
+
+id	name email	email_verified_at password	remember_token	created_at updated_at
+
+-هلقيت كل اشى عنا جاهز بدون ام نكتب اى كود ..روح عالموقع واعمل ريجيستر باى اسم
+راح تلاقى مباشرة انضاف هان بجدول اليوزر
+
+-المهندس عندو وامب سيرفر ...كان لازم يعمل ريتارت للسيرفر ..انا عندى
+مجرد ما الامر تنفذ لقيتهم انضافو عادى بكل سهولة
+
+-المهندس تغلب فيها بالاخير اكتشف انو هو مشغل اكتر من مشروع عالسيرفر
+ما كانت زابطة معو عالبورت هاد
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_course
+DB_USERNAME=root
+DB_PASSWORD=
+
+-خلاها ع بورت 3308 قال انتو راح تشتغل معكم من اول مرة بس انا عشان عامل اكتر من مشروع
+وما تشغلو بالكم بالكلام هاد بكرا راح تفهموا كله
+-ولما خلص القصة هاى ..طلع عندو اكسبشن تانى ..المهندس بقول انو هاد الاكسبشن باى ديفولت لازم يطلعلك لما انت تعمل مايقريشن بايدك
+-وازا ما طلعلك بتكون انات شغال صح
+-الاكشبشن الى طلع بالتيرمنال معو كان من ضمن الكلام
+ انو specified kay was too long
+
+-قال الحل تبعه بتروح ع فولدر ال app -> Providers ->AppServiceProvidr.php
+-جوا الملف هاد بدنا نحط اللينقث تبعنا ..كانت ميثود البوت فاضية زى هيك
+public function boot()
+    {
+        //
+    }
+
+-راح كتب فيها ..وقال انو جابها من مشروع تانى لازم يطلعنا هاد الاكسبشن ونحطه
+public function boot()
+    {
+        //
+    }
+
+-كتب فيها هيك
+ public function boot()
+    {
+        //
+        Scehema::defaultStringLength(Length: 191);
+    }
+
+-بس انا لما كتبتها عشان اجربها طلعلى خطا رحت عملتها هيك
+ public function boot()
+    {
+        //
+        Scehema::defaultStringLength(191);
+    }
+
+-ضل الخطا الاحمر تحت كلمة Scehema نفسها
+-هو عشان بيشتغل لارافيل 6 اعتقد ..ولكن انا ما حصل اى ايرور ولا اى اكسبشن من الى قال عنو وانضاف الى الجداول بسهولة بعد الامر
+-ولكن كتب الشكلة وحلها ..عشان لو واجعتك بالمشتقبل تعرف تحلها
+
+-ااااه خلص هيها زبطت هيك بالزبط لازم تنكتب
+public function boot()
+    {
+        //
+        Schema::defaultStringLength(191);
+    }
+
+-كان مطلع الى خطا عشان مش عامل ايبمورت لكلاس السكيما فوق
+كتبت سكيما اى حاجة ..عشان يعملى ايمبورت فوق ...وبعدين مسحته وكتبه الديفولت طلعلى لحالها الكلمة كلها اصلا
+هى الايمبورت تبعته
+use Illuminate\Support\Facades\Schema;
+
+-خلص انا مستحت لاشغل الى عملته ..وخليتها فاضية زى الاول ..لانو ما كان عندى اى مشاكل انا
+
+-هلقيت المهندس رجع نفذ الامر تانى الى بخلى الجداول تصير بالداتا بيز الى عملناه
+-رجع طلعلو كمان اكسبشن ..لانو بابالاول هو رفع جدول اليوزر اجى يكمل الباقى ..ضرب طلعلو اكسبشن قلو انو اللينقث توو لونق ..وراح حلها
+
+-هلقيت عشان يحل الاكسبشن التانى ...راح حذف الجدول الى ارتفع عشان يرفعو كلو من جديد ينفذ الامر مرة تانية للكل الجداول
+-كان مرفوع عنده جدول اليوزر والمايقريشن الرابع مهما 3 جداول بالاساس ..ولكن انا لما ارتفعو عندى فى حاجة اسمها مايقريشن ظهرت الداتا بيز عندى معهم
+
+-المهم حذفهم ..ورجع نفذ الامر من جديد ..زبطت معو
+=================================================================================
+
+       #029 - complete Auth Login and Register with popularexceptions
+
+- هلقيت خلينا نعمل ريجيستر لاى يوزر جديد
+
+-دخلت انا بيوزر جديد
+الاسم : thaer
+الايميل : thaer@gmail.com
+الباسورد : 12345678
+تاكيد الباسورد : 12345678
+
+-هان حطيت بالاول الباسورد 123
+طلعلى رسالة فالدييشن ...بقلى انو الباسورد اقل حاجة يكون 8 احرف
+خليته من 1 ل 8
+
+-اول ما عملت تسجيل بالموقع ..دخلنى ع صفحة الهوم ..الى حكيت عنها المرة الى فاتت
+وعملت الها راوت ...دخلنى عليها وكتبلى الرسالة الى فيها
+You are logged in!
+
+-والنافبار صار عندى هيك
+Laravel                    thaer
+
+-وعند الاسم دروب جاون ليست فيها روات اسمه logout
+
+-شغل نضيف نضيف نضيف
+
+-طيب هلقيت نروح عالداتا بيز نشوف انضاف الاسم بجدول اليوزر ولا لا
+
+id	name email	email_verified_at password	remember_token	created_at updated_at
+
+1 thaer thaer@gmail.com Null $2y$10$H7JmO/HdG0KtAKeEc.DGw.kZqEVbJBALMl/isuuKrcvrac1QbCpu2  Null  2021-08-13 17:20:32  2021-08-13 17:20:32
+
+-ضاف كل بيااتى بجدول اليوزر ..حتى الباسورد عامل الها هاش كمان
+
+-هلقيت خلينا نعمل logout  لما عملت تسجيل خروج ..رجعنى عالصفحة الرئيسية تبعت الموقع ...الويلكم
+
+-المهندس اول ما بدا يشرح تسجيل الدخول والريجيستر ..مسح كل الراوتات القديمة الى عندو انا خليتها
+
+-المهندس لما اجى عمل تسجيل خروج ..قلو انو الصفحة غير موجودة 404
+لانو ما في عندو راوتات قديمة ....وراوت تسجيل الخروج
+بيعتك ع الموقع نفسه /  يعنى ع ملف البابليك مباشرة
+واحنا عنا راوت عن /  تعرضلى صفحلة الويلكم
+
+-عالعموم هو راح عمل راوت جديد زى هيك برجعله كلمة هوم
+Route::get('/', function () {
+    return "Home";
+});
+
+-وصار لما يعمل تسجيل خروج تطلعلو بس كلمة هوم ..ومفيش فوق عندو لوق ان وريجيستر
+صار عشان يفوت عاللوق ان يكتب فوق بالرابط لوق ان ويفوت عليها
+
+-ولكن انا الامور تمام بعمل تسجيل خروج بيبعتنى ع صفحة الويلكم وفيها موجود فوق
+ريجستر ولوق ان
+
+-طيب نرجع لموضوعنا
+
+-بعد ما عملت تسجيل خروج ..هلقيت روح اعمل تسجيل دخول بنفس الايميل والباسورد الى سجلت فيهم
+-دخل عالسريع..وانا لما سجلت المتصفح قلى نحفظك ..حكلتله اه ..ف لما اجيت
+اعمل تسجيل دخول لقيته لحالو كاتبلى الايميل والباسورد
+
+-وفورم اللوق ان برضو فيها remmeber me كمان ازا بتعلم عليها صح بيحفظ خلص
+
+-عملت يوزر تانى اسمه teto teto@gmail.com 12345678
+
+-صار عندى 2 يوزر بالموقع وبالداتا بيز ..بفوت باى واحد فيهم
+
+================================================================================
+
+  #030 - Login Via Mobile Number with Laravel 6 & laravel 7 تسجيل الدخول برقم الموبيل
+
+-انا كنت لاحظ انو لما بتنقل بين اللوق ان والريجيستر ..عادى بيعمل ريلود للصفحات
+مش زى ما قال المهندس ..انا بفكر انو زى الاجاكس بدون ما تعملى ريلود
+
+-عاد المهندس ببداية الدرس بقول ..عرفنا كيف نعمل ريجيستر ولوق ان ..بالديفولت تعين اللارافيل وعرفنا ايش معنى سنقل بيج ابليكيشت عن طريق الفيو
+وبعد شوية بقول ...لو تلاحظ واحنا بنتنقل بين الصفحات ..هو معتمد عالفيو
+ولكن مش عاملها سنقل بيج ابلكيشن معنا حاليا هنا ولكن هو معتمد على الفيو بالشغل تبعه
+
+- بالدرس هاد ...بدنا نتعلم كيف نعمل حاجة كستمايز ..نعرف كيف نغير
+-بدل ما بعمل تسجيل دخول بالايميل والباسورد ..بدنا نعمل تسجيل دخول برقم الجوال والباسورد
+
+-وبالتالى بدنا نغير بالفورم تبعت الريجيستر كمان ..نزود الها خانة لرقم الجوال
+-وراح نتعلم كيف نزود الها فييلد ونحذف منها فييلد كمان لو بدنا
+
+-اول حاجة بدنا نروح عالفيو تبعت اللوق ان
+
+============
+@extends('layouts.app')
+
+    @section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Login') }}</div>
+
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('login') }}">
+                            @csrf
+
+                            <div class="form-group row">
+                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6 offset-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+
+                                        <label class="form-check-label" for="remember">
+                                            {{ __('Remember Me') }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-0">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Login') }}
+                                    </button>
+
+                                    @if (Route::has('password.request'))
+                                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                                            {{ __('Forgot Your Password?') }}
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+======================
+
+-اول حاجة عنا بالصفحة
+                <div class="card-header">{{ __('Login') }}</div>
+
+-مكتوبة بالطريقة هاى الى هى طريقة اللغات {{ __('Login') }} الى حكينا عنها بالاول
+-مكتوبة بالطريقة هاى طريقة الترجمة انو ترجمة الكى الى اسمه Login حسب اللغة الى انا فيها
+
+-بعد هيك عنا
+<form method="POST" action="{{ route('login') }}">
+
+-يعنى الفورم هادى بتروح عالروات الى اسمه login طيب انت لو تروح ع صفحة الراوتس
+مش راح تلاقى عنا راوت اسمه لوق ان ..ولكن هو فعليا موجود بالراوت تبعنا هاد
+Auth::routes();
+قلنا هاد الروات فيه كل الرواتا تعينى الى بتجيل الدخول والخروج والتسجيل وكل الامور هاى
+
+-بعدين جوا الفورم عامل النا حقل للايميل وحقل للباسورد ..ولقدام راح نفهم شو الى مكتوب فيهم ومش مفهوم
+-هى حقل الايميل مسلا
+
+<div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+-لقدام راح نفهم ايش الايرور @error('email') وشو فايديتها
+@error('email')
+    <span class="invalid-feedback" role="alert">
+        <strong>{{ $message }}</strong>
+    </span>
+@enderror
+
+-وشو هو هاد المسج كمان <strong>{{ $message }}</strong>
+-فى عنا كم فيديو لقدام عن الفالديشن ..منهم راح نفهم هاد الكلام كلو
+
+-فى عنا كمان csrf
+<form method="POST" action="{{ route('login') }}">
+ @csrf
+
+-مفهوم طبعا وما بدو شرح ..حكينا انو لسد الثغرات انو بيعملى حقل مخفى وبيبعت معى توكن عشان الهجمات من الثغرة الى اسمها csrf الزيرو شرحها بالتفصيل
+-لازم نبعته مع اى فورم معمولة بميثود بوست
+-لو ما حطيته راح يطلع عندك اكسبشن ويقلك البيج اكسبير ..لانو بالميدل وير الى عنا بشيك عالتوكن وعالكلام هاد ازا مبعوت ولالا
+-لو تروح عالانسبكت تبعت فورم اللوق ان ..بتلاقيه تحت الفورم عبارة عن حقل مخفى وفيه توكن
+<input type="hidden" name="_token" value="IV1RWCkjd22Hn77b4EOp18zxvG2RiNCslvjmNHkV">
+
+-زى ما حكينا لو ما حطيته راح يطلعلك اكسبشن ...لانو ملف الويب تبع الرواتس
+معمول فيه غصب عنك اللارافيل عاملاه ..ميدل وين اسمه csrf عشان الامان بتشيك هل
+انت باعت الى حكينا عليه ولا لا ..خوفا عليك من انو حد يبعتلك اشى اختراق او حاجة من هالكلام
+
+-الميدل وير هاد اسمه csrf field انت ممكن تعمله ايقاف عادى فش مشكلة
+ولكن هاد الكلام مفروغ منو ومش راح نتكلم فيه
+
+-نرجع للدرس تبعنا ..كيف نعمل تسجيل الدخول برقم الجوال
+
+-اول حاجة بدنا نعمل فيلد جديدة للموبايل ..ونوقف فيلد الايميل
+-بدى اخد فيلد الايميل نسخ لصق واغير كل اسى من ايميل لموباييل
+-ونخلى نوع الحقل text بدل email ..وشغلة تانية نرفع منو الاوتو كومبليت كمان مش عايزينها
+
+-واسم الحقل بدنا نكتبه بايدينا بدون ما نستخدم ترجمة اللغات نكتبه هيك Mobile Number
+
+-عملنا الحقل هيك
+
+<div class="form-group row">
+    <label for="mobile" class="col-md-4 col-form-label text-md-right">Mobile Number</label>
+
+    <div class="col-md-6">
+        <input id="mobile" type="text" class="form-control @error('mobile') is-invalid @enderror" name="mobile" value="{{ old('mobile') }}" autofocus>
+
+        @error('mobile')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+</div>
+
+-طيب هلقيت طالما عملنا فييلد عنا اسمه موبايل ..لازم يكون الو حقل بالداتا بيز برضو ...وفييلد بفورم الريجيستر كمان
+
+-بدنا نزود عمود لرقم الجوال بالداتا بيز ..اما بنروح ع فولدر المايقريشن ع جدول اليوزر وبنضيفه من هان
+
+-او بنروح ع بى ات بى ما ادمن ..وبنضفيه عادى عالجدول بايدينا ..طريقة اسرع ونشتغل الوقت
+
+-رحنا عالجدول وزردنا عمود اسمه mobile بعد عمود الباسورد حطيته
+عملته فار تشار ..وخليته 11 رقم خلص بكفى لرقم جوال
+
+-هلقيت اى عمود بضيفه جددديد ..عشان ينقبل معى وينشاف
+-لازم اروح عالمودل الى اسمه يوزر ..احنا بنعرف انو كل جدول بالداتا بيز
+بكون الو عنا حاجة اسمها model بتكافاه
+
+-هلقيت بعد ما ضفت العمود بالداتا بيز لازم اروح فولدر app
+بلاقيه فيه المودل الى اسمه User.php هو هاد المودل الى بكافا جدول اليوزر عنا
+
+-لو فتحناه راح تلاقى عنا حاجة اسمها ..فيلابل ..يعنى الحاجات الى تنشاف معى
+protected $fillable = [
+        'name', 'email', 'password',
+    ];
+
+-وفى الحاجات الهدن كمان الى ما تنشاف ..هاد المهندس قدام بالكورس شارحهم
+protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+-هلقيت بدنا نحط عمود الموبايل ..ضمن الفيلبل
+protected $fillable = [
+        'name', 'email', 'password', 'mobile'
+    ];
+
+-هينا زودناها ..خلى بالك من النقطة هادى ..لو ما ضفته هان عالفيلبل ممكن لما تروح تعمل ريجيستر ما يقبلك
+
+-هلقيت زودناها هان وبالداتا بيز ..مش لازم ازودها بالميقريشن عادى خلص
+
+-هلقيت خلينى اروح ادخل رقك جوال بايدي مباشرة عاليوزر الى باداتا بيز ثائر
+-عشان ما اقعد اغير فورم الريجيستر وادخل منها رقم الجوال يعنى ونكسب وقت
+
+-دخلت ل اليوزر thaer 491533 رقم جوالى
+-بس ما قبل عشان كنت عامل الحق فار تشار ..خليته انتجر 11
+
+-هلقيت روح ادخل بفورم اللوق ان ..برقم الجوال والباسوورد تبعنا من1 ل 8
+
+-برضو ما راح يدخلك ..ليش ..لانو هو بدور على الايميل كمان
+
+-طيب لازم نعرف وين الكود الى بيعمل ميثود اللوق ان نفسه وميثود الريجيستر نفسه
+
+-بدنا نروح عالكنترولر ع فولدر الاوس ..ع كنترولر اللوق ان
+-لو تفتحه مش راح تلاقى فيه حاجة ..يعنى كود مكتوب ..لانو هو فاصله ب تريت
+وعامل يوز للتريت هاد
+
+use AuthenticatesUsers;
+
+-لو تروح تفتح التريت هاد
+-التريت هاد هو الى بنادى ع الفيو لوق ان
+
+-المهندس ضغط عليه اعتقد وفتح لحاله لانو بشتغل ع بى اتش بى ستورم
+-انا اخدت اسم التريت ..وبحثت عنو ctrl + p وطلعلى الملف وفتحته
+
+-جوا التريت هاد مكتوب
+-راح تلاقى اول حاجة عامل الى ميثود ترجعلى فيو اللوق ان
+public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+-ولو تنزل تحت بالتريت راح تلاقى كمان ميثود اسمها يوزر نيم
+public function username()
+    {
+        return 'email';
+    }
+
+-معلومة ازا هو تريت ..عادى بقدر اخد الميثود هادى واعمل عليها اوفر رايد عندى عادى
+
+-اخدت الميثود وحطيتها بالكنترولر تبعت اللوق ان ..الى بيستخدم التريت هاد
+عشان اعمل عليها اوفر رايد ..اعدل عليها يعنى
+
+-كنترولر اللوق ان كان فيه بس ميثود كنتسرتك
+public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+
+-انا جبت الميثود اليوزر نيم وحطيتها تحته
+
+public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+
+public function username()
+    {
+        return 'mobile';
+    }
+
+-ميثود اليوزر نيم هادى مش عشان هو بفوت باليوزنيم ..لا اليوزر نيم هادى يعنى بقلك هادى الميثود الى انا راح افوت فيها ..انت بدك تعمل فالديشن بشو
+باى دبفولت هى بالايميل
+-انا خليتها فالديشن بالموبايل
+
+-هلقيت روح فوت برقم الجوال ومن1 ل 8 ..راح يفوت معك مباشرة خلص
+
+=================================================================================
+
+     #031 - Laravel 6 email verification and configration -التحقق من البريد الالكتروني
+
+- بدنا نتعلم كيف نعمل فيرفكيشن للايميل ..لما تعمل تسجيل ..ابعتلك ايميل
+عالايميل الى انت سجلت فيه ..وتروح عليه وتضغط عالرابط الى بعتلك اياه عشان تتفعل ويدخلك عالموقع عنا وانت عامل لووق ان وجاهز
+
+-وعنا بلارفيل 6 واطلع ..ديفولت ايميل فيرفكيشن ..بدنا نتعلم كيف نعملها ونفعلها ..هى جاهزة عنا برضو ..مريحنا بكل اشى ..راح نعملها باقل من 10 دقايق ..ولكن لو بدك تعمل القصة هادى بالبى اتش بى بيور ..بدك ساعات فيها
+
+-اول خطوة لازم يكون عنا سيرفر انو نبعت منو الايميل ..طيب احنا لسا فش عنا سيرفر ولا لوحة تحكم شو نعمل
+
+-راح نستخدم الميل تراب ..انا عملت عليها حساب قبل فترة سجلت فيه
+https://mailtrap.io/signin#
+
+-عملت تسجيل جديد ..احكيله تسجيل دخول باستخدام حساب قوقل ..بيطلعلك حسابات قوقل تبعتى دخلت بايميل eng.thaerellouh@gmail.com
+
+-موجود بالانبوكس عندك حاجة اسمها Show Credintails اضغط عليها
+-معطينى فيها
+
+SMTP
+Host:     smtp.mailtrap.io
+Port:     25 or 465 or 587 or 2525
+Username: 1b0cb0996a1a51
+Password: 33262fe28274e6
+Auth:     PLAIN, LOGIN and CRAM-MD5
+TLS:      Optional (STARTTLS on all ports)
+
+-انا محتاج اخد منها اليوزر نيم والباسورد
+
+-بدنا ناخد اليوزر نيم هاد الى اعطانى اياه موقع الميل تراب ...ونربط فيه بملف
+.env زى ما ربطنا الداتا بيز تبعتنا
+
+-روح ع ملف .env راح تلاقيه عامل حسابه ومجهز الك عشان تستخدم الميل تراب تبعت منو مسجات عشان تجرب عليه ..لانو عامل حسابه انو ما فيه عندك سيرفر لسا ومعطيك حاجة تجرب عليها
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+
+-بدنا ناخد اليوزر نيم والباسورد الى عنا بالميل تراب ونحطهم هان عشان نربط فيهم
+
+-انت طبعا مش مجبر تبعت من الميل تراب طبعا ولكن هان انت عشان تجرب ...الدرس الجاى راح نتعلم كيف نربط مع لوحة تحكم حقيقية عنا ونبعت منها ايميلات
+
+-طيب اخدنا اليوزر نيم والباسورد تعين الميل تراب وربطنا فيهم عشان نعمل تيست بس ونجرب عليه زى ما حكينا ..صار ملف الانف عنا هيك
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=1b0cb0996a1a51
+MAIL_PASSWORD=33262fe28274e6
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+
+-احنا هيك خلصنا اول خطوة عنا الى هى ربطنا بملف الانف تبعتنا
+
+-تانى خطوة عنا عشان نعمل ايميل فيرفكيشن كامل ..بدنا نروح عالمودل تبعنا
+
+الى اسمه User.php الى حكينا انو بكافئ جدول اليوزر عنا بالداتا بيز الى بسجل فيه
+الاعضاء وبياناتهم
+
+
+-ولقدام راح نعرف كيف ننشئ المودل لحالنا وكيف نربطه ونعمله من الصفر
+
+-طيب هلقيت نروح ع ملف المودل اليوزر الى بفولدر الاب فوق
+-بالاساس كان عنا هيك
+
+
+namespace App;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable
+{
+
+-هلقيت الكلاس هاد class User extends Authenticatable
+بدنا نعمله ايمبليمنت كمان من تريت جاهز بلافيل اسمه MustVerifyEmail
+
+-خلى بالك اول يوز عنا فوق الى هو تبع التريت هاد الى بتكلم عنو ..كانت فاتحة
+لانو انا مش مستدعى التريت تبعها لسا ..الى هى هاى
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+-كانت فاتحة
+
+-اول ما انا استدعى التريت تبعها واعمله ايمليمنتس ..ع طول بتتفعل وبتبطل لونها فاتح
+
+-صار عنا الكلاس هيك
+
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable implements MustVerifyEmail
+{
+
+-صار هيك
+class User extends Authenticatable implements MustVerifyEmail
+
+-خلصنا تانى خطوة
+
+-نروح عالخطوة التالتة ..بدنا نروح عالراوتات تبعتى
+-لارافيل كانت عاملة النا كل راوتات التسجيل واللوق ان ..باى ديفولت مجمعها مع بهض براوت واحد حكينا ..بملف الويب طبعا
+Auth::routes();
+
+-بدنا نروح عليه ونمرر فيه جوا اريه ..حاجة اسمها verify => true عملناه ترو
+
+Auth::routes(['verify' => true]);
+
+-هيك عشان اعرفه ..انو اليوزر هاد بعد ما يعمل ريجيستر ..ما تدخله ع صفحة الهوم ع طول ..لا لازم يروح عالايميل تبعه بالاول وياكد الرابط الى انا بعتلك اياه
+عشان يتفعل وبعدين اخليه يفوت ع ثفحة الهوم
+-وان ما كان الايميل تبعه كمان مش راح اخليه يفوت ..راح يقله الايميل تبعك غير مفعل
+
+-طيب خلصنا الخطوة التالتة
+
+-الخطوة الرابعة
+-لو تلاحظ عنا تحت راوت الاوث ..عملنا راوت الهوم كمان
+انو لما يعمل تسجيل يحولو مباشرة ع صفحة الهوم زى ما حكينا
+Route::get('/home', 'HomeController@index')->name('home');
+
+-ازا بتلاحظ انو الروات هاد بروح عالهوم كنترولر ع ميثود الاندكس
+-لو تروح عالهوم كنترولر ..راح تلاقيه ماخد قبل ميثود الاندكس ماخد ميدل وير الاوث
+public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+-هاد الميدل وير عارفينه ..انو لازم تكون مسجل عنا ..والك يوزر نيم وباسوررد وداخل فيهم ومتخزن بالسشن عنا تبع لارافيل ..ازا مش مسجل بحولك ع صفحة اللوق ان
+
+-طيب احنا بدنا نضيف كمان ميدل وير الو الى هو ميدل وير الفيرفاى تبع الايميل
+الى قاعدين بنحكى عنو
+
+-يا بتضيف الميدل وير هاد جوا الكنترولر نفسه ..او عالروات نفسه عارفين الطريقتين احنا
+
+-خلينا نضيفه عالروات نفسه ..بدو يصير الروات تبعنا هيك
+
+-طيب لو احنا مش عارفين اسم الميدل وير هاد بالزبط مسلا ..او خيفين نتخربط بحرف او اى اشى ..من وين بنعرف الميدل وير كلهم الى عنا ..عشان اعرف الميدل وير الى انا بدى اياه
+
+-لو تروح ع فولدر Middleware فيها ملف اسمه Kernel.php لو تفوت عليه
+بتلاقى كل الميديل وير الى لارافيل عاملاها
+protected $routeMiddleware = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+    ];
+
+-يبقى الميدل وير الى انا عايزه عشان اخليه يعمل فيرفاى للايميل كمان
+هو اخر واحد الى اسمه verified
+
+-هلقيت نرجع للروات تبعنا ..بدو يصير هيك
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+
+-سواءا هان ..او نحطه جوا الكنترولر الهوم نفسه عادى حكينا وعارفين الطريقة كيف
+
+-هلقيت راوت الهوم صار عليه 2 ميدل وير ..الاول تبع الاوث والتانى تبع الفيريفاى
+-يعنى عشان انت تزور صفحة الهوم ..لازم تكون عامل ريجيستر عنا ..مسجل والك باسوورد ويوزر نيم ومخزن بالداتا بيز عنا ..ولازم تكون عامل فيرفاى عالايميل عالرابط الى بدنا نبعتلك اياه
+
+-يعنى رواتات الويب هيك صارت
+
+Auth::routes(['verify' => true]);
+
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+
+-الخطوة الخامسة عنا هلقيت ..بدنا نفوت عالمكان الى بدنا نبعتلك منو الايميل
+الى هى صيغة الايميل يعنى الى راح يصلك كيف شكله بكون ..شكله موجود عنا بالفيوز
+-فيو اسمها verify.blade.php
+-هو هاد شكل الايميل الى راح يصلك ..انت بتقدل تعدل عليه اى اشى بدك اياه وع شكله
+
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+
+                    <div class="card-body">
+                        @if (session('resent'))
+                            <div class="alert alert-success" role="alert">
+                                {{ __('A fresh verification link has been sent to your email address.') }}
+                            </div>
+                        @endif
+
+                        {{ __('Before proceeding, please check your email for a verification link.') }}
+                        {{ __('If you did not receive the email') }},
+                        <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+-الى هى مسه هيك مسلا ..من فضلك اضغط على الرابط كزا ..لتاكيد الايميل تبعك
+
+-هى هادى الفيو الى عنا ..بتقدر تغير فيها العنوان مسلا او اى حاجة فيها عادى
+
+-طيب اخر حاجة عنا ممكن نتكلم فيها ..ايش هو الكنترولر الى بيعمللنا كل الكلام هادا
+-جوا فولدر الاوث الى بفولدر الكنترولرز بتلاقى كنترولر اسمه VerificationController.php
+هو المسؤول انو يعملى الكلام هاد كله..وروح والى نظرة عليه
+
+-هلقيت خلينا نروح للعملى ..ونشوف الكلام الى عملنا كيف بدو يتنفذ
+
+-نعمل تسجيل خروج ..ونعمل تسجيل يوزر جديد ..عشان نشوف الايميل بدو ينبعت النا عالميل تراب كيف
+
+-هلقيت انا عملت تسجيل خروج ..وارجعت دخلت باسم teto
+بالايميل تبعه والباسورد طلعلى رسالة هادى
+Verify Your Email Address
+Before proceeding, please check your email for a verification link. If you did not receive the email, .
+
+-يعنى ما دخلنى برضو عالهوم ..بقلى رجاءا تاكد من الايميل تبعك بعتنالك رابط
+
+-طيب خلينى هلقيت امسح الاتنين يوزر الى عنا بالداتا بيز ..واعمل يوزر من جديد
+عشان احط عليه جى ميل صحيح عشان اشوف الايميل بدو يصلنى عليه ولا لا
+
+-رحت عملت يوزر جديد اسمه Thaer والايميل eng.thaerellouh@gmail
+والباسورد من1 ل 8 برضو
+
+-هان طلعلى اكسبشن
+Illuminate\Database\QueryException
+SQLSTATE[HY000]: General error: 1364 Field 'mobile' doesn't have a default value (SQL: insert into `users` (`name`, `email`, `password`, `updated_at`, `created_at`) values (Thaer, eng.thaerellouh@gmail.com, $2y$10$/tecu4XPRt6nW1VvgEAJFu1jAzL/ZZh/C34GwpovqILVSRGKTbYoi, 2021-08-13 22:03:48, 2021-08-13 22:03:48))
+
+-بقلى انو حقل الموبايل الى بالداتا بيز ..فيه عمود الموبايل ..ومطلوب لانو انا
+حطيته بالفيلبل ازا بتتزكر الدرس الى فات
+
+-وعملناه بصفحة اللوق ان عشان نفوت فيه بدول الايميل وعدلنا بالداتا بيز كمان
+وبالمودل تبعنا اليوزر كمان خليناه فيلبل
+
+-ولكن ما ضفنا الو الحقل تبعه بفور الريجيستر
+-هلقيت اما بتروح بتشيله من الفيلبل ..او عادى خلص خلى شغلنا تاع الدرس الى فات هو هو ...وروح ع فورم الريجستر عالفيو تبتعتها وضيف فييلد جديدة تحت فييلد الايميل اعملها للموبايل
+
+-انا ضفت الحقل ع فورم التجسيل تحت حقل الايميل خليته ..اخدت حقل الايميل ونسخته تحت وعدلت عليه ..هى الحقل تبعنا
+
+<div class="form-group row">
+    <label for="mobile" class="col-md-4 col-form-label text-md-right">Mobile Number</label>
+
+    <div class="col-md-6">
+        <input id="mobile" type="text" class="form-control @error('mobile') is-invalid @enderror" name="mobile" value="{{ old('mobile') }}" required >
+
+        @error('mobile')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+</div>
+
+-برضو طلعلى نفس الخطا ...بتهيالى عشان انا عامل الحقل required
+-بس برضو بدى احل المشكلة لحالى بدى اخليه ريكوير واشوف
+
+-المهندس ع فكرة ما شرح كيف عملها لقيت حاطط الحقل لحاله بدون ما يشرح
+
+-طيب انا حليت المشكلة ..رحت عالكنترولر تبع الريجيستر نفسه
+-دخلت فيه لقيت 2 ميثود
+
+protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+    }
+
+-هادى الى بتعملى الفالديت شكلها ..هى عامل الباسورد ما يقل عن 8 والاسم والايميل ما يكبر عن 255
+
+-والميثود التانية هادى
+
+protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
+
+-انا رحت عالميثود التانية حاليا وضفت عليها الموبايل الجديد الى انا عملت بايدى
+
+protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'mobile' => $data['mobile'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
+
+- لسا الموبايل حكى ..انو راح يشرح كيف نعمل الو بادئة نخليه دايما يبدا 059 مسلا
+بس لسا ما شرح كيف
+
+-ما علينا ..انا هيك زبطت معى
+
+-رحت اعملت تسجيل بنفس الاسم والايميل زبط ..ودخله بالداتا بيز ولكن طلعلى اكسبشن
+Swift_TransportException
+Cannot send message without a sender address
+http://127.0.0.1:8000/register
+
+-بقلى ما بتقدر تبعت ايميل ..بدون ما تكتب من مين مبعوت ..لازم تحط عنوان المرسل مين هو الى بعت الايميل هاد
+
+-حلها ..بدنا نرجع ع ملف .env ونحط ايميل المرسل مين هو
+خلينا نحط اى ايميل ...ايميلى التانى مسلا thaerellouh@gmail.com
+-اى ايميل مش مشكلة
+
+-رحنا ملف الانف
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=1b0cb0996a1a51
+MAIL_PASSWORD=33262fe28274e6
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+
+-ازا بتلاحظ MAIL_FROM_ADDRESS=null فاضية ..خلينا نحط فيها اميل المرسل
+
+-صارت هيك
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=1b0cb0996a1a51
+MAIL_PASSWORD=33262fe28274e6
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=thaerellouh@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
+
+-نروح هلقيت نعمل تسجيل من جديد ..بس قبل خلينا  نمسح اليوزر الى دخلناه
+لانو دخل عالداتا بيز بس ما بعتله الايميل حكينا لانو ما كان عندى
+ايميل المرسل
+
+-وهلقيت بدى ارجع اعمل تسجيل بنفس الاسم عشان احط ايميلى هو هو الى انا سجلت فيه بالميل تراب ...لو رجعت عملت تسجيل بنفس الاسم والايميل ..راح يصير عندى تعارض راح يقلى هاد الاسم موجود من قبل
+-عشان هيك روح احذفه من الداتا بيز ..وتعال اعمل تسجيل يوزر من جديد
+ونشوف بدو يبعتلنا ايميل عشان نعمل فيريفاى ولا لا
+
+-برضو طلعلى نفس الرسالة انو ما فى مرسل عنا ....ودخل اليوزر عالداتا بيز ولكن ما بعت الايميل
+
+-المهندس بقول شو الحل ...انو اى تعديل ع ملف
+.env  عالكونكشن الى فيه سواء تبع الميل او الامازن لو نشرحه او البوشر لما نشرحه برضو
+اى تغير فيهم ..لازم نروح ننفذ الامر composer dump-autoload
+-عشان يحس باى تغيير انت عملته ..احنا هان دخلنا ايميل المرسل ..ما حس فيه
+عشان يحس فيه انو انا عملت تعديل جديد بالملف ..روح اعطيه الامر هاد
+
+-نفذنا الامر راح ياخد وقت فيه لانو بيعمل جينريت وبيعمل اوتو لود للفايلز من اول ووجديد
+
+-عبل ما يخلص الامر ..بدى اروح احذف اليوزر من الداتا بيز الى دخلته عشان ما يقلى موجود من قبل يصير تعارض زى ما حكينا
+
+-حذفناه ..وهى الامر خلص
+
+C:\xampp\htdocs\Laravel_Course
+λ composer dump-autoload
+Generating optimized autoload files
+> Illuminate\Foundation\ComposerScripts::postAutoloadDump
+> @php artisan package:discover --ansi
+Discovered Package: facade/ignition
+Discovered Package: fideloper/proxy
+Discovered Package: fruitcake/laravel-cors
+Discovered Package: laravel/tinker
+Discovered Package: laravel/ui
+Discovered Package: nesbot/carbon
+Discovered Package: nunomaduro/collision
+Package manifest generated successfully.
+Generated optimized autoload files containing 4633 classes
+
+C:\xampp\htdocs\Laravel_Course
+λ
+
+-نروح نعمل تسجيل اليوزر من جديد ونشوف بدها تزبط ولا لا
+
+-هان لو تلاحظ عملت تسجيل ع نفس الايميل ..وما حذفته من الداتا بيز ..طلعلى ايرور
+بقلى انو الايميل هاد موجود عنا بالداتا بيز
+
+Name   thaer
+
+E-Mail Address   eng.thaerellouh@gmail.com
+The email has already been taken.
+
+Mobile Number   491533
+
+Password
+
+Confirm Password
+
+-بدى احذفه من الداتا بيز وارجع اعمل تسجيل فيه من جديد
+
+-واخيرا زبط الحمدلله ....عملت تسجيل ليوزر thaer والايميل eng.thaerellouh@gmail.com
+ورقم الجوال 491533 والباسوررد 12345678
+
+-سجلنى بالداتا بيز
+
+-وما دخلنى ع صفحة الهوم ..دخلنى ع صفحة http://127.0.0.1:8000/email/verify
+صفحة الايميل فيريفاى ...وطبعلى رسالة بقلى بعتنالك ايميل
+Verify Your Email Address
+Before proceeding, please check your email for a verification link. If you did not receive the email,
+
+-هلقيت بدى اروح عالميل ترامب الى انا سجلت فيه بالايميل هاد اصلا
+eng.thaerellouh@gmail.com واشوف وصلنى مسج ولا لا
+
+-فعلا وصلنى مسج
+Verify Email Address
+
+From:Laravel <thaerellouh@gmail.com>
+To: <eng.thaerellouh@gmail.com>
+Show Headers
+
+-هى كاتبلى من مين كمان ..الى هو الايميل التانى تبعى الى حطيته ك مرسل
+
+-والرسالة الى فيها هيها
+
+========
+
+Hello!
+Please click the button below to verify your email address.
+
+Verify Email Address
+
+If you did not create an account, no further action is required.
+
+Regards,
+Laravel
+
+If you’re having trouble clicking the "Verify Email Address" button, copy and paste the URL below into your web browser: http://127.0.0.1:8000/email/verify/5/b3e19a58ce503d3381a9c29a86be805e7ea6bf9e?expires=1628898112&signature=2feb08fa121c9fd208c0fbd4f39045136c42614bfbd16a78aadd085e342c5873
+
+=======
+
+-وحيكنا الرسالة هى موجودة باى فيو ..لو حابب تغير بشكلها اى تغير اى حاجة فيها
+-بقلى اضغط على الزر Verify Email Address ازا حابب تاكد ايميل
+
+-ضغط عالزر فعلا بعتنى ع صفحة الهوم
+http://127.0.0.1:8000/home
+
+-وطلعلى صفحة الهوم
+
+Laravel             thaer
+
+        Dashboard
+     You are logged in!
+
+-هلقيت عادى ..اعمل تسجيل خروج وارجع فوت من جديد ..راح يدخلك عالهوم خلص
+-خلى بالك اللوق ان عنا صار برقم الجوال ..لانو غيرنها ازا بتتزكر خلينا الدخول برقم الجوال والباسوورد
+
+-انا بدى اروح افعل حقل الايميل بفورم اللوقن ..كنت موقفها عامل عليها كومنت
+-لما شغلتها صارت صفحة اللوقن عندى
+ايميل ..وموبايل ..وباسورد ...ولكن هو بشيك عالموبايل خلى بالك
+
+-يعنى لو كتبت ايميل خطا والموبيايل والباسورد صح ..عادى بدخلك
+-لكن لو كتبت الموبايل خطا او الباسورد خطا ..ما راح تفوت
+
+-طيب بالنسبة للموبايل وانا بجرب ..انا مسجل الجوال بالداتا بيز 491533
+ولكن لو تحط قبل اصفار عادى بيقبله زى هيك 0491533 او زى هيك 00491533
+-قد ما تحط اصفار قدامه عادى بيعتبره صح ..لانو بهشهم الاصفار شكله
+
+-شغلة تانية برضو جربتها لحالى
+-عشان تعرف انو لارفيل لحالها بتسجل السشن ..بعد ما عملت تسجيل دخول باسم ثائر
+عالجوجل كروم ..اخد رابط الهوم تبع يوزر ثائر ورحت فتحت من متصفح الفايرفكس
+رجعنى ع صفحة اللوق ان يا معلم ..وقلى اعمل تسجي لدخول
+
+-هلقيت ضل عليا حاجة ..لما اعمل تسجيل خروج وارجع اعمل لوق ان
+-بلاقيه مدخل الى الايميل والباورد دايركت بالحقول تعتها
+ولكن الموبايل لا ..لازم انا اكتبه
+
+-جربت احط لحقل اموبايل
+required autocomplete="mobile"
+ما زبطت عشان تصير زيهم
+
+-طيب جربت الغى من حقل الايميل value="{{ old('email') }}"
+عشان ما بدى يكتبلى الايميل لحاله ..بدى تكون فاضية زى حقل الموبايل ..برضو ما زبط
+
+-مش عارف احلها ..لقدام بنلاقى الها حل
+
+-اعتقد انو الها علاقة بال value="{{ old('mobile') }}" بس انا لسا مش عارف ايش يعنى
+old لسا ما حكى عنها المهندس
+
+==================================================================================
+
+
+       #032 - laravel 6 reset password -لأارافل استعاده كلمة المرور
+
+-بدنا نتعلم كيف نعمل استعادة لكلمة المرور
+-ازا بتلاحظ بفورم اللوق ان ..لما بتدخل الايميل والجوال والباسورد
+فى جنب زر اللوق ان ..فى رابط اسمه
+Forgot Your Password?
+
+-فى حال انو انت نسيت كلمة السر تبعتك بتضغط عليه ..بيبعتك ع صفحة
+http://127.0.0.1:8000/password/reset
+
+-فيها فورم استعادة كلمة المرور
+
+Reset Password
+                E-Mail Address
+                Send Password Reset link
+
+-بتعطيه الايميل تبعك ...وبتضغط ع زر السيند باسورد الى تحتها
+-بيبعتلك رابط عالايميل تبعك وتغير منو الباسورد
+
+-نشوف كيف العملية هاى بتصير
+
+-استعادة كلمة المرور ..برض معمولة باى ديفولت من لارافيل كمان ...وبرضو بنقدر نعملها كستمايز حكينا ..لو انت حابب تعملها بايدك ..بس لارافيل معطيها النا جاهزة
+
+-لما نضغط ع رابط استعادة كلمة المرور زى ما حكينا فوق بيبعتنا ع صفحة فيها فورم
+تعطيه الايميل تعبك وتضغط عالزر الى تحتها
+http://127.0.0.1:8000/password/reset
+
+-الفورم الى بيعرضلى اياها الروات هاد الى حيكناها فوق ..موجود بالفيوز
+فولدر الاوث ..فيها 3 فيوز وعرفناهم اللوق ان والريجستر والفيرفيكشن
+فى معهم فولدر اسمه passwordw داخله فى 3 فيوز
+
+-من ضمنهم فيوز اسمها email.blade.php
+-هى هادى الفيوز الى بتطلعلى لما اعمل استعادى كلة المرور ..لو حابب تعدل عليها اى اشى
+
+-طيب هلقيت لو اعطيناها اى ايميل ...هو اول حاجة بياخد الايميل وبروح عالداتا بيز
+بشوف هل الايميل هاد موجود عنا ولا لا ..لو موجود وفيه يوزر مسجل فيه ..اوك بيقبله وبيبعتله رابط يضغط عليه ..يطلعلى فورم يعمل منها كلمة مرور جديدة
+
+-لو الايميل غير موجود عنا ..بيطلعلك ايرور فالديت ..بقلك هاد الايميل مش موجود
+
+-خلينا نروح ندخل ايميل خطا
+
+E-Mail Address    thaer@gmail.com
+We can't find a user with that email address.
+
+-بقلى انا مش ملاقى يوزر عنده هاد الايميل ..طيب خلينا ندخل الايميل الصحيح تبعنا
+
+E-Mail Address     eng.thaerellouh@gmail.com
+
+-وضغط ع الزر الى عنا Send Password Reset link
+
+-طلعلى اليرت ..بقلى انو احنا بعتنالك ايميل
+We have emailed your password reset link!
+
+Reset Password
+                We have emailed your password reset link!
+                E-Mail Address
+
+-رحنا عالميل تراب عالايميل تبعى ..فعلا بعتلى ايميل ..وعنوان الايميل ريسيت باسورد نوتيفكيش
+
+Reset Password Notification
+
+
+From:Laravel <thaerellouh@gmail.com>
+To: <eng.thaerellouh@gmail.com>
+
+-محتوى الايميل فى عنا رابط اضغط عليه
+
+======
+
+Hello!
+You are receiving this email because we received a password reset request for your account.
+
+Reset Password
+This password reset link will expire in 60 minutes.
+
+If you did not request a password reset, no further action is required.
+
+Regards,
+Laravel
+
+If you’re having trouble clicking the "Reset Password" button, copy and paste the URL below into your web browser: http://127.0.0.1:8000/password/reset/75483969da60988f38fa6e407eed9c101abc64e9e48cf80660dee54259c0f422?email=eng.thaerellouh%40gmail.com
+
+========
+
+-ضغطت عالزر الى اعطانى اياه Reset Password
+
+-بعتنى على هاد الروات
+http://127.0.0.1:8000/password/reset/75483969da60988f38fa6e407eed9c101abc64e9e48cf80660dee54259c0f422?email=eng.thaerellouh%40gmail.com
+
+-وفيه فورم فيها 3 حقول حقل الايميل ومكتوب فيه الايميل تبعى
+وحقل الباسورد ..وحقل تاكيد الباسورد كمان
+
+=============
+
+معلومة عالهامش ...المهندس لما ضغطت عالرابط الى بالايميل بعته ع روات ما فتح معو
+الروات وقلو الصفحة غير موجودة كان نفس الروات تبعى ولكن بدون ما حطلو البورت 8000 بالرابط كان زى هيك الراو عندو
+http://127.0.0.1:/password/reset/75483969da60988f38fa6e407eed9c101abc64e9e48cf80660dee54259c0f422?email=eng.thaerellouh%40gmail.com
+
+-بدون البورت ..راح كتب البورت 8000 بايدو وعادى فتحت معو ودخلو عالفورم ..وقال هاى القصة راح نعالجها لقدام انو ما بحطلى البورت لحاله ...انا زبطت معى ولحاله حطلى البورت بدون اى مشكلة
+
+=============
+
+Reset Password
+
+E-Mail Address       eng.thaerellouh@gmail.com
+Password
+Confirm Password
+
+-الفورم هاى برضو موجودة بفولدر الباسورد reset.blade.php
+
+-حطيت باسورد جديدة هلقيت من1 ل 9 ..123456789
+-بالاول كانت من1 ل 8
+
+-وضغط ع زر Reset Password
+
+-بعتنى ع صفحة الهوم وطلعلى اليرت مسج بقلى انو تم تغير الباسورد تبعك
+Dashboard
+Your password has been reset!
+You are logged in!
+
+-هلقيت اعمل تسجيل خروج ..وارجع اعمل تسجيل دخول ..راح تفوت بالباسورد الجديدة من 1 ل 9
+
+-طيب عشان نفهم الى صار ونفهم الرواتس الى كنت افوت عليها وين بتعبتنى ومن وين بتاخد
+خلينا نشوف كيف صارت ..معى انى شرحتها انا فوق
+
+- حكينا فيوز الباسورد  3 موجودة بفولدر passwords بفولدر الاوث
+-اول فورم طلعلتى  لما بنعمل استعادة الباسورد حكينا انها بعتتنى ع راوت
+http://127.0.0.1:8000/password/reset
+
+-الروات هاد بنادى على كنترولر ..والكنترولر بنادى عالفيو هادى
+email.blade.php الى حكيننا عنها
+
+-الفيو هادى فيها فورم ..فيها حقل واحد الى هو الايميل بقلك دخل الايميل وتحته زر
+
+-والفروم هادى من نوع بوست
+<form method="POST" action="{{ route('password.email') }}">
+
+-بتروح عالروات هاد action="{{ route('password.email') }}
+
+-الروات هاد شو بيعمل ..بروح بيعمل تشيك عالايميل الى كتبناه ..ازا هو موجود بالداتا بيز عنا ولا لا ازا مش موجود حكينا بطلعلنا مسج ايرور ..وازا موجود برجعلى رسالة اليرت ..بقلى انو احنا بعتنالك ايميل
+
+-بعد هيك  بعد الايميل ولما تضغط عليه بترجع لحاجة تانية بتنادى ع راوت اسمه
+http://127.0.0.1:8000/password/reset/75483969da60988f38fa6e407eed9c101abc64e9e48cf80660dee54259c0f422?email=eng.thaerellouh%40gmail.com
+
+-الى حكينا عنو برضو فوق ...وعرفنا وين الفيو تبعته الى هى اسمها reset.blade.php
+
+-طيب لو نروح عالكنترولر الى بنادى عالفيو هادى ..عشان نفهم العملية كيف بتصر 
+
+-روح عالكنترولر ..بتلاقى كنترولر اسمه ResetPasswordController.php
+برضو بفولدر الاوث بتلاقيه ...فولدر الاوث فيه 6 كنترولر 
+
+-لو نفتح كنترولر الريسيت باسورد ..مش راح تلاقى فيه احاجة ولا اى كود 
+لانو مستخدم تريت جاهز وعامل للتريت هاد يوز ..والتريت هو فيه االاكواد 
+
+-لما فتحنا الكنترولر بس هاد الى فيه 
+
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\ResetsPasswords;
+
+class ResetPasswordController extends Controller
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Password Reset Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller is responsible for handling password reset requests
+    | and uses a simple trait to include this behavior. You're free to
+    | explore this trait and override any methods you wish to tweak.
+    |
+    */
+
+    use ResetsPasswords;
+
+    /**
+     * Where to redirect users after resetting their password.
+     *
+     * @var string
+     */
+    protected $redirectTo = RouteServiceProvider::HOME;
+}
+
+
+-بقلى انو مستخدم التريت هاد 
+    use ResetsPasswords;
+
+-عرفت الطريقة كيف نفتح التريت هاد بدل ما اروح ابحث عنو زى ما كنت اعمل 
+-لا اقف عليه واضغ على ctrl وبعدين كليك شمال بالماوس بتلاقيه فتحلك ملف التريت لحاله 
+-راح تلاقى فيه كل الكود تبعنا والميثودات الى عاملها ..كيف بياخد منك الايميل والباسورد تبعك ..بعدين بيعمللهم فالديشن بعدين بيعمل الريسيت باسورد وهكذا 
+-كل الكود تبع الريسيت باسورد بتلاقيه هنا بالتريت نفسه 
+-وازا بتلاحظ اول اشى بالتريت فوق ..بقلى انو التريت هاد برجعلى الفيو الى اسمها ريسيت الى حكينا عليها 
+
+public function showResetForm(Request $request, $token = null)
+    {
+        return view('auth.passwords.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
+    }
+
+-فعلا هى الفيو  view('auth.passwords.reset')الى داخل فولدر الاوث بعدين فولدر الباسوردس بعدين فيو
+ rest.blade.php
+
+-وازا بتلاحظ هيو باعتلى مع الراوت هاد توكن كمان هو الى كان يظهرلى مع الراوت الى بجيبلى الفيو هادى الى بنحكى عنها وبعد التوكين يحطلى الايميل تبعى وفعلا زى هيك كان يطلعلى الراوت 
+
+http://127.0.0.1:8000/password/reset/75483969da60988f38fa6e407eed9c101abc64e9e48cf80660dee54259c0f422?email=eng.thaerellouh%40gmail.com
+
+-هى راوت فيو الريسيت .وبعدها توكين وبعدها الايميل تبعى 
+
+-ولو فتحنا فيو الريست الى بنحكى عنها ..راح نلاقى الفورم تبعتها من نوع بوست وبتبعتنى ع راوت اسمه password.update
+<form method="POST" action="{{ route('password.update') }}">
+
+==============
+
+معلومة عالهامش ..لو انت حابب تغير اسم المشروع الى بيظهر بالنافبار فوق ..عالشمال
+كان مكتوب Laravel وعاليمين اللوق ان والريجسير
+ولما تعمل تسجيل دخول ...بتروح اللوق ان والريجيتسر عن اليمين وبحط الك البروفايل تبعك
+اسمك ..بحطه بدوب داون ليست وفيها لينك تسجيل الخروج ..وعالشمال بضل اسم المشروع لارافيل
+الى هو بالبراند
+
+-لو حبينا نغيره الاسم ..بنروح ع ملف .env بنلاقيه اول اشى فوق
+
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=base64:cl6wCnD9gf5sKawSm/6nOX4mZG1qtNYkQ83dNR7vyus=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+-هيو عاملى اسم المشروع APP_NAME=Laravel
+
+-انا بدى اسميه Marketing مسلا
+APP_NAME=Marketing
+APP_ENV=local
+APP_KEY=base64:cl6wCnD9gf5sKawSm/6nOX4mZG1qtNYkQ83dNR7vyus=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+-لو تروح تعمل تحديث للموثع راح تلاقيها لسا لارفيل ..لانو حكينا اى تغير بملف .env
+لازم نروح نعمل الامر composer dump-autoload
+عشان يشوف التعديلات الى انت عملتها
+
+-عملت الامر وزبط معى
+-صار اسم المشروع عنا بالنافبار فوق بالبراند اسمه Marketing
+
+==============
+
+
+=============================================================================
+
+   #033 - create githube remote repository and upload source code project
+
+-بدنا نبدا نرفع شغلنا على القيت هب ..وبدى اعمل كلون للمشروع تبع المهندس 
+
+-اول خطوة بدنا ننشئ ريبوزترى 
+-بنعمل new وبنكتب اسم الريبو تبعنا سميتع LaravelCourse وخليته ببليك 
+بعدين بتقلو create repository
+
+-انشانا الريبو هيك ...اول تنشا الريبو بيعطينا خطوات نمشى عليها 
+بدنا نطيقها واحدة واحدة 
+
+…or create a new repository on the command line
+echo "# LaravelCourse" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/ThaerEllouh/LaravelCourse.git
+git push -u origin main
+
+
+…or push an existing repository from the command line
+git remote add origin https://github.com/ThaerEllouh/LaravelCourse.git
+git branch -M main
+git push -u origin main
+
+-هادى الاوامر عشان اخليه يربط ما بين اللوكل ريبو عندى عالجهاز وما بين الريموت ريبو عالموقع ..عشان الفريق الى معى يشتغل معى ع نفس الشغل 
+
+-اول امر عنا 
+git init
+
+-بدنا نروح ع المشروع تبعنا جوا htdocs -> Laravel_Course
+-نقف داخله ...ونشغل القيت الى نزلنها عالجاهز هيك انا بكون داخل المشروع 
+واعطيه الامر 
+-بيعملى فولدر .git  فاضى ...لسا ما حطيت فيه ملفات السورس كود تبعت مشروعى 
+عشان ارفعها عالقيت هب 
+
+
+hs@DESKTOP-7ULSH1U MINGW64 /c/xampp/htdocs/Laravel_Course
+$ git init
+Initialized empty Git repository in C:/xampp/htdocs/Laravel_Course/.git/
+
+-انشانا املف ..وبكون مخفى ..فيه 4 فولدرات و3 ملفات بكون 
+
+-طيب احنا لسا ما حطينا فيه ملفاتنا عشان نرفعهم عالريموت ريبو 
+-طيب هو احنا كيف بنربطهم ببعض كيف بكون اللوكل عندى مربوط بالريموت 
+
+-داخل ملف القيت الى انشاته ..فى ملف اسمه confg افتحته بالمحرر عشان 
+نفهم كيف العملة بتم 
+
+-ملف الكونفيق بس هى الى مكتوب فيه هلقيت 
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+
+-عشان نفهم كيف بتم الربط ..مش مجرد نعرف الامر وخلص 
+
+-هلقيت الامر التانى 
+-بدنا نضيف كل ملفات المشروع الى عنا داخل فولدر .git الجديد عن طريق الامر التانى git add .
+
+-حكتله نقطة يعنى ضيف كل حاجة ...ما عدا الى بملف .gitignore خلى بالك 
