@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Eng.Thaer Ellouh
+                    Eng.Thaer Y. Ellouh
                     <p>{{ __('messages.hello admin')}}</p>
                     <p>{{ __('messages.hello user')}}</p>
                 </div>
