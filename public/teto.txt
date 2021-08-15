@@ -4240,5 +4240,87 @@ public function username()
 
 -هيك بتفوت يا بالاسم ..يا بالايميل
 
+-اخر حاجة ..عشان انا اشتغل ب 4 ملفات ..بدى ارفع تعديلاتى عالقيت ..عشان عالمحرر ما يضل لونه اصفر
+
+-اول خطوة عملتها اشوف الحالة ..بعدين اد ..بعدين كوميت ..بعدين بوش
+
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   app/Http/Controllers/Auth/LoginController.php
+        modified:   app/User.php
+        modified:   public/teto.txt
+        modified:   resources/views/auth/login.blade.php
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ git add *
+warning: LF will be replaced by CRLF in app/Http/Controllers/Auth/LoginController.php.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in app/User.php.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in public/teto.txt.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in resources/views/auth/login.blade.php.
+The file will have its original line endings in your working directory
+
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ git commit -m="how to login by email or mobil"
+[master 34d9056] =how to login by email or mobil
+ 4 files changed, 360 insertions(+), 65 deletions(-)
+
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ git push origin master
+Enumerating objects: 27, done.
+Counting objects: 100% (27/27), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (14/14), 6.76 KiB | 692.00 KiB/s, done.
+Total 14 (delta 12), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (12/12), completed with 12 local objects.
+To https://github.com/ThaerEllouh/LaravelCourse.git
+   2095d59..34d9056  master -> master
+
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ
 
 =================================================================================
+
+              #038 - download all source code from GitHub
+
+-بيشرح كيف ناخد التعديلات الجديدة عن القيت ..لو عمل تعديل عالمشروع ولا ضاف كود ولا ضاف ملف ..كيف بدك تسحبه ..عن طريق امرpull
+
+-انا اخدت كلون من مشروعى ونزلته من جديد ..اسم المشروع عندى عالجهاز
+Laravel_Course اما لما رفعته عالقيت سميت الريبو LaravelCourse
+
+-انا اخدت منو كلون ونزل عادى معى لانو الاسم مش نفسه ..ف نزل عادى
+-هلقيت المشروع الى اسمه LaravelCourse هو الى انا سحبته
+
+-طيب عشان يشتغل معى صح حكينا عنا 3 خوات
+
+-عملت الامر composer i
+عشان انزل الفيندور
+C:\xampp\htdocs\LaravelCourse (master -> origin)
+λ composer i
+
+-بعدين عملت الامر npm i && npm run dev
+عشان ينزلى ملف النود جى اس وبتفعل معى npm عارفين الاوامر هادى ليش طبعا
+C:\xampp\htdocs\LaravelCourse (master -> origin)
+λ npm i && npm run dev
+
+-بعدين  عملت ملف الفيندور ...انا اخدو نسخ من مشروع القديم وحطيته بهاد الى نزلته
+واشتغل معى تمام التمام
+
+-هلقيت انا قاعد بكتب بالملف ها صح ..يعنى صار تعديلات هان
+
+-لو تروح عالمشروع الجديدة وتفتح الملف هاد مش راح تلاقى فيه الكلام الجديد هاد الى انا حاليا بكتب فيه
+
+-لازم انا اروح اعملو بوووش عالريبو ...وبعدين بالمشروع التانى الى نزلته
+اعمل بووول من الريبو عشان ينزلو عندى التعديلات
+
