@@ -4709,9 +4709,354 @@ Running scheduled command: "C:\xampp\php\php.exe" "artisan" user:expire > "NUL" 
 
     #041 - How To send daily Emails using Laravel task Sheduler - ارسال بريد الكتروني
 
--
+- بدنا ناخد مثال تانى عليها ...مسلا عنا نظام طلاب ..بدنا نبعتلهم ايميل كل يوم م
+مسلا بدى اقللهم بالايميل ..شو الدرس تبع بكرا
+
+-بدى ابعتلهم ايميل اوتوماتيك كل يوم ...يقللهم درس بكرا شو عنوانه
+
+-يعنى الدرس هاد عبارة عن شغلتين ..كيف نعمل تاسك سكيديولر زى الدرس الى فاد
+وكيف نعمل ايميل ونبعته برضو
+
+-اول خطوة بدنا نعملها ..زى ما عملنا المرة الى فاتت بدنا ننفذ الامر الى بيعمللها الكلاس ...بدنا نسميه الكلاس تبعنا مسلا Notify يعنى اشعار او اخطار اشعار بايميل مسلا ..سميه اى اسم انت يعبر عن التاسك تبعتك الى بدك تعمله عشان تنفذها بوقت معين
+
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ php artisan make:command Notify
+Console command created successfully.
+
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+
+-هلقيت روح ع فولدر الكنسول ..راح تلاقى ملف Notify الى عملناه
+
+-اول حاجة عنا هلقيت حكينا بدنا نسميه
+    protected $signature = 'notify:email';
+
+-يعنى انا بدى ابعت ايميل تزكيرى للطلاب ..او اى حاجة يعنى
+
+-الوصف
+    protected $description = 'Send Email Notify For All Users Every Days';
+
+-هلقيت ضل علينا نكتب الكود ..كيف نجيب الايملات بتعنا من الداتا بيز
+-وكيف نبعتلهم ايميل
+
+        $users = User::select('email')->get();
+-انا هيك عملت سيليكت عالاميلات تبعت اليوز كلهم ..واعمل قيت الهم كلهم ..يعنى جبتهم عندى
+
+-طيب عنا طريقة تانية ...ممكن انا اجيب الايميلات كلها واحطها باريه
+والكلام هاد كلو راح نفهمه قدام
+
+-يعنى ممكن نعملها بمنظر تانى زى هيك
+        $emails = User::pluck('email')->toArray();
+
+-البلك هادى بتحولى الايملات كلها بتحطها باريه ...وكل الكلام هاد راح نفهمه قدام
+
+-هلقيت بدنا نعمل لووب على الايملات هادى ...عشان نعطيه الكود الى يبعتلهم ايميل
+-الكود راح نخليه للدرس الجاى كود كيف نبعت الايميل
+-كيف كيف نبعت ايميل معين لليوزر ..جزء بعيد عن التاسك سكيديولر
+-نقله بالايميل مسلا مرحبا غدا عندك محاضرة بعنوان كزا ولا ذلك
+
+public function handle()
+    {
+        //$users = User::select('email')->get();
+        $emails = User::pluck('email')->toArray();
+        foreach($emails as $email){
+            //How To Send Email In Laravel
+        }
+    }
 
 
+-هلقيت ضل علينا خطوة الكيرنال نعملها ..نعطيه الاسم ..ونقله ينفذها بشكل يومى ..ديلى ..يعنى يومى
+
+protected function schedule(Schedule $schedule)
+    {
+        // $schedule->command('inspire')->hourly();
+        $schedule->command('user:expire')->everyMinute();
+        $schedule->command('notify:email')->daily();
+    }
+
+-وهيك ضل علينا كيف نبعت الايميل بالمحتوى تبعه
+-لازم يكون عنا الميل تراب وعاملين الو ربط بملف .env واحنا فاهمين الكلام هادى وعملناه من قبل
+
+=================================================================================
+
+    #042 - How To send daily Emails using Laravel task Sheduler part2
+
+-الدرس الى فات عملنا ايفينت او تاسك سكيديولر وجبنا كل الايملات تبعت اليوزر الى متخزنين عنا بالداتا بيز ...هلقيت بدنا نعرف كيف نبعت اييميل بلارافيل لكل اليوزر هدول ونخلى الايفنت هاد الى عملناه هو الى ينادى على الايميل
+
+-اول خطوة لازم نعملها ...انو نكتب الامر الى بيعمل عنا ايميل
+
+php artisan make:mail NotifyEmail
+
+-خلينا ننفذ الامر
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ php artisan make:mail NotifyEmail
+Mail created successfully
+
+-هاد الامر عمل النا فولدر جديد داخل فولد app اسمه Mails وداخل فولدر الميل هاد
+عمل النا فايل اسمه NotifyEmail.php
+
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+
+class NotifyEmail extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->view('view.name');
+    }
+}
+
+-هاد الى انا بكتب فيه الكود تبعى ..بنادى عالفيو تبعتى الى بعمل فيها محتوى الايميل
+
+-انا عشان ابعت ايميل ..لازم يكون عندى كنترولر والفيو تبعها
+-هو هاد يعتبر الكنترولر تبعى اعتقد
+
+-هلقيت خلينا نروح نعمل فيو للاييميل ..بس عشان نرتب شغلنا ونرتب البنية تعتنا
+-بدى اعمل فولدر بالفيو ..اسمه Email اخليه للايميلات لانو انا ممكن
+ابعت اكتر من ايميل ..مسلا ايميل للمشرف ايميل للطلاب ايميل للادارة وزى هيك
+
+-رحت ع فولدر الفيوز ..وعلت فولدر اسمه emails وداخله فيو اسمه emailuser.blade.php
+-اخدت محتوى صفحة الويلكم وحطيته فيه ..بس عشان اجرب عليه يعنى ...انت طبعا بكتبلى شكل ايميل فيها لما تشتغل صح
+-هى محتوى الفيو
+
+<div class="content">
+    <div class="title m-b-md">
+        <h1>Programing</h1>
+    </div>
+
+    <p>PHP</p>
+</div>
+
+-انو مسلا درس بكرة عنوانه برمجة ..وراح ناخد درس بى اتش بى مسلا يعنى ...هاد هيك هو شكل الايميل الى راح نبعته ع  ايميلات الطلاب يعنى
+
+-طيب عملنا الفيو ..كيف بدنا ننادى عليها داخل كلاس NotifyEmail الى عملناه توى
+
+public function build()
+    {
+        return $this->view('emails.mailuser');
+    }
 
 
+-هلقيت احنا عملنا الايميل والفيو تبعه ...نرجع هلقيت لل ايفينت الى عملناها الى وقفنا عندها الدرس الى فات
+-هلقيت احنا بدنا ننادى على الايميل الى عملناه ..عن طريق الايفينت هادى ..عشان نبعته لكل اليوزر الى عنا او الطلاب
 
+-الايفنت كانت هيك لسا ما كتبنا فيها اشى لما عملنا اللوب على ايملات الطلاب
+public function handle()
+    {
+        //$users = User::select('email')->get();
+        $emails = User::pluck('email')->toArray();
+        foreach($emails as $email){
+            //How To Send Email In Laravel
+        }
+    }
+
+-هلقيت بدنا نقله نادى على الايميل الى عملناه عشان نبعته بشكل يومى زى ما قلنا
+
+-ايش الميثود الى انا ببعت فيها الايميل بلارافيل اسمها
+Mail::To() وخلى بالك لما بنادى عليها لازم تعمل تستدعى الكلاس تبعها فوق
+
+-وبدنا نمرر فيها الايملات تبعتنا الى جبناها
+Mail::To($email)
+
+-طيب هلقيت بدنا نبعت الايميل هاد ..الى الكلاس تبعه ايش اسمه الى عملناه NotifyEmail بدنا ننادى عليه بالميثود الى اسمه send()
+Mail::To($email)->send()
+
+-طيب بدنا نعمل سيند لشو ...بدنا ناخد اوبجيكت من كلاس الايميل الى عملناه
+-ايش يعنى بدنا ناخد منو اوبجيكت ..عشان استفاد من كل البيانات الى فيه ..اخدت منو اوبجيكت فاهم انت ايش يعنى ..يعنى اخدت الكلاس بالميثودات تيعته بالخصائص بكل اشى
+
+Mail::To($email)->send(new NotifyEmail())
+
+-احنا هيك اخدنا انستانس منو ..يعنى اخدنا اوبجيكت منو
+
+-طيب لو انا بدى اباصى ..امرر بيانات من هنا عشان اعرضها هناك
+
+-مسلا انا بدى امرر اريه ..فيها عنوان الايميل والمحتوى تبعه ..بدل ما ان كتبتهم بايدى بالفيو ...كتبتله Programming والبادى كتبتله php
+
+-مسلا انا بدى اخليهم اوتوماتيك ..ما بدى اكتبهم بايدى ..عادى بمررهم من هان
+
+$data = ['title'=>'Programing', 'body'=>'php']
+
+-طيب انا هلقيت عملتها بمتغير اسمه داتا
+-انا بدى اباصى الداتا هادى للفيو ...مش راح ينفع اباصيها من الايفنت للفيو بشكل مباشر
+
+-لا انا من الايفنت بباصى للايميل ..وبعد هيك الايميل بباصى للفيو
+
+-طيب ..انا اخدت من الكلاس ..اوبجكيت عنا ..انا بدى اباصى بالاوبجيكت مباشرة ..يعنى بباصى بالكنستراكت ..مفهومة
+
+Mail::To($email)->send(new NotifyEmail($data))
+
+-صارت عنا هيك
+public function handle()
+    {
+        //$users = User::select('email')->get();
+        $emails = User::pluck('email')->toArray();
+        $data = ['title' => 'Programing', 'body' => 'php'];
+        foreach($emails as $email){
+
+            //How To Send Email In Laravel
+
+            Mail::To($email)->send(new NotifyEmail($data));
+
+        }
+    }
+
+-طيب انا هلقيت باصيتها ...كيف بدى استقبلها بكلاس الايميل
+-بستقبلها بالكنستراكت
+-كان هيك
+public function __construct()
+    {
+        //
+    }
+
+-بدو يصير هيك
+public function __construct($data)
+    {
+        //
+    }
+
+-خلى بالك انا بشتغل هلقيت بكلاس الايميل NotifyEmail
+
+-طيب مررنا الداتا بالميثود الكونستراكت ..كيف بدى امررها للفيو هلقيت
+
+-بدنا نروح نحطها بمتغير ..بدى اروح اعمل بروبيرتى اسمها مسلا $details
+-واقله انو الديتيلز هادى ...بتساوى الداتا الى عندى
+
+public $details = ''; //array ['title' => 'Programing', 'body' => 'php']
+
+public function __construct($data)
+    {
+        $this->details  = $data;
+    }
+
+-يعنى الديتيلز هادى ...بدى تساويها بالداتا الى جاية الى من برا ..جاية الى من وين
+جاية الى من الايفنت النوتيفاى الى انا باصيتها
+
+-وخلى بالك الديتيلز هادى ..عبارة عن اريه صارت هلقيت ...لانو الداتا الى انا باصيتها عبارة عن اريه اسوسيتف ..كى وفاليو
+
+-طيب هلقيت كيف بدنا نباصى الديتيلز هادى للفيو ...احنا عارفين الطرق كيف الى بنباصى فيها للفيو ..اما عن طريق with() او عن طريق compact() او او او
+
+public function build()
+    {
+        return $this->view('emails.mailuser', compact('details'));
+    }
+
+
+-هلقيت بدنا نروح على الفيو ..ونخليها بدل ستاتيك نخليها اوتوماتيك من الحاجات الى انا راح استقبلها
+
+-يعنى بدل ما كانت هيك
+<div class="content">
+    <div class="title m-b-md">
+        <h1>Programing</h1>
+    </div>
+
+    <p>PHP</p>
+</div>
+
+-بدها تصير هيك
+<div class="content">
+    <div class="title m-b-md">
+        <h1> {{ $details['title'] }} </h1>
+    </div>
+
+    <p> {{ $details['body'] }} </p>
+</div>
+
+-انا هيك خلصت ..عرفنا كيف نعمل الايفينت وكيف نمرر فيها بيانات ..وكيف نمرر البيانات للايميل ..وكيف الايميل يمررهم للفيو
+-طيب هل ينفع انادى على الايميل من راوت ..بدل ما انادى عليه من ايفينت لسنر زى ما عملنا
+-اه عادى بناخد الكود كله الى كتبناه بميثود الهاندل ..وبنكتبه براوت برا ..او بكنترولر لو انت مش عايز تنادى عليه بايفنت ليزر ويبعتلك اياه كل 24 ساعة  ...يعنى انت تبعته بايدك
+
+-طيب نيجى نجرب شغلنا هللقيت ...احنا طبعا عاملين شغل الميل تراب وربطناه ..
+بنجرب عالميل تراب ..لانو احنا ما عنا سى بانيل نبعت منها ايميلات للناس
+
+-احنا استخدمنا الميل تراب ..وحطينا فيه ايميلى القديم عشان نبعت منو
+
+-هلقيت بدنا نعمل رن ..للامر تبع السكيديوال الى عنا ...وحيكنا لو انا عندى اكتر من سكيديولر ...هيو بيعنل رن لكل السكيديوال الى عنا
+ php artisan schedule:run
+
+-خلينا ننفذ الامر
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ  php artisan schedule:run
+Running scheduled command: "C:\xampp\php\php.exe" "artisan" user:expire > "NUL" 2>&1
+
+-ازا بتلاحظ هو هان عملى رن للسكيديوال هاد بس  user:expire الى هو القديم
+-ما عملى رن للجديد الى ان شغال عليه...يبقى فى عنا اشى غلط
+
+-بعد معاناة طويلة اكتشفت انو الامر ما بيشتغل الا على everyMinute();
+مش راضى يقبل ولا واحدة غيرها
+
+-صار عندى الكيرنال هيك
+protected function schedule(Schedule $schedule)
+    {
+        // $schedule->command('inspire')->hourly();
+        $schedule->command('user:expire')->everyMinute();
+        $schedule->command('notify:email')->everyMinute();
+    }
+
+-لما نفذت الامر زبط عمل رن عالاتنين
+
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ  php artisan schedule:run
+Running scheduled command: "C:\xampp\php\php.exe" "artisan" user:expire > "NUL" 2>&1
+Running scheduled command: "C:\xampp\php\php.exe" "artisan" notify:email > "NUL" 2>&1
+
+-واكتشفت كمان انو عادى ممكن ما اكتب اسم الكلاس
+protected $commands = [
+        // Expiration::class,
+        // Notify::class,
+    ];
+
+-وقفتهم واشتغل معى عادى الامر ...وكان تصلنى ايميلات
+
+-اكتشفت كمان انو الامر بيشتغل معى لما اعمل الكيرنال ع دقيقتين برضو
+protected function schedule(Schedule $schedule)
+    {
+        // $schedule->command('inspire')->hourly();
+        $schedule->command('user:expire')->everyTwoMinutes();
+        $schedule->command('notify:email')->everyTwoMinutes();
+    }
+
+-برضو خليت الاول دقيقة ولاتانى دقيقتين اشتغل
+protected function schedule(Schedule $schedule)
+    {
+        // $schedule->command('inspire')->hourly();
+        $schedule->command('user:expire')->everyMinute();
+        $schedule->command('notify:email')->everyTwoMinutes();
+    }
+
+-اشتغل ع 5 دقايق برضو
+protected function schedule(Schedule $schedule)
+    {
+        // $schedule->command('inspire')->hourly();
+        $schedule->command('user:expire')->everyFiveMinutes();
+        $schedule->command('notify:email')->everyFiveMinutes();
+    }
+
+-بس لل5 دقايق بشغلى ...جربت ال10 دقايق وفووق ما زبط
+-بقلى هيك
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ php artisan schedule:run
+No scheduled commands are ready to run.
+
+================================================================================

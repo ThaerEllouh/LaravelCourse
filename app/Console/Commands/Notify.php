@@ -2,24 +2,26 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\NotifyEmail;
 use App\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
-class Expiration extends Command
+class Notify extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'user:expire';
+    protected $signature = 'notify:email';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Expire Useres Every 5 Minutes automatically';
+    protected $description = 'Send Email Notify For All Users Every Days';
 
     /**
      * Create a new command instance.
@@ -38,11 +40,15 @@ class Expiration extends Command
      */
     public function handle()
     {
-        // return 0;
-        $users = User::where('expire', 0)->get();
-        foreach($users as $user){
-            $user->update(['expire' => 1]);
-        }
+        //$users = User::select('email')->get();
+        $emails = User::pluck('email')->toArray();
+        $data = ['title' => 'Programing', 'body' => 'php'];
+        foreach($emails as $email){
 
+            //How To Send Email In Laravel
+
+            Mail::To($email)->send(new NotifyEmail($data));
+
+        }
     }
 }
