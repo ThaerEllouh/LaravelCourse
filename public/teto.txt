@@ -6483,4 +6483,422 @@ confg -> app داخل ملف الاب ..عنا اللغة غيرها خليها 
 
 =================================================================================
 
- 
+   #052 - Laravel How to make Multi Language site using (mcamara Package)
+
+-بدنا نحول لغة الموقع عن طريق باكيج مشهورة اسمه mcamara
+
+-هاى الباكيج مشهورة جدا بنسبة 90 بالمية من الناس بيستخدموها عشان يعملو موقعهم متعدد اللغات 
+-هى رابطها من القيت هاب ..بنفوت عليه عشان نعرف كيف نحملها ونستخدمها ناخد منو شوية اوامر عشان نعرف نتعامل معها 
+-طبعا احنا بنعمل الكلام هاد كلو مرة ..بعد هيك بتصير تاخدها لمشاريعك نسخ لصق ..يعنى بتعملهم بمشروع واحد بعدين بتصير تاخد نسخ لصق الامور المتعلقة فيها 
+
+-نروح نعمل سيت اب للباكيج ..لو تفوت عالرابط معطينا الامر الى بخلينا ننزل الباكيج 
+
+Installation
+Install the package via composer: composer require mcamara/laravel-localization
+
+-يبقى راح نستخم هاد الامر عشان ننزلها 
+
+-نعمل الامر ...هيها قاعدة بتنزل معى 
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ composer require mcamara/laravel-localization
+Using version ^1.6 for mcamara/laravel-localization
+./composer.json has been updated
+Running composer update mcamara/laravel-localization
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 1 install, 0 updates, 0 removals
+  - Locking mcamara/laravel-localization (1.6.1)
+
+-بعد ما يخلص الامر وينزلها ...وين بنلاقيها ..طبعا حكينا اى باكيج بتنزل بنلاقيها بالفيندور 
+
+-لو تروح ع ملف الفيندور راح تلاقيها بفولدر اسمه mcamara
+
+-ايش الخطوة التانية بالانستوليشن 
+Config Files
+In order to edit the default configuration you may execute:
+
+php artisan vendor:publish --provider="Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider"
+
+-الى هى الفيندور ببلش ...ايش يعنى فيندور ببلش 
+-يعنى هى الباكيج هادى مسلا عايزة اعدادات معينة ...انت مسلا بدك تتيح لغات معينة عندك بالموقع ..مسلا بدك الانجليزى والعربى والفرنسى مسلا 
+
+-ف انت لازم تفوت وتعلم عليهم ..عشان تتيحهم عندك بالموقع ..طيب من وين بنفوت بنعلم عليهم ...عندك بالباكيج ملف اسمه الكونفيق ..موجود فى كل لغات الدنيا 
+لو تفوت عليه بتلاقيه معلم عاللغة الانجليزى والاسبانى ..عند المهندس ع فكرة معلم الانجليزى والفرنسى ..ما علينا 
+
+-عشان نفوت عالملف هاد من 
+vendor\mcamara\laravel-localization\src\config\config.php
+
+-بتفوت ع ملف الكنفيق بالباكيج وبتعلم عاللغة الى بدك اياها وبتوقف الى ما بدك اياها 
+
+-طيب هل ينفع انا افوت ع ملف الكونفيق هاد الى بالفيندور واعدل فيه ...لا غلط طبعا احنا حكينا ملفات الفيندور ما بنقرب عليها 
+
+-طيب انا عشان اقدر اعدل بالملف هاد 
+-اعطانى الامر التانى الى حيكنا عليها الفيندور ببلش ..لما اعمل الامر هاد 
+بلاقيها حطلى ملف الكنفيق تبع باكيج كامرا فوق برا الفيندور ..يعنى عمل الو ببلش لبرا الفيندور عشان انا اقدر استعمله 
+
+-وين بحطه ..بحطلى اياها بفولدر الكنفيق تبعنا الى فوق بالاب 
+app -> confg بلاقيه هان بملف الكنفيق باسمه 
+
+-هى الامر تبعنا 
+php artisan vendor:publish --provider="Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider"
+
+-نروح ننفذه 
+
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ php artisan vendor:publish --provider="Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider"
+Copied File [\vendor\mcamara\laravel-localization\src\config\config.php] To [\config\laravellocalization.php]
+Publishing complete.
+
+-قلى عملتلك كوبى للفايل الى اسمه كزا كزا ..تو ...
+To [\config\laravellocalization.php]
+
+-هلقيت روح ع فولدر الكنفيق تبعنا راح تلاقيه ملف اسمه لارفايل لوكالايزيشن 
+هو هاد ملف اللغات ...بنعدل منو اللغة الى بدنا اياها 
+
+-الملف هاد عبارة عن اريه باللغات ..اريه فيها كل اللغات 
+-هو باى ديفولت مفعل عندى الانجلزيى والاسبانى 
+-انا بدى اوقف الاسبانى ...وابحث عن العربية ..افعل الانجليزية والعربية 
+
+//'ar'  => ['name' => 'Arabic',    'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
+
+-رفعت عنها الكومنت ..شغلتها ...والاسبانى عملتلها كومنت خلص 
+
+-وهيك صار الانجليزى والعربى متاحين عندى 
+
+-طيب الباكيج هادى ايش فايديتها ..عشان نخلى الموقع تبعنا يشتغل ع لغتين عربى وانجليزى 
+
+-يعنى لما نشتغل فيها راح تصير تلاحط انو الراوت عنا فوق بدل ما كان هيك 
+http://localhost:8000/offers/create
+
+-بدو يصير 
+http://localhost:8000/en/offers/create
+
+-لو كنت انجليزى ..بتضيفلى اللغة قبل الراوت يعنى 
+
+-ولو كنت عربى راح تلاقى الراوت هيك 
+http://localhost:8000/ar/offers/create
+
+-هى وطيفتها 
+
+-يعنى الباكيج هادى ...بتعمل ميدل وير ..عشان تطبقها عالرواتات الى انت عايز تكون بلغتين ....ولو راوتات مش عايز يكون الها الكلام هادى عادى ما تحطها ..وراح نعرف كيف نحط الميدل وير الخاص بالباكيج هادى عالروات 
+
+-ولو انت بدك تطبق الميدل وير ع كل رواتات الموقع ..يعنى عالموقع كله ..خلص بتحطها بملف الويب اول اشى خالص ..وبعد هيك بتحط رواتاتك تحتها عشان تطبف عليهم ميدل وير اللغات 
+
+-الميدل وير حكينا انو هو شرط ..لو تحقق راح تطبقه ع الرواتات ..لو ما تحقق خلص مش راح تطبقه ...شرحناه كتير قبل هيك وفاهمينه 
+
+-فكرة الميدل وير هادى تبعت الباكيج ..انها بتضيف الى ar او en  او اى لغات انت فعلتها ...بتضيفلى اياهم قبل الرواتات من غير ما انت تضيفها 
+
+-طيب احنا عشان نضيف قبل كل راوت اى حاجة ...ايش لازم نعمل ...لازم نعمل بريفكس حكينا ...الى هى الكلمة البادئة للراوتات 
+
+-طيب كيف بدنا نضيفها عالرواتا تبعتنا 
+
+-انا حاليا بدى اشتغل بس عالرواتا تبعت الاوفر ..العروض الى عنا ...بدى اطبق ع الرواتت تعينها انو تكون صفحاتها لغتين 
+
+-بدنا نروح ع ملف الويب تاع الرواتس 
+
+-كانت زى هيك الرواتات 
+
+
+Route::group(['prefix' => 'offers'], function() {
+    //الدرس 46
+    //Route::get('store', 'CrudController@store');
+
+    //الدرس47
+    Route::get('create', 'CrudController@create');
+    Route::post('store', 'CrudController@store')->name('offers.store');
+
+});
+
+-طيب انا بدى اطبق ع راوتات القروب هادى ..بريفكس ينحط قبلهم كمان الى هو بريفكس اللغة 
+
+-يعنى الى فوق كان الروات هيك    offers/create      offers/store
+-بدنا نخليه                      en/offers/create   en/offers/store
+-او عربى                          ar/offers/create   ar/offers/store
+
+-واللغة طبعا تنحط اوتوماتيك منو ..بناءا انا شو مختار لغة موقعى ..يعنى لو انا ضغطت عاللغة العربى يحطلى البريفكس عربى ...لو انا ضغطت عاللغة الانجليزى ..يحطلى البرفكس انجليزى 
+
+-يعنى بدها تصير هيك 
+Route::group(['prefix' => 'ar'], function() {
+    
+    Route::group(['prefix' => 'offers'], function() {
+        //الدرس 46
+        //Route::get('store', 'CrudController@store');
+    
+        //الدرس47
+        Route::get('create', 'CrudController@create');
+        Route::post('store', 'CrudController@store')->name('offers.store');
+    
+    });
+
+});
+
+-طيب انا هيك كاتبها بايدى شو الفايدة ..ممكن اكتبها ar او en 
+
+-طيب كيف بدنا نخليها اوتوماتيك ...لو ترجع للرابط تبع الباكيج شارحلنا كيف نعملها اوتوماتيك 
+
+-معطينا ميثود ...هى الى بتجيب النا الكرنت لانجويج الى انت فيها ..لو انت بالعربى بتجيبلى العربى لو انت بالانجليزى بتجيبلى الانجليزى 
+LaravelLocalization::setLocale()
+
+-هيها 
+
+=============
+
+Add the following to your routes file:
+
+// routes/web.php
+
+Route::group(['prefix' => LaravelLocalization::setLocale()], function()
+{
+	/** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
+	Route::get('/', function()
+	{
+		return View::make('hello');
+	});
+
+	Route::get('test',function(){
+		return View::make('test');
+	});
+});
+
+====================
+
+-يبقى راح نمسح كلمة ar الى كتبناها يدوى عنا ونحط بدلها هاى الدالة الى اعطانى اياها الى بتجيبلى الكرنت لانجويج مباشرة 
+
+Route::group(['prefix' => LaravelLocalization::setLocale()], function() {
+    
+    Route::group(['prefix' => 'offers'], function() {
+        //الدرس 46
+        //Route::get('store', 'CrudController@store');
+    
+        //الدرس47
+        Route::get('create', 'CrudController@create');
+        Route::post('store', 'CrudController@store')->name('offers.store');
+    
+    });
+
+});
+
+-اول ما كتبتها ..علم الى تحتها خطا احمر .. تحت اسم الكلاس LaravelLocalization ..فى خطا ..انو مش شايفه ...يبقى لازم نعمللها ايمبورت فوق 
+
+-حكينا انو موجود بملف الكونفيق 
+
+
+
+-طيب اخر خطوة بالانستوليشن ...بدنا نحط الميدل وير تبعت الباكيج هادى 
+-الى بتحطلى الميدل وير عالرواتات الى فوق الى عملناها بالبريفكس اللغات 
+-يعنى مسلا لو انا شلت من الروات كلمة en مسلا ورجعت عملت ريلود للصفحة راح يرجع يحطلى en غصب عنك خلص لانو حطينا ميدل وير 
+
+-طيب من وين بنجيب الميدل وير ..برضو موجود برابط القيت هاب الى بناخد منو تاع الباكيج 
+
+================
+
+Register Middleware
+You may register the package middleware in the app/Http/Kernel.php file:
+
+<?php namespace App\Http;
+
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
+
+class Kernel extends HttpKernel {
+    /**
+    * The application's route middleware.
+    *
+    * @var array
+    */
+    protected $routeMiddleware = [
+        /**** OTHER MIDDLEWARE ****/
+        'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
+        'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+        'localeSessionRedirect'   => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+        'localeCookieRedirect'    => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
+        'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class
+    ];
+}
+
+========================
+
+-يبقى هدول ال5 ..راح ناخدهم ونحطهم بملف الميدل وير تبعنا 
+'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
+'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+'localeSessionRedirect'   => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+'localeCookieRedirect'    => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
+'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class
+
+-طيب وين ملف الميدل وير ..هو اصلا شارح النا فوق برضو يعنى لو مشعارف 
+-كاتبلك بتروح عالملف هاد 
+ou may register the package middleware in the app/Http/Kernel.php file:
+
+-ملف الكيرنل 
+-بعدين بتحطهم بالميثود هادى الى بالملف 
+protected $routeMiddleware = [
+
+-طيب نروح ع ملف الكيرنال ونضيفهم عنا 
+-هى المييثود الى عنا كان فيها هدول الميدل وير 
+
+protected $routeMiddleware = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+    ];
+
+-خلينا نضيف عليهم ال 5 الجداد تعين باكيج اللغات 
+-صارت زى هيك 
+protected $routeMiddleware = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
+        'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+        'localeSessionRedirect'   => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+        'localeCookieRedirect'    => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
+        'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class
+    
+    ];
+
+-طيب احنا هلقيت بدنا نروح نحط الميدل وير هاد عالراوت تبعتنا ...قلنا الروات ازا بدنا اياه يكون عليه مبدل وير ..لازم نحطله الميدل وير 
+
+-نرجع لملف الويب ونحط الميدل وير عليهم ...الى بنشتغل عليهم قاعدين 
+
+-الميدل وير الى بدنا نحطه برضو راح نلاقيه بالموقع 
+
+============
+
+You may add middleware to your group like this:
+
+Route::group(
+[
+	'prefix' => LaravelLocalization::setLocale(),
+	'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+], function(){ //...
+});
+
+=====================
+
+-راح ناخد الميدل وير هاد الى اعطانى اياه واروح احطه عالرواتات تعينا 
+
+-صارو هيك 
+
+
+Route::group(['prefix' => laravellocalization::setLocale(), 'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function() {
+    
+    Route::group(['prefix' => 'offers'], function() {
+        //الدرس 46
+        //Route::get('store', 'CrudController@store');
+    
+        //الدرس47
+        Route::get('create', 'CrudController@create');
+        Route::post('store', 'CrudController@store')->name('offers.store');
+    
+    });
+
+});
+
+-طيب هل ممكن نشيل الميدل وير منها .....عادى طبعا 
+بس لما تيجى تشيل منها ar او en من فوق مش راح تعملك ريدايركت عليه لما تعمل ريلود للصفحة 
+
+-وهيك خلصنا كل خطوات الانستوليشن تبعت الباكيج ...وبعد هيك بدك تعمل اى مشروع بتاخدهم نسخ لصق من هان 
+
+-طيب هلقيت بدنا نروح عالفيو تعتنا ..ونعمل فيهم نافبار ..عشان نحط فيه لينك عربى وليك انجليزى ..عشان نضغط عليهم ومنم نحول اللغة 
+
+-روح عالبوتستراب وهات النافبار وحطه وعدل عليه ..امسح كل اشى فيه وخلى بس  لينك عشان نشتغل عليهم وخلص ..بصفحة create.blade.php احنا بنشتغل 
+
+-طبعا احنا بنتدرب هان ..انت بدك ترجع وتقسم صفحات باللى اوات وتخلى الفوتر لحال والهيدر لحال وهكذا عشان تكمللهم اكستند بكل الصفحات ..ولكن انا عشان اكسب وقت بشتغل ع صفحة واحدة قاعد 
+
+-طيب احنا كيف بدنا نحطهم بالنافبار ...برضو الموقع مريحنى وحاكيلى كيف 
+
+===========================
+
+Creating a language selector
+
+If you're supporting multiple locales in your project you will probably want to provide the users with a way to change language. Below is a simple example of blade template code you can use to create your own language selector.
+
+<ul>
+    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+        <li>
+            <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                {{ $properties['native'] }}
+            </a>
+        </li>
+    @endforeach
+</ul>
+
+=============================
+
+-هو هان بيعمل فور لوب عاللغات الى عندك ..يعنى لو عندك لغتين ..راح يجيبلك لينكين ..لو عندك 5 لغات ..راح يعملك 5 لينكات باسماء اللغات كلها المتاحة عندك ال5 
+
+-اما باخد الكلام الى اعطانى اياه وبرميه زى ما هو عندى تحت النافبار ..هيك راح يطلعلى اللغات ع شكل روابط ب يو ال 
+
+-او
+
+-بدنا نروح عالنافبار ونخلى لينك ..ونعمل عليه فور لوب زى هيك 
+-انا عملته بالنافبار اليمين ..خليت لينك واحد باليو ال الى عاليمين 
+
+<ul class="nav navbar-nav navbar-right">
+    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+
+        <li>
+            <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+            {{ $properties['native'] }}
+        </a>
+    </li>
+
+    @endforeach
+
+</ul>
+
+-ساهلة جدا ...اخدت الفور ايتش ...وحطيت اللينك فيها 
+-وباللينك اعطيتها بس التش ريف الى معطينى اياه الى هى اللغة ...واعطيته اسم الرابط الى هو {{ $properties['native'] }} الى هى اسم اللغة يعنى 
+
+-هلقيت بالموقع صار عنا بالنافبار فى اللغتين ..وتحت النافبار برضو رابطين لغتين مش مشكلة خليهم ..عشان وانا بدرس اعرف كيف عملت الى بالنافبار 
+
+-جرب روح ع ملف config\laravellocalization.php
+-وفعل كمان لغتين ولا تلاتة ..راح تلاقيهم ظهرو بالنافبار ...لانو احان عاملين عليهم فور لوب ...يعنى ايش بتفعل لغات ..بيظهر الها رابط معك 
+
+-هلقيت روح جرب اضغط عالانجليزى ..راح يجبلك الروات هيك 
+http://localhost:8000/en/offers/create
+
+-جرب اضغط عالعربية ..راح يجيبلك الراوت هيك 
+http://localhost:8000/ar/offers/create
+
+-بدون ما نكتبهم بايدينا ك بريفكس ..ولك هى داينمك عنا لانو حطينا البريفكس هاد 
+'prefix' => LaravelLocalization::setLocale(),
+
+-طيب جرب ارفع كلمة en من الرابط واعمل ريلود ..راح يرجعلك اياها 
+-لانو حكينا انو الميدل وير الى حطيناه هاد 
+'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+
+-لو تقرا عن بالموقع تاع الباكيج ..بقلك انو بخزن اللغة الى انت فيها بالسشن ..يعنى مهما تمسحها راح يرجعلك اياها خلص 
+
+-جرب امسحه من الروات ..وروح احذف كلمة en واعمل ريلود للصفحة مش راح يحطلك اياه خلص لانو انت مش حاطط ميدل وير عليه
+
+-طيب فرضا انت ما بدك تظهرلك البادئة en او ar قبل الراوتات تعتك 
+-بتروح عالملف الى بالكونفيق تبع كل اللغات ..وبتنزل فيه تحت بتلاقى ميثود 
+    'hideDefaultLocaleInURL' => false,
+
+-خليها ترو ..بيخفيلك اياها من الرابط تبعك خلص 
+
+-ولكن لما جربتها بيخفيلى اياها من اللغة  الديفولت ..الانجليزية 
+
+-لو جربت تخلى اللغة الديفولت عربى من ملف الكنفيق الى احنا عارفينه ...هان برفعلك البريفكس عن العربى ..ولما تضغط انجليزية بحطله عليها en 
+
+-عشان تتاكد انو اللغة بتتغير معنا ..لما تضغط عربى ..لو اعمل ارسال للفورم وهى فاضية ..راح تطلعلك رسايل الخطا بالعربى ..لانو احنا مترجمينها 
+
+-طيب لو كان انجليزى راح تطلعلك بالانجليزى 
+
+-الدرس الجاية بدنا نترجم الصفحة كلهم عربى وانجليزى عشان كلها تقلب معنا 
+

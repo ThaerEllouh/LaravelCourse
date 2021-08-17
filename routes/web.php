@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+// use \Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+// use LaravelLocalization;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -175,5 +179,23 @@ Route::group(['prefix' => 'offers'], function() {
     //الدرس47
     Route::get('create', 'CrudController@create');
     Route::post('store', 'CrudController@store')->name('offers.store');
+
+});
+
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+
+    ], function() {
+    
+    Route::group(['prefix' => 'offers'], function() {
+        //الدرس 46
+        //Route::get('store', 'CrudController@store');
+    
+        //الدرس47
+        Route::get('create', 'CrudController@create');
+        Route::post('store', 'CrudController@store')->name('offers.store');
+    
+    });
 
 });
