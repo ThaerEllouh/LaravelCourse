@@ -160,3 +160,20 @@ Auth::routes(['verify' => true]);
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
 
+//الدرس 45
+//different between fillables and hiddens
+
+Route::get('fillable', 'CrudController@getOffers');
+
+
+//insert and create to DB
+
+Route::group(['prefix' => 'offers'], function() {
+    //الدرس 46
+    //Route::get('store', 'CrudController@store');
+
+    //الدرس47
+    Route::get('create', 'CrudController@create');
+    Route::post('store', 'CrudController@store')->name('offers.store');
+
+});
