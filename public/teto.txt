@@ -6382,3 +6382,105 @@ if($validator -> fails()){
 
 =================================================================================
 
+  #051- Laravel Request Validation Message in Multi Language - بلارافل
+
+-بدنا نخلى رسايل الايرور الى بتطلع بلغتين عربى وانجليزى 
+
+-يبقى بدل المسج بدنا نحط الكى تبعته ...وناخد الكى ع ملف اللغة العربى وملف اللغة الانجليزى ..ونكتب الرسالة بالعربى وبالانجليزى بالملفين 
+
+-بدنا نروح ع ملف اللغة بدنا نشتغل بملف الى اسمه message عملته اول الكورس 
+
+-هلقيت المسجات بدل ما كانت هيك 
+
+protected function getMsg(){
+        return $messages = [
+            'name.required' => 'اسم المنتج مطلوب',
+            'name.max' => 'اسم المنتج يجب ان لا يزيد عن 10 حروف',
+            'name.min' => 'اسم المنتج يجب ان لا يقل عن 3 احرف ',
+            'name.unique' => 'اسم المنتج مطلوب',
+            'price.required' => 'سعر المنتج مطلوب',
+            'price.numeric' => 'سعر المنتج يجب ان يكون ارقام فقط',
+            'details.required' => 'تفاصيل المنتج مطلوبة',
+        ];
+    }
+
+-راح تصير بالكى تبع المسج نفسه الى بدنا نترجمه 
+
+-اما بنستخدم __() 
+-او بنستخدم  trans()
+
+-التنتين نفس بعض 
+-ملف اللغة كان اسمه messages.php موجود بفولدر الانجليزى والعربى 
+
+-يبقى راح نقله __('messages.offer name') اسم الملف دوت الكلمة الى انا عايزها 
+
+-ممكن تكتبها هيك __('messages.oferrnamerequired') او اندرسكور مسلا بينهم
+-وممكن بالمسافة عادى __('messages.oferr name required')
+-صارت عنا هيك 
+
+protected function getMsg(){
+        return $messages = [
+            'name.required'    => __('messages.oferr name required'),
+            'name.max'         => __('messages.oferr name max'),
+            'name.min'         => __('messages.oferr name min'),
+            'name.unique'      => __('messages.oferr name unique'),
+            'price.required'   => __('messages.oferr price required'),
+            'price.numeric'    => trans('messages.oferr price numeric'),
+            'details.required' => trans('messages.oferr details required'),
+        ];
+    }
+
+-وهى اخر تنتين عملتلك اياهم بالطريقة التانية برضو عشان تعرف انو التنتين صح عادى يعنى تستخدم اى واحدة 
+
+-هلقيت نروح ع ملف اللغة العربى ونترجمهم
+
+return [
+
+    'hello admin' => 'مرحبا بك ايها المسؤل فى اللغة العربية ',
+    'hello user' => 'مرحبا بكم ايها الاعضاء فى اللغة العربية ',
+
+    //offers errors messages
+    'oferr name required'    => 'اسم العرض مطلوب',
+    'oferr name max'         => 'اسم العرض يجب ان لا يزيد عن 10 احرف',
+    'oferr name min'         => 'اسم العرض يجب ان لا يقل عن 3 احرف',
+    'oferr name unique'      => 'هذا الاسم موجود مسبقا',
+    'oferr price required'   => 'سعر العرض مطلوب',
+    'oferr price numeric'    => 'سعر العرض يجب ان يكون ارقام فقط',
+    'oferr details required' => 'تفاصيل العرض مطلوبة',
+
+];
+
+-نروح نترجمهم بملف اللغة الانجليزى كمان 
+
+return [
+
+    'hello admin' => 'hello all admin in English lang',
+    'hello user' => 'hello all user in English lang',
+
+    //offers errors messages
+    'oferr name required'    => 'offer name required',
+    'oferr name max'         => 'offer name must be less than 10 char',
+    'oferr name min'         => 'offer name must be larger than 3 char',
+    'oferr name unique'      => 'offer name must be unique',
+    'oferr price required'   => 'offer price required',
+    'oferr price numeric'    => 'offer price required must be only numeric',
+    'oferr details required' => 'offer details required',
+
+
+];
+
+-وهيك لو اللغة عنا انجليزى ..راح تطلع الرسايل بالانجليزى ..لو اللغة عربى راح تطلع الرسايل العربى 
+
+-هلقيت لو نروح نطلع اخطاء ..راح تطلع انجليزى ..لانو باى دبفولت انجليزى حكينا 
+
+-لو بدنا نغير اللغة بشكل مانويال بايدينا يعنى ...بنروح ع ملف 
+confg -> app داخل ملف الاب ..عنا اللغة غيرها خليها ar 
+راح تطلعلك الرسايل بالعربى 
+
+-الدرس الجاى راح نتعلم كيف نغير اللغة عن طريق زر 
+نحط براس الصفحة فوق زر للغة عربى وانجليزى منهم تحول لغة الموقع 
+-راح نستخدم فيها باكيج الكل بيستخدمها 
+
+=================================================================================
+
+ 

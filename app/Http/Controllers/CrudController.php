@@ -37,13 +37,13 @@ class CrudController extends Controller
 
     protected function getMsg(){
         return $messages = [
-            'name.required' => 'اسم المنتج مطلوب',
-            'name.max' => 'اسم المنتج يجب ان لا يزيد عن 10 حروف',
-            'name.min' => 'اسم المنتج يجب ان لا يقل عن 3 احرف ',
-            'name.unique' => 'اسم المنتج مطلوب',
-            'price.required' => 'سعر المنتج مطلوب',
-            'price.numeric' => 'سعر المنتج يجب ان يكون ارقام فقط',
-            'details.required' => 'تفاصيل المنتج مطلوبة',
+            'name.required'    => __('messages.oferr name required'),
+            'name.max'         => __('messages.oferr name max'),
+            'name.min'         => __('messages.oferr name min'),
+            'name.unique'      => __('messages.oferr name unique'),
+            'price.required'   => __('messages.oferr price required'),
+            'price.numeric'    => trans('messages.oferr price numeric'),
+            'details.required' => trans('messages.oferr details required'),
         ];
     }
 
