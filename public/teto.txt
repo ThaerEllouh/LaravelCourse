@@ -7095,3 +7095,262 @@ en | English | English | ltr
 -برضو مش راح يطلعلك خطا ...راح يحطلك الكلمة الموجودة هادى offer details
 
 ================================================================================
+
+              #054 -Improve your code - اكتب كود محترف
+
+-قبل ما نشرح مكتبة الكامارا ...تعلمنا كيف نعمل الايرو مسج وكيف نعمل الفالديت تعتها 
+
+-وطورنا الكود برطيقة احترافية خلينا الفالديت بميثود لحالها والمسج بميثود لحالها ..برا الميثود الستور 
+
+-اليوم بدنا نطور من الكود تبعنا اكتر واكتر ...بدنا نعمل الفالديت بصفحة لحاله برا الكنترولر خالص ...عن طريق كلاس اسمه ريقويست 
+
+-خلينا نشوف كيف 
+
+-كانت عنا صفحة الكنترولر CroudController زى هيك 
+protected function getRoles(){
+        return $rules = [
+            'name' => 'required|max:10|min:3|unique:offers,name',
+            'price' => 'required|numeric',
+            'details' => 'required',
+        ];
+    }
+
+    protected function getMsg(){
+        return $messages = [
+            'name.required'    => __('messages.oferr name required'),
+            'name.max'         => __('messages.oferr name max'),
+            'name.min'         => __('messages.oferr name min'),
+            'name.unique'      => __('messages.oferr name unique'),
+            'price.required'   => __('messages.oferr price required'),
+            'price.numeric'    => trans('messages.oferr price numeric'),
+            'details.required' => trans('messages.oferr details required'),
+        ];
+    }
+
+    public function store(Request $request){
+
+        //validate data befor insert to DB
+
+        $rules = $this->getRoles();
+        $messages = $this->getMsg();
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if($validator -> fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+
+        //insert
+        Offer::create([
+            'name'    => $request->name,
+            'price'   => $request->price,
+            'details' => $request->details,
+        ]);
+
+        return redirect()->back()->with(['success' => 'تم اضافة العرض بنجاح']);
+
+    }
+
+-هلقيت احنا مش محتاجين لا نعمل ميثود للمسجات ولا ميثود للفالدديت كمان 
+
+-راح امسحهم ...او اوقفهم عشان اخليك تتزكر الكود القديم كيف كان 
+
+-الطريقة هادى الى بدنا نعملها ..هى الطريقة الاحترافية جدا وبدنا نصير نتبعها بكل شغلنا بعد هيك خلص 
+
+-بدنا نفصل الريقويست الى عنا بالفالديشن تعته ..كله برا الكنترولر 
+
+-الكنترولر الى عنا مهتم بالاوفر ..يبقى الريقويست تبعته بدنا نخليه برا بملف تانى ..ونسمى الريقويست باسم اوفر مسلا عشان يدل عالكنترولر هاد الى احنا فيه تاع المنتجات والعروض 
+
+-بدنا نروح نعمل ملف اسمه ريقويست برا ..بدل الريقويست الى كان يجيلى من لارافيل الى كنا نحطه بدالة الستور store(Request $request) بدل الريقويست هاد 
+-بدنا نعمل ريقويست بملف برا الكنترولر كله 
+
+-بنعمل الريقويست بالامر هاد ..وبنعطيه اسم الريقويست ..بما انو احنا بنشتغل بالاوفر يبقى بدنا نسميه offerRequest مسلا 
+
+php artisan make:request offerRequest
+
+-هاد الامر راح يعملى فولدر اسمه Request داخل فولدر Http
+app\Http\Requests
+-داخله كلاس اسمه offerRequest.php 
+
+-خينا ننفذ الامر ونشوف 
+C:\xampp\htdocs\Laravel_Course (master -> origin)
+λ php artisan make:request offerRequest
+Request created successfully.
+
+-عملى الفولدر ودخله الكلاس 
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class offerRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return false;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            //
+        ];
+    }
+}
+
+-وعامل الى جوا الكلاس فنكشن اسمها 
+public function rules()
+    {
+        return [
+            //
+        ];
+    }
+
+-فيها بدنا نحط شغل الرولز تاع الفالديت الى كنا نعمله بالكنترولر 
+-يعنى الكلاس هادا ..عبارة عن مكان بعمل فيه الفالديشن تعتى 
+
+-هلقيت بدنا نروح عالكنترولر ..ونمسح الميثود المسجات وميثود الفالديت 
+ومن دالة الستور نشيل كل اشى ..بس نخلى الميثود الى بتخزن الى بالداتا بيز ..الكريت الى بتعملى انسيرت ..يعنى بدنا نشيل منها كل اشى بيتعلق بالفالديت 
+
+-وبدالة الستور نفسها ...بدل ما كنا ناخد الريقويست الى بيجى الى من اللارافيل 
+لا بدنا ناخد الكلاس هاد الى عملته ...ولما نحطله بالدالة ..لازم ينعمل الو ايمبورت فوق خلى بالك 
+-انت اول ما تكتبه لحاله راح يطلعله ..بتضغط انتر بيعملك ايمبورت لحاله 
+-وراح تلاحظ بعد ما وقفنا الريقويست والفالديت ...عم عليهم لون فاتح فوق عالايمبورت تبعهم ..لانو خلص احنا ما استخدمناهم بالكنترولر عنا 
+
+-طيب صارت ميثود الستور بس هيك 
+-وهاد الكلام بتعمله باى ميثود بدك تحطلها فالديت سواءا ستور ولا ابديت ولا اى حاجة بتحط فيها كلاس الفالديت الخارجى هاد 
+
+public function store(offerRequest $request){
+
+        //insert
+        Offer::create([
+            'name'    => $request->name,
+            'price'   => $request->price,
+            'details' => $request->details,
+        ]);
+
+        return redirect()->back()->with(['success' => 'تم اضافة العرض بنجاح']);
+
+    }
+
+-هلقيت بدنا ناخد الاريه تعت الفالديت لحالها الى مسحناها ..ونحطها بالكلاس الجديد بميثود الرولز الى فيها 
+
+-صارت الميثود هيك 
+
+public function rules()
+    {
+        return [
+            
+                'name' => 'required|max:10|min:3|unique:offers,name',
+                'price' => 'required|numeric',
+                'details' => 'required',
+            
+        ];
+    }
+
+-وهيك خلص شغلنا 
+
+-هلقيت روح عالموقع وجرب اعمل ارسال للفورم وهى فاضية ..يعنى فيها ايرور 
+
+-اااه بعتنا ع راوت الستور 
+http://localhost:8000/ar/offers/store
+
+- وطلعلى خطا 
+403
+This action is unauthorized.
+
+-شو معناه هاد الخطا ...بقلى انو انت ما بتقدر تستخدم هاد الريقويست 
+
+-سهلة جدا ...بدنا نرجع عالريقويست الى عملنا راح تلاقى الاوثورايز ب فولس 
+خليها ترو 
+
+public function authorize()
+    {
+        return false;
+    }
+
+-بدنا نعملها true وخلص هيك بيسمحلنا انو احنا نستخدمه للريقويست هاد 
+
+public function authorize()
+    {
+        return true;
+    }
+
+-وهيك اشتغل معى ....وبنكون عملنا كود فالديشن احترافى 
+-وكود الكنترولر اختصرناه لابعد الحدود 
+
+-خلى بالك ..بالشغل القديم احنا كنا نقله ازا فى عنا ايرور ..ارجعلى للصفحة السابقة بالايرورات هادى ..زى هيك 
+return redirect()->back()->withErrors($validator)->withInput($request->all());
+
+-ولكن هان هو من حالو بيعملها ..ولا بنقله ارجع ولا مترجعش ....ازا لقى ايرور بالفالديت لحالها بطلعلى الايرور وبيعمل ريدايركت لحاله 
+
+-طيب لما جربنا ...طلعلنا رسايل الايروو ..الديفولت تبعت لارافيل ..طيب كيف بدنا نخلى يطلعلنا رسايلنا احنا الى كنا ترجمناها 
+
+-بالاول كنت عامل ميثود للرسايل زى ميثود الفالديت ...طيب هان زى ما عملنا الفالديت بالكلاس الخارجى ..بدنا نعمل المسج برضو زيها باكلاس الخارجى 
+
+-بدنا نروح بالكلاس نعمل ميثود اسمها messages() نحطها تحت ميثود الرولز الى هو كان عاملى اياها بالاساس ...ولكن هاى ميثود المسج انا بدى احطها 
+ 
+-صارت زى هيك 
+
+public function rules()
+    {
+        return [
+            
+                'name' => 'required|max:10|min:3|unique:offers,name',
+                'price' => 'required|numeric',
+                'details' => 'required',
+            
+        ];
+    }
+
+public function messages()
+    {
+        return [
+            'name.required'    => __('messages.oferr name required'),
+            'name.max'         => __('messages.oferr name max'),
+            'name.min'         => __('messages.oferr name min'),
+            'name.unique'      => __('messages.oferr name unique'),
+            'price.required'   => __('messages.oferr price required'),
+            'price.numeric'    => trans('messages.oferr price numeric'),
+            'details.required' => trans('messages.oferr details required'),
+        ];
+    }
+
+-انا اول ما كتبت اول حرفين من الميثود طلعلى اياها لحاله اصلا 
+
+-طيب السؤال هادى من الميثود من وين اجت 
+
+-انت لو تطلع فوق بالكلاس راح تلاقى انو مكعمول اكستند من 
+class offerRequest extends FormRequest
+
+-هاد الكلاس FormRequest لو تضغط عليه كنترول وكلك شمال راح يفتح 
+-لو تفوت عليه راح تلاقي فيه الميثود مسج هادى ..واحنا اخدناها واعملنا اوفر رايد عليها 
+
+-هيها 
+public function messages()
+    {
+        return [];
+    }
+
+-وبتلاقى فيه كل اشى ...حتى الميثود الى بتعمل ريدايركت مبنية وجاهزة فيه 
+
+-يعنى الميثود هادى messages() مش من عنا مش من راسنا كتبناها 
+
+-هلقيت روح جرب الموقع ..وارسل الفورم فاضية ..راح يرجعلك المسجات الى احنا كتبناها ..مش الديفولت تبعت لارافيل ...وهو اعتقد مش حاططها للميثود هادى باكلاس ..لانو هو عمللنا اياها ديفولت ..وانت ازا بدك تغير الرسايل تحطها من عندك ...بستدعيها زى ما عملنا وبتعمل عليها اوفر رايد 
+
+-وهيك وصلنا لكود نضيف واحترافى ..اصبح ميثود الستور الى بالكترولر فيها بس الانسيرت عالداتا بيز ..اما الفالديت والمسجات الى قبل الانسيرت الى بنعملهه ..كله هاد بكلاس ريقويست خارجى 
+
+================================================================================
+
+  #055-Laravel How To save data in multi language database تعدد اللغات بالموقع
