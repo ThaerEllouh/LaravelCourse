@@ -14,5 +14,12 @@ return [
     'oferr price numeric'    => 'offer price required must be only numeric',
     'oferr details required' => 'offer details required',
 
+    //create.blade.php
+    'Add Your Offer'  => 'Add Your Offer',
+    'offer name'  => 'Offer Name',
+    'offer price'  => 'Offer Price',
+    'offer details'  => 'Offer Details',
+    'send'  => 'Send',
+
 
 ];

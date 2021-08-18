@@ -14,4 +14,11 @@ return [
     'oferr price numeric'    => 'سعر العرض يجب ان يكون ارقام فقط',
     'oferr details required' => 'تفاصيل العرض مطلوبة',
 
+    //create.blade.php
+    'Add Your Offer'  => 'اضافة عرض جديد',
+    'offer name'  => 'اسم العرض',
+    'offer price'  => 'سعر العرض',
+    'offer details'  => 'تفاصيل العرض',
+    'send'  => 'ارسال',
+
 ];

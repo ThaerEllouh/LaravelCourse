@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ LaravelLocalization::getCurrentLocale() }}" dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -114,6 +114,18 @@
                 </li>
             @endforeach
         </ul>
+
+        {{-- camara package helpers --}}
+        <div>
+            {{-- <span> {{ LaravelLocalization::getSupportedLocales() }} </span>
+            <span> {{ LaravelLocalization::getLocalesOrder() }} </span> --}}
+
+            <span> {{ LaravelLocalization::getCurrentLocale() }} </span> | 
+            <span> {{ LaravelLocalization::getCurrentLocaleName() }} </span> | 
+            <span> {{ LaravelLocalization::getCurrentLocaleNative() }} </span> | 
+            <span> {{ LaravelLocalization::getCurrentLocaleDirection() }}
+            </span>
+        </div>
         
 
         <div class="flex-center position-ref full-height">
@@ -133,7 +145,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Add Your Offer
+                    {{ __('messages.Add Your Offer')}}
                 </div>
 
                 @if (Session::has('success'))
@@ -147,8 +159,8 @@
                     @csrf
 
                     <div class="form-group">
-                      <label for="offername">Offer Name</label>
-                      <input type="text" class="form-control" name="name" id="offername" placeholder="Type Offer Name">
+                      <label for="offername">{{ __('messages.offer name')}}</label>
+                      <input type="text" class="form-control" name="name" id="offername" placeholder="{{ __('messages.offer name')}}">
 
                       @error('name')
                         <small class="form-text text-danger">{{$message}}</small>
@@ -157,8 +169,8 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="offerprice">Offer Price</label>
-                      <input type="text" class="form-control" name="price" id="offerprice" placeholder="Type Offer Price">
+                      <label for="offerprice">{{ __('messages.offer price')}}</label>
+                      <input type="text" class="form-control" name="price" id="offerprice" placeholder="{{ __('messages.offer price')}}">
 
                       @error('price')
                         <small class="form-text text-danger">{{$message}}</small>
@@ -167,8 +179,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="offerdetails">Offer Details</label>
-                        <input type="text" class="form-control" name="details" id="offerdetails" placeholder="Type Offer Details">
+                        <label for="offerdetails">{{ __('messages.offer details')}}</label>
+                        <input type="text" class="form-control" name="details" id="offerdetails" placeholder="{{ __('messages.offer details')}}">
 
                         @error('details')
                         <small class="form-text text-danger">{{$message}}</small>
@@ -176,7 +188,7 @@
 
                       </div>
 
-                    <button type="submit" class="btn btn-default">send</button>
+                    <button type="submit" class="btn btn-default">{{ __('messages.send')}}</button>
                   </form>
             </div>
         </div>

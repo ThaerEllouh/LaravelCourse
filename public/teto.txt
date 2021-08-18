@@ -6902,3 +6902,196 @@ http://localhost:8000/ar/offers/create
 
 -الدرس الجاية بدنا نترجم الصفحة كلهم عربى وانجليزى عشان كلها تقلب معنا 
 
+
+-قبل نهاية الدرس 
+-بالنسبة للبريكفس ..حكينا انو بيستخدم كلاس LaravelLocalization
+'prefix' => LaravelLocalization::setLocale(),
+
+-وهاد الكلاس مش راضى يتعرف معى ..وعملت الو ايمبورت فوق 
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
+-وبرضو عالفاضى ما رضى يتعرف عندى ..وضل عليه خطا احمر لهلقيت 
+-اولها الموقع ما اشتغل معى كان يقلى 
+Error
+Class 'LaravelLocalization' not found
+http://localhost/LaravelCourse/public/offers/create
+
+-بعدين لما عملت الايمبورت برضو نفس القصة 
+Error
+Class 'Mcamara\LaravelLocalization\Facades\LaravelLocalization' not found
+http://localhost/LaravelCourse/public/offers/create
+
+-بحثت كتير عن هالقصة ..بالاخير فهمت انها مدعمة بلافيل 6 وانا بشتغل ع 7 
+-رحت ع مشروع قديم معمول ب6 ..ونزلتها عليه واعملت كل الخطوات ..تعرف عليه بالبريفكس عادى بدون ما اعمله ايمبورت فوق حتى ...واشتغل بدون مشاكل 
+
+-المهم ..بالاخير اشتغل معى وهو عليه خط احمر ..كيف بعرفش 
+
+-رحت رفعته عالقيت هب ...ورحت سحبت الشغل الجديد ..عالمشروع الى اخدته كلون عندى 
+LaravelCourse نزلى كل اشى زى ما انا عامل 
+-بس ما بنزلى البكج طبعا ..انا اعطيته بس اول امر تبع تنزيل الباكيج وخلص 
+-ورحت فتحت المشروع برضو ملف الويب فيه خط احمر برضو الكلاس هو هو 
+-بس لما شغلته اشتغل عادى وكان يحولى اللغة 
+
+=======================
+
+-فى فيديو عاليوتيوب ...بيشرح المكتبة هاى بطريقة اسهل وحلوة وفيها معلومات اكتر 
+https://www.youtube.com/watch?v=jG00K9R9_04&list=LL&index=2&ab_channel=AlgorithmAcademy
+
+-فيديو مهم وضرورى فى اشياء المهندس ما شرحها ..زى الميثود هيلبرز الموجود بالباكيج
+بتنزل بموقع الباكيج تحت بتلاقيهم ..كتار 
+
+-منهم
+
+Get Supported Locales
+Return all supported locales and their properties as an array.
+
+{{ LaravelLocalization::getSupportedLocales() }}
+
+-هاد الهيلبر ..بتعرضلنا كل اللغات الى انا فعلتها بملف الكنفقريشن 
+
+Get Supported Locales Custom Order
+Return all supported locales but in the order specified in the configuration file. You can use this function to print locales in the language selector.
+
+{{ LaravelLocalization::getLocalesOrder() }}
+
+-بتعضلنا الاوردر تبع اللغات الى عنا 
+
+Get Current Locale
+Return the key of the current locale.
+
+{{ LaravelLocalization::getCurrentLocale() }}
+
+-بتعرضلك اللغة الحالية المستخدمة بالموقع اختصار اما en او ar
+
+Get Current Locale Name
+Return current locale's name as string (English/Spanish/Arabic/ ..etc).
+
+{{ LaravelLocalization::getCurrentLocaleName() }}
+
+-بتعرضلك اسم اللغة المستخدمة حاليا ك اسم كامل مش اختصار Arabic  او English
+
+Get Current Locale Native Name
+Return current locale's native name as string (English/Español/عربى/ ..etc).
+
+{{ LaravelLocalization::getCurrentLocaleNative() }}
+
+-بتعرضلك اسم اللغة بنفسه لغته يعنى English او العربية 
+
+=======
+
+Get Current Locale Direction
+Return current locale's direction as string (ltr/rtl).
+
+{{ LaravelLocalization::getCurrentLocaleDirection() }}
+
+-اخر حاجة مهمة ...لما يكون الموقع عربى لازم التجاه يكون rtl 
+-اما لو كان انجليزى بكون الاتجاه ltr
+
+-عنا برضو هيلبر فنكشن بتساعدنا عشان نجيب الاتجاه بناءا عاللغة 
+
+-انا جربتهم كلهم ال 6 بالصفحة عنا وطبعولى صح ..ما عدا اول تنيتن ما اشتغلو بقلى بدهم تمررهم باراميتر ..ف وقفتهم 
+
+{{-- camara package helpers --}}
+<div>
+    {{-- <span> {{ LaravelLocalization::getSupportedLocales() }} </span>
+    <span> {{ LaravelLocalization::getLocalesOrder() }} </span> --}}
+
+    <span> {{ LaravelLocalization::getCurrentLocale() }} </span> | 
+    <span> {{ LaravelLocalization::getCurrentLocaleName() }} </span> | 
+    <span> {{ LaravelLocalization::getCurrentLocaleNative() }} </span> | 
+    <span> {{ LaravelLocalization::getCurrentLocaleDirection() }}
+    </span>
+</div>
+
+-لما اضغط عربى ...بيطبعولى 
+ar | Arabic | العربية | rtl
+
+-لما اضغط انجليزى بيطبعولى 
+en | English | English | ltr
+
+-طيب هلقيت لو بدى اخلى صفحتى الاتش تى ام ال ..داينمك 
+-كنا زمان نكتبلك براس الفصحة فوق 
+<!DOCTYPE html>
+<html lang="en">
+
+-صح 
+ولو بدنا اياها عربى نقله اللغة ar 
+<!DOCTYPE html>
+<html lang="ar">
+
+-طيب انا هان بصفحة create ازا بتتزكر زمان اخدتها نسخ لص من صفحة الويلكم وعدلت عليها 
+
+-مكتوب فيها اللغة هيك 
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+-لو تروح عالانسبكت بتلاقيها <html lang="en">
+-ولو اغير اللغة ل عربى بلاقيها بالانسبكت صارت 
+-لو تروح عالانسبكت بتلاقيها <html lang="ar">
+
+-طيب بما انو احنا بنشتغل بباكيج الكامرا ...ممكن استخدم الدالة تعتها الى بتحطلى اختصار اللغة حكينا بدل ما هى هيك 
+
+-ولو خليتها بالشكل الى فوق برضو صح لانو بالانسبكت بتتغير معى لقيتها عادى 
+
+-طيب لو بدنا نشغلها بميثود الكامارا ..بدها تصير هيك 
+
+<!DOCTYPE html>
+<html lang="{{ LaravelLocalization::getCurrentLocale() }}">
+
+-اشتغلت معى تمام ..وبالانسكبت بتتغير حسب اللغة الى انا مختارها برضو 
+
+-طيب بدا نضيف اتجاه الصفحة هلقيت ..زمان كنا نضيف اتجاه الصفحة فوق برضو زى هيك
+<html lang="en" dir="ltr">
+
+-اوا ازا بدى الصفحة عربى اقله 
+<html lang="ar" dir="rtl">
+
+-طيب هلقيت بدنا نخليها اوتوماتيك عن طريق الدالة الى بتعطينى الاتجاه 
+
+<html lang="{{ LaravelLocalization::getCurrentLocale() }}" dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}">
+
+-وهيك صار عنا للغة دالة تحطها اوتوماتيك ..وللاتجاه دالة تحطه اوتوماتيك 
+-ولو خليت دالة الاتجاه القدية تعت لارافيل ..مع دالة الداير تعت كامارا عادى برضو 
+
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}">
+
+-هلقيت لو انت انجليزى راح تكون الصفحة من الشمال ..لو تضغط عاللغة العربية راح تقلب معك الصفحة كلها من اليمين 
+
+-اخر معلومة ...لو انت حابب تغير باسم اللغة ...مسلا العربية ....بيكتبلك اياها "العربية " هو ...طيب مسلا انت بدك اياه عربى مسلا مش عربية 
+
+-بتغيرها من ملف الككونفيق عادى 
+        'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
+
+-بتتغير من هان 
+
+===============================================================================
+
+   #053 - Laravel localization translate all page use (mcamara Package)
+
+-بدى اترجم صفحة ال create.blade.php كلها ...اترجم الفورم والعنوان والى ذلك 
+اترجمهم بملف message.php العربى والانجليزى 
+
+//create.blade.php
+    'Add Your Offer'  => 'Add Your Offer',
+    'offer name'  => 'Offer Name',
+    'offer price'  => 'Offer Price',
+    'offer details'  => 'Offer Details',
+    'send'  => 'Send',
+
+//create.blade.php
+    'Add Your Offer'  => 'اضافة عرض جديد',
+    'offer name'  => 'اسم العرض',
+    'offer price'  => 'سعر العرض',
+    'offer details'  => 'تفاصيل العرض',
+    'send'  => 'ارسال',
+
+-وكتبتهم بالفورم بطريقة الترجمة 
+ <label for="offerdetails">{{ __('messages.offer details')}}</label>
+<input type="text" class="form-control" name="details" id="offerdetails" placeholder="{{ __('messages.offer details')}}">
+
+-ع فكرة لو الكى ما كان مترجم بملف اللغة ..مش راح يطلعك خطا...بيشتغل عادى بس بيكتلبلك الكلمة زى ما هى ..زى هيك مسلا messages.offer details
+
+-ولو مسلا نسيت تكتب ملف الترجمة قبل الكى زى هيك مسلا {{ __('offer details')}}
+-برضو مش راح يطلعلك خطا ...راح يحطلك الكلمة الموجودة هادى offer details
+
+================================================================================
