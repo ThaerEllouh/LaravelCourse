@@ -195,6 +195,7 @@ Route::group([
         //الدرس47
         Route::get('create', 'CrudController@create');
         Route::post('store', 'CrudController@store')->name('offers.store');
+        Route::get('all', 'CrudController@getAllOffers');
     
     });
 

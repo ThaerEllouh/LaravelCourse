@@ -159,14 +159,26 @@
                     @csrf
 
                     <div class="form-group">
-                      <label for="offername">{{ __('messages.offer name')}}</label>
-                      <input type="text" class="form-control" name="name" id="offername" placeholder="{{ __('messages.offer name')}}">
 
-                      @error('name')
+                      <label for="offername">{{ __('messages.offer name in ar')}}</label>
+                      <input type="text" class="form-control" name="name_ar" id="offername" placeholder="{{ __('messages.offer name in ar')}}">
+
+                      @error('name_ar')
                         <small class="form-text text-danger">{{$message}}</small>
                       @enderror
 
                     </div>
+
+                    <div class="form-group">
+                        
+                        <label for="offername">{{ __('messages.offer name in en')}}</label>
+                        <input type="text" class="form-control" name="name_en" id="offername" placeholder="{{ __('messages.offer name in en')}}">
+  
+                        @error('name_en')
+                          <small class="form-text text-danger">{{$message}}</small>
+                        @enderror
+  
+                      </div>
 
                     <div class="form-group">
                       <label for="offerprice">{{ __('messages.offer price')}}</label>
@@ -179,10 +191,22 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="offerdetails">{{ __('messages.offer details')}}</label>
-                        <input type="text" class="form-control" name="details" id="offerdetails" placeholder="{{ __('messages.offer details')}}">
 
-                        @error('details')
+                        <label for="offerdetails">{{ __('messages.offer details in ar')}}</label>	
+                        <input type="text" class="form-control" name="details_ar" id="offerdetails" placeholder="{{ __('messages.offer details in ar')}}">
+
+                        @error('details_ar')
+                        <small class="form-text text-danger">{{$message}}</small>
+                        @enderror
+
+                      </div>
+
+                      <div class="form-group">
+                        
+                        <label for="offerdetails">{{ __('messages.offer details in en')}}</label>	
+                        <input type="text" class="form-control" name="details_en" id="offerdetails" placeholder="{{ __('messages.offer details in en')}}">
+
+                        @error('details_en')
                         <small class="form-text text-danger">{{$message}}</small>
                         @enderror
 

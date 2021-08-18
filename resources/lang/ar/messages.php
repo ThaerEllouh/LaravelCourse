@@ -7,7 +7,7 @@ return [
 
     //offers errors messages
     'oferr name required'    => 'اسم العرض مطلوب',
-    'oferr name max'         => 'اسم العرض يجب ان لا يزيد عن 10 احرف',
+    'oferr name max'         => 'اسم العرض يجب ان لا يزيد عن 30 حرف',
     'oferr name min'         => 'اسم العرض يجب ان لا يقل عن 3 احرف',
     'oferr name unique'      => 'هذا الاسم موجود مسبقا',
     'oferr price required'   => 'سعر العرض مطلوب',
@@ -16,9 +16,16 @@ return [
 
     //create.blade.php
     'Add Your Offer'  => 'اضافة عرض جديد',
-    'offer name'  => 'اسم العرض',
+    'offer name in ar'  => 'اسم العرض باللغة العربية',
+    'offer name in en'  => 'اسم العرض باللغة الانجليزية',
     'offer price'  => 'سعر العرض',
-    'offer details'  => 'تفاصيل العرض',
+    'offer details in ar'  => 'تفاصيل العرض باللغة العربية',
+    'offer details in en'  => 'تفاصيل العرض باللغة الانجليزية',
     'send'  => 'ارسال',
+
+    //all.blade.php   table header
+    'Offer Name' => 'اسم العرض',
+    'Offer Price' => 'سعر العرض',
+    'Offer Details' => 'تفاصيل العرض',
 
 ];

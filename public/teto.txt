@@ -7354,3 +7354,344 @@ public function messages()
 ================================================================================
 
   #055-Laravel How To save data in multi language database تعدد اللغات بالموقع
+
+-بدنا نتعلم كيف نخزن البيانات تعتنا بالداتا بيز باللغتين الى عنا 
+-وبناءا ع اللغة الى انا فيها يطلعلى البيانات 
+-يعنى بدنا نحط بالداتا بيز بدل عمود الاسم name بدنا نعمل بداله عمودين 
+name_ar  و  name_en
+
+-وكذلك التفاصيل بدل عمود details بدنا نمسحه ونحط بداله عمودين 
+details_ar و  details_en 
+
+-السعر وال اى دى مهما ارقام عادى ما راح تفرق 
+
+-وكذلك راح نروح عالفورم ...ونحذف حقل الاسم ..ونحط بداله حقلين عربى وانجليزى 
+-وحقل التفاصيل كذلك نحذفه ونحط بداله حقلين عربى وانجليزى 
+
+-يعنى اليوزر لما يجى يدخلى عرض جديد ...بدو يكتبلى اسم بالعربى وبالانجليزى وتفاصيله بالعربى وبالانجليزى 
+
+-وما دام احنا غيرنا عمدة الجدول ...يبقى لازم نروح عالمودل ونغير الفيلبل الى فيه اكيد ...بنمسح من الفيليل الاسماء القديمة وبنحط ال4 اعمدة الجداد ..الاسم عربى وانجليزى والتفاصيل عربى وانجليزى 
+
+-وبدنا نفضى جدول الاوفر كله من العرضو القديمة ..عشان نبدا ندخل عروض جديدة 
+باللغتين 
+
+-عشان بدنا نعمل صفحة جديدة ..فيو نعرض فيها كل العروض الى عنا بالداتا بيز نسميها مسلا all offer ونعمل الها راوت والروات تبعها يكون جوا ميدل وير اللغات ..عشان بدنا نطبق عليه اللغات 
+
+بشكل جدول ..ناخده من البوتستراب ..هادى الصفحة بدى اعرض فيها بيانات العروض الى عنا كلها بجدول ..والجدول بدو يكون فيه بس الاسم والتفاصيل ...بدون ما نحط فيه الاسم بالعربى وبالانجليزى ..والتفاصيل بالعربى وبالانجليزى ...لا ...بس اسم وتفاصيل وخلص ...بناءا عاللغة ..ازا كنت عربى ..يعرضلى بالجدول الاسم والتفاصيل بالعربى ...وازا كنت باللغة الانجليزى ..يعرضلى الاسم والتفاصيل الانجليزى 
+
+-وبدى اصير لما اكون لغة عربية ..يجيبلى اسم العرض وتفاصيلو الى بالعبرى ....ولما اكون لغة انجليزية يجيب اسم العرض وتفاصيله الانجليزى ...وراح نتعلم كيف 
+
+==========
+
+-نبدا بشغلنا وبدى اعمل كل الى كتبته فوق 
+
+-ضفت الحقول ال 4 بالداتا بيز ومسحت الحقلين القدام ..وفضيت الجدول 
+
+-رحت عالمودل وغيرت الفيلبل 
+protected $fillable = ['name_ar', 'name_en', 'details_ar', 'details_en', 'price', 'created_at', 'updated_at'];
+
+-وكذلك رحنا ع ميثود الستور وغيرنا جملة الانسيرت الى بتعمل انسيرت للبيانات عالداتا بيز ...كانت هيك 
+//insert
+Offer::create([
+    'name'    => $request->name,
+    'price'   => $request->price,
+    'details' => $request->details,
+]);
+
+-صارت هيك 
+//insert
+Offer::create([
+    'name_ar'    => $request->name_ar,
+    'name_en'    => $request->name_en,
+    'price'      => $request->price,
+    'details_ar' => $request->details_ar,
+    'details_en' => $request->details_en,
+]);
+
+-وكذلك بدنا نعدل ميثود الرولز وميثود المسج الى بكلاس offerRequest الى بيعمللنا الفالديت والرسايل 
+
+-كانت هيك 
+public function rules()
+    {
+        return [
+            
+                'name' => 'required|max:10|min:3|unique:offers,name',
+                'price' => 'required|numeric',
+                'details' => 'required',
+            
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required'    => __('messages.oferr name required'),
+            'name.max'         => __('messages.oferr name max'),
+            'name.min'         => __('messages.oferr name min'),
+            'name.unique'      => __('messages.oferr name unique'),
+            'price.required'   => __('messages.oferr price required'),
+            'price.numeric'    => trans('messages.oferr price numeric'),
+            'details.required' => trans('messages.oferr details required'),
+        ];
+    }
+
+-صارت هيك 
+public function rules()
+    {
+        return [
+            
+                'name_ar' => 'required|max:30|min:3|unique:offers,name_ar',
+                'name_en' => 'required|max:30|min:3|unique:offers,name_en',
+                'price' => 'required|numeric',
+                'details_ar' => 'required',
+                'details_en' => 'required',
+            
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name_ar.required'    => __('messages.oferr name required'),
+            'name_ar.max'         => __('messages.oferr name max'),
+            'name_ar.min'         => __('messages.oferr name min'),
+            'name_ar.unique'      => __('messages.oferr name unique'),
+            'name_en.required'    => __('messages.oferr name required'),
+            'name_en.max'         => __('messages.oferr name max'),
+            'name_en.min'         => __('messages.oferr name min'),
+            'name_en.unique'      => __('messages.oferr name unique'),
+            'price.required'      => __('messages.oferr price required'),
+            'price.numeric'       => trans('messages.oferr price numeric'),
+            'details_ar.required' => trans('messages.oferr details required'),
+            'details_en.required' => trans('messages.oferr details required'),
+        ];
+    }
+
+
+
+-هلقيت بدى اروح عالفورم وامسح ..الحقلين القدام واعمل ال 4 الجداد 
+والى اكتبهم فيهم اترجمهم بملفات الترجمة برضو ..اوعى تنساهم بالترجمة 
+
+-خلصنا من الفورم ومن ملفات الترجمة وكلو تمام 
+
+-خلينا ندخل كم من عرض عالسريع ...دخلت 3 جوالات ..جوال سامسونج A12 
+وسامسونج A31 وسامسونج A51
+
+================
+
+-نروح نعمل صفحة allOffer.blade.php عشان نعرض فيها البيانات من الداتا بيز 
+
+-اوا حاجة بدى اعمل الها روات ..والروات يكون بالميدل وير تعت اللغات 
+والروات يبعتنى ع ميثود بالكنترولر ..والميثود هادى تعملى ريتورن للفيو الى بدنا نعملها ونحط فيها الجدول 
+
+Route::group(['prefix' => 'offers'], function() {
+        //الدرس 46
+        //Route::get('store', 'CrudController@store');
+    
+        //الدرس47
+        Route::get('create', 'CrudController@create');
+        Route::post('store', 'CrudController@store')->name('offers.store');
+        Route::get('all', 'CrudController@getAllOffers');
+    
+    });
+
+-عملنا الروات تاعنا ..وفيه الميثود 
+Route::get('all', 'CrudController@getAllOffers');
+
+-يبقى لازم اروح عالكنترولر واعمل الميثود getAllOffers
+
+-رحنا عالكنترولر واعملنا الميثود 
+-الميثود هادى شو وظيفتها ...تجيبلى البيانات من الداتا بيز 
+-طيب هلقيت خلينى قاعد بشتغل كانى عالشغل القديم لسا 
+-بدنا نعمل سيليكت عالبيانات الى بالدات بيز 
+  Offer::select('id', 'name', 'price', 'details')
+
+-بما انو بدنا نعمل سيليكت ع كل البيانات الى بادات بيز يبقى لازم نستخدك دالة القيت ..ولقدام لسا راح نشرح شو الفرق بينها وبين first()
+  Offer::select('id', 'name', 'price', 'details') -> get();
+
+-بما انو انا بدى اجيب كل البيانات ..يبقى راح استخدم دالة القيت 
+-القيت هاى بتجيلى كل البيانات الى بالداتا بيز ع شكل كوليكشن 
+-الكوليكشن يعتبر من اهم الحاجات الى راح تشتغل فيها بلارافيل بالمشاريع 
+لانو انت اكتر حاجة بتجيب البياانت بكولكشن ..وبتعمل عليها شغل وعمليات وبترجعها بالفيو تبعك 
+
+-طيب بدنا نحطها بمتغير هلقيت عشان نمررها للفيو واعرضها هناك ....وليكن المتغير نسمسه $offers مسلا 
+
+        $offers = Offer::select('id', 'name', 'price', 'details') -> get();
+
+-بدنا نمرره للفيو عشان اعرضها بالفيو ..عنا اكتر من طريقة لتمرير البيانات حكينا 
+خلينا نستخدم الكومباكت مسلا 
+
+-صارت الميثود عنا هيك 
+
+-وهلقيت خلينا نروح نعمل الفيو هادى بفولدر الاوفرز مع فيو الكرييت يعنى كلهم بملف واحد نخليهم 
+
+-بدى انسخ صفحة الكرييت ..وامسحها كلها اخلى بس النافيبار فيها بالبادى بس عاشن اعمل سويتش ما بين اللغات يعنى 
+
+-ونعمل الجدول تحت النافبار 
+-زرت الصفحة وكلو تمام عرضتلى الجدول فاضى 
+
+-هلقيت بدنا نخلى بس رو العناوين عنا ...ورو واحد بس عشان نعمل عليه لوب وخلص 
+-الرو بدنا نعمل فيه 4 خلايا ..اى دى واسم وسعر وتفاصيل 
+
+<div class="table-responsive">
+    <table class="table text-center table-bordered ">
+    <tr>
+        <td>#ID</td>
+        <td>Offer Name</td>
+        <td>Offer Price</td>
+        <td>Offer Details</td>
+        </tr>
+
+        <tr>
+        <td class="success">...</td>
+        <td class="warning">...</td>
+        <td class="danger">...</td>
+        <td class="info">...</td>
+        </tr>
+
+    </table>
+</div>
+
+-هلقيت نرجع الميثود عشان نمرر الها البيانات للفيو واعرضها بالفيو 
+public function getAllOffers(){
+        $offers = Offer::select('id', 'name', 'price', 'details') -> get();
+        return view('offers/alloffers', compact('offers'));
+    }
+
+-هلقيت نروح عالفيو نستلم البيانات لانو خلص الفيو شاف البيانات الى وصلتو بعد ما مررتها 
+
+-بدنا نعمل فور لوب عالرو الى احنا الى بدنا نعرض فيه البيانات 
+<div class="table-responsive">
+    <table class="table text-center table-bordered ">
+    <tr>
+        <td>#ID</td>
+        <td>Offer Name</td>
+        <td>Offer Price</td>
+        <td>Offer Details</td>
+        </tr>
+
+        @foreach ($offers as $offer)
+        <tr>
+        <td class="success">{{ $offer -> id}}</td>
+        <td class="warning">{{ $offer -> name}}</td>
+        <td class="danger">{{ $offer -> price}}</td>
+        <td class="info">{{ $offer -> details}}</td>
+        </tr>
+        @endforeach
+    </table>
+</div>
+
+-هاد الكلام كلو عالشغل القديم لما كان الجدول فيه بس اسم وسعر وتفاصيل ..لو جربته هان قبل ما امسحه واعدل عليه راح يشتغل معك عادى 
+
+-طيب هلقيت نيجى نشوف شغلنا الجديد ...وكيف بدنا نعدل عليه عشان نعرض حسب اللغة عنا 
+
+==============
+-خلينى اترجم عناوين الجدول قبل ما ننسى بملف الترجمة 
+//all.blade.php   table header
+    'Offer Name' => 'اسم العرض',
+    'Offer Price' => 'سعر العرض',
+    'Offer Details' => 'تفاصيل العرض',
+
+//all.blade.php   table header
+    'Offer Name' => 'Offer Name',
+    'Offer Price' => 'Offer Price',
+    'Offer Details' => 'Offer Details',
+
+<tr>
+    <td>#</td>
+    <td>{{ __('messages.Offer Name')}}</td>
+    <td>{{ __('messages.Offer Price')}}</td>
+    <td>{{ __('messages.Offer Details')}}</td>
+</tr>
+===============
+
+-هلقيت بدنا نعرض كل البيانات بالجدول الى عنا ..حسب اللغة الى انا اخترتها 
+
+-يعنى بدى ارجع البيانات من الداتا بيز حسب اختيار لغة الزبون 
+
+-احنا بالشغل القديم كنا نرجع البيانات هادى 
+public function getAllOffers(){
+        $offers = Offer::select('id', 'name', 'price', 'details') -> get();
+        return view('offers/alloffers', compact('offers'));
+    }
+
+-طيب انا صار عندى الاسم 2 والتفاصيل 2 انجليزى وعربى 
+-يعنى بدى اقله 
+public function getAllOffers(){
+        $offers = Offer::select('id', 'name_ar', 'name_en', 'price', 'details_ar', 'details_en') -> get();
+        return view('offers/alloffers', compact('offers'));
+    }
+
+-طيب انا هيك رجعت الانجليزى والعربى انا شو استفدت هان يعنى ...لا انا بدى ارجع يا انجلزى لحاله يا عربى لحاله ...حسب ما هو مختار 
+
+-كيف بدنا نعمل الجزئية هادى لو انت حابب تشتغل موقعك متعدد اللغات 
+
+-احنا حكينا انو باكيج الكامارا ...اعطتنى دالة بتجيبلى اللغة الحالية الى انا فيها صح ..الى بتعرضلى en او ar حسب اللغة الى انا اخترها 
+{{ LaravelLocalization::getCurrentLocale() }}
+
+-طيب ليش ما نستفيد منها هان 
+-بدل ما اقله 'name_ar' و 'name_en'
+
+-بقله 
+'name_'.LaravelLocalization::getCurrentLocale()
+
+-عملتلها ابيند عليها بعد الاندر سكور ...كونكات يعنى 
+-ازا هيك عربى ...راح تكون name_ar
+-ازا هيك انجليزى name_ar
+
+-طيب هلقيت خلينا نسمي الحقل هاد بطريقة الالياس ..عشان استخدمه بالجدوال لما يصلنى مع تمرير البيانات ..لانو انا هناك بالجدول ما بعرف هو عربى ولا انجليزى الى راح يصلنى ....بالتالى انا بدى اقله سواء هو اسم عربى ولا اسم انجليزى ..اعطيه الياس as name 
+
+-يعنى بدنا نعمل كمان ابيند عليهم ل as name
+-بنعمل كونكات بعدين بنفتح الكوت وبنعطى مسافة وبنكتب as بعدين الاسم الالياس
+-بدها تصير 
+
+'name_'.LaravelLocalization::getCurrentLocale().' as name'
+
+-كانى بقله يعنى 
+'name_ar as name'   او   'name_en as name'
+
+-اوعى تحط مسافة بعد name الالياس ...بدو يصير الاسم عندى name وبعده مسافة الى بدك تتعامل معو بالجدول ..خلى بالك هاى نقطة مهمة وبتخربط 
+
+-بدها تصير عنا ميثود القيت اوول 
+
+public function getAllOffers(){
+        $offers = Offer::select('id', 'name_'.LaravelLocalization::getCurrentLocale().' as name', 'price', 'details_'.LaravelLocalization::getCurrentLocale().' as details') -> get();
+        return view('offers/alloffers', compact('offers'));
+    }
+
+-هلقيت الى تمرر معى 'id'  'name'  'price'  'details'
+
+-نروح للجدول بالفيو عشان نستقبلهم 
+@foreach ($offers as $offer)
+    <tr>
+    <td class="success">{{ $offer -> id}}</td>
+    <td class="warning">{{ $offer -> name}}</td>
+    <td class="danger">{{ $offer -> price}}</td>
+    <td class="info">{{ $offer -> details}}</td>
+    </tr>
+@endforeach
+
+-وهيك كل شغلنا تمام ...روح زور الرابط الانجليزى 
+http://localhost:8000/en/offers/all
+
+-راح يطبعلك 
+
+
+#	Offer Name	        Offer Price	 Offer Details
+15	Samsung Phone A12	900	         Ram 4 GB
+16	Samsung Phone A31	1100  	     Ram 6GB
+17	Samsung Phone A51	1300	     Ram 8GB
+
+-زور الرابط العربى 
+http://localhost:8000/ar/offers/all
+
+-راح يطبعلك 
+
+#	اسم العرض	سعر العرض	تفاصيل العرض
+15	جوال سامسونج A12	900	رام 4 جيجا
+16	جوال سامسونج A31	1100	رام 6 جيجا
+17	جوال سامسونج A51	1300	رام 8 جيجا
+
+===============================================================================
+
+
