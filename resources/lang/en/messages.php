@@ -27,6 +27,13 @@ return [
     'Offer Name' => 'Offer Name',
     'Offer Price' => 'Offer Price',
     'Offer Details' => 'Offer Details',
+    'Operation' => 'Operation',
+    'Edit' => 'Edit',
+
+    //edit.blade.php 
+    'Edit Your Offer' => 'Edit Your Offer',
+    'Update' => 'Update',
+
 
 
 ];

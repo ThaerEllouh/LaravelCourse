@@ -27,5 +27,12 @@ return [
     'Offer Name' => 'اسم العرض',
     'Offer Price' => 'سعر العرض',
     'Offer Details' => 'تفاصيل العرض',
+    'Operation' => 'الاجراءات',
+    'Edit' => 'تعديل',
+
+    //edit.blade.php 
+    'Edit Your Offer' => 'تعديل العرض',
+    'Update' => 'تحديث',
+
 
 ];
