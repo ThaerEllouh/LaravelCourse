@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\offerRequest;
 use App\Models\Offer;
+use App\Traits\OfferTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use LaravelLocalization;
@@ -11,6 +12,8 @@ use LaravelLocalization;
 
 class CrudController extends Controller
 {
+    use OfferTrait;
+    
     public function getOffers(){
         return Offer::select('id', 'name', 'price') -> get();
     }
@@ -63,6 +66,10 @@ class CrudController extends Controller
         //     return redirect()->back()->withErrors($validator)->withInput($request->all());
         // }
 
+        //save photo in folder
+        $img_name = $this -> saveImage($request -> photo, 'images/offers');
+
+
         //insert
         Offer::create([
             'name_ar'    => $request->name_ar,
@@ -70,12 +77,14 @@ class CrudController extends Controller
             'price'      => $request->price,
             'details_ar' => $request->details_ar,
             'details_en' => $request->details_en,
+            'photo'      => $img_name,
         ]);
 
         return redirect()->back()->with(['success' => 'تم اضافة العرض بنجاح']);
 
     }
 
+   
     public function getAllOffers(){
         $offers = Offer::select('id', 'name_'.LaravelLocalization::getCurrentLocale().' as name', 'price', 'details_'.LaravelLocalization::getCurrentLocale().' as details') -> get();
         return view('offers/alloffers', compact('offers'));

@@ -154,7 +154,7 @@
                     </div>
                 @endif
 
-                <form method="POST"  action="{{ route('offers.store')}}">
+                <form method="POST"  action="{{ route('offers.store')}}" enctype="multipart/form-data">
 
                     @csrf
 
@@ -211,6 +211,18 @@
                         @enderror
 
                       </div>
+
+                      <div class="form-group">
+                        
+                        <label for="offerphoto">{{ __('messages.offer photo')}}</label>	
+                        <input type="file" class="form-control" name="photo" id="offerphoto" >
+
+                        @error('photo')
+                        <small class="form-text text-danger">{{$message}}</small>
+                        @enderror
+
+                      </div>
+
 
                     <button type="submit" class="btn btn-default">{{ __('messages.send')}}</button>
                   </form>

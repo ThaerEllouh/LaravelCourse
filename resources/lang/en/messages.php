@@ -21,6 +21,7 @@ return [
     'offer price'  => 'Offer Price',
     'offer details in ar'  => 'Offer Details In Arabic Lang',
     'offer details in en'  => 'Offer Details In Engilsh Lang',
+    'offer photo' => 'Offer Photo',
     'send'  => 'Send',
 
     //all.blade.php   table header
