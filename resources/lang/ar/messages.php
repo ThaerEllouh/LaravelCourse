@@ -13,6 +13,11 @@ return [
     'oferr price required'   => 'سعر العرض مطلوب',
     'oferr price numeric'    => 'سعر العرض يجب ان يكون ارقام فقط',
     'oferr details required' => 'تفاصيل العرض مطلوبة',
+    'oferr img required'     => 'صورة العرض مطلوبة',
+    'oferr img not valid'    => 'امتداد الصورة غير صالح',
+    'oferr img max size'     => 'حجم الصورة يجب ان لا يزيد عن 10 ميجا بايت',
+    'oferr img dimensions'   =>'ابعاد الصورة غير مناسبة',
+
 
     //create.blade.php
     'Add Your Offer'  => 'اضافة عرض جديد',
@@ -25,15 +30,21 @@ return [
     'send'  => 'ارسال',
 
     //all.blade.php   table header
-    'Offer Name' => 'اسم العرض',
-    'Offer Price' => 'سعر العرض',
+    'Offer Name'    => 'اسم العرض',
+    'Offer Price'   => 'سعر العرض',
     'Offer Details' => 'تفاصيل العرض',
-    'Operation' => 'الاجراءات',
-    'Edit' => 'تعديل',
+    'Offer Image'   => 'صورة العرض',
+    'Operation'     => 'الاجراءات',
+    'Edit'          => 'تعديل',
+    'Delete'        => 'حذف',
+    
+    //success delete message in all.blade.php
+    'offer delete' => 'تم حذفه بنجاح',
 
-    //edit.blade.php 
+    //edit.blade.php
     'Edit Your Offer' => 'تعديل العرض',
     'Update' => 'تحديث',
+    
 
 
 ];

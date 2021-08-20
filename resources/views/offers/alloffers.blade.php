@@ -80,15 +80,15 @@
                 </button>
                 <a class="navbar-brand" href="#">Brand</a>
               </div>
-          
+
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                   <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
                   <li><a href="#">Link</a></li>
-                  
+
                 </ul>
-                
+
                 <ul class="nav navbar-nav navbar-right">
                     @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
 
@@ -105,6 +105,23 @@
             </div><!-- /.container-fluid -->
           </nav>
 
+
+
+          <div class="container">
+          
+            @if (Session::has('error_delete'))
+                    <div class="alert alert-danger">
+                        {{ Session::get('error_delete') }}
+                    </div>
+            @endif
+
+            @if (Session::has('success_delete'))
+                    <div class="alert alert-danger">
+                        {{ Session::get('success_delete') }}
+                    </div>
+            @endif
+
+
           <div class="table-responsive">
               <table class="table text-center table-bordered ">
                 <tr>
@@ -112,6 +129,7 @@
                     <td>{{ __('messages.Offer Name')}}</td>
                     <td>{{ __('messages.Offer Price')}}</td>
                     <td>{{ __('messages.Offer Details')}}</td>
+                    <td>{{ __('messages.Offer Image')}}</td>
                     <td>{{ __('messages.Operation')}}</td>
                   </tr>
 
@@ -121,9 +139,15 @@
                     <td class="warning">{{ $offer -> name}}</td>
                     <td class="danger">{{ $offer -> price}}</td>
                     <td class="info">{{ $offer -> details}}</td>
+                    {{-- <td class="info">{{ $offer -> photo}}</td> --}}
+                    <td><img  style="width: 90px; height: 90px;" src="{{ asset('images/offers/' . $offer -> photo . '')}}"></td>
                     <td class="default">
                         <a href="{{url('offers/edit/'.$offer->id)}}"  class="btn btn-success">
                             {{ __('messages.Edit')}}
+                        </a>
+
+                        <a href="{{route('offers.delete', $offer->id)}}"  class="btn btn-danger">
+                            {{ __('messages.Delete')}}
                         </a>
                     </td>
                   </tr>
@@ -131,6 +155,8 @@
               </table>
           </div>
 
+          <a class="btn btn-primary" href="{{route('offers.creat')}}">Add Offer</a>
+        </div>
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 

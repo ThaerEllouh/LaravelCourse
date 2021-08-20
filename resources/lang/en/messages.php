@@ -13,6 +13,10 @@ return [
     'oferr price required'   => 'offer price required',
     'oferr price numeric'    => 'offer price required must be only numeric',
     'oferr details required' => 'offer details required',
+    'oferr img required'     => 'oferr img required',
+    'oferr img not valid'    => 'oferr img extentision not valid',
+    'oferr img max size'     => 'oferr img size must be less than 10MB',
+    'oferr img dimensions'   => 'The photo dimensions has invalid',
 
     //create.blade.php
     'Add Your Offer'  => 'Add Your Offer',
@@ -25,15 +29,20 @@ return [
     'send'  => 'Send',
 
     //all.blade.php   table header
-    'Offer Name' => 'Offer Name',
-    'Offer Price' => 'Offer Price',
+    'Offer Name'    => 'Offer Name',
+    'Offer Price'   => 'Offer Price',
     'Offer Details' => 'Offer Details',
-    'Operation' => 'Operation',
-    'Edit' => 'Edit',
+    'Offer Image'   => 'Offer Image',
+    'Operation'     => 'Operation',
+    'Edit'          => 'Edit',
+    'Delete'        => 'Delete',
 
-    //edit.blade.php 
+    //edit.blade.php
     'Edit Your Offer' => 'Edit Your Offer',
     'Update' => 'Update',
+
+    'offer delete' => 'deleted successfully',
+
 
 
 

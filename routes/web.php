@@ -187,20 +187,23 @@ Route::group([
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
 
     ], function() {
-    
+
     Route::group(['prefix' => 'offers'], function() {
         //الدرس 46
         //Route::get('store', 'CrudController@store');
-    
+
         //الدرس47
-        Route::get('create', 'CrudController@create');
+        Route::get('create', 'CrudController@create')->name('offers.creat');
         Route::post('store', 'CrudController@store')->name('offers.store');
-        Route::get('all', 'CrudController@getAllOffers');
+        Route::get('all', 'CrudController@getAllOffers')->name('offers.all');
 
         //الدرس 57 edit and update
         Route::get('edit/{offer_id}', 'CrudController@editOffer');
         Route::post('update/{offer_id}', 'CrudController@updateOffer')->name('offers.update');
-    
+        //الدرس 64 delete from DB
+        Route::get('delete/{offer_id}', 'CrudController@deleteOffer')->name('offers.delete');
+
+
     });
 
 });

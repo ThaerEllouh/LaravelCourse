@@ -7,13 +7,15 @@ use App\Models\Offer;
 use App\Traits\OfferTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use LaravelLocalization;
+// use LaravelLocalization;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 
 
 class CrudController extends Controller
 {
     use OfferTrait;
-    
+
     public function getOffers(){
         return Offer::select('id', 'name', 'price') -> get();
     }
@@ -53,6 +55,7 @@ class CrudController extends Controller
     //     ];
     // }
 
+
     public function store(offerRequest $request){
 
         //validate data befor insert to DB
@@ -84,20 +87,21 @@ class CrudController extends Controller
 
     }
 
-   
+
     public function getAllOffers(){
-        $offers = Offer::select('id', 'name_'.LaravelLocalization::getCurrentLocale().' as name', 'price', 'details_'.LaravelLocalization::getCurrentLocale().' as details') -> get();
+        $offers = Offer::select('id', 'name_'.LaravelLocalization::getCurrentLocale().' as name', 'price', 'photo', 'details_'.LaravelLocalization::getCurrentLocale().' as details') -> get();
+        
         return view('offers/alloffers', compact('offers'));
     }
 
     public function editOffer($Offer_Id){
 
         // Offer::findOrFail($Offer_Id);
-        
+
         $offer = Offer::find($Offer_Id); //search in given tabel only by id
 
         if(! $offer){
-            return redirect()->back();
+            return redirect()->back()->with(['error_id' => 'this id not exist']);
         }
 
         $offer = Offer::select('id','name_ar', 'name_en', 'details_ar', 'details_en', 'price') -> find($Offer_Id);
@@ -120,8 +124,8 @@ class CrudController extends Controller
         $offer -> update($request->all());
         return redirect()->back()->with(['success' => 'تم التحديث بنجاح']);
 
-        
-        //طريقة تانية 
+
+        //طريقة تانية
         // $offer -> update([
         //     'name_ar'    => $request->name_ar,
         //     'name_en'    => $request->name_en,
@@ -129,7 +133,31 @@ class CrudController extends Controller
         //     'details_ar' => $request->details_ar,
         //     'details_en' => $request->details_en,
         // ]);
-        
+
 
     }
+
+    public function deleteOffer($Offer_Id){
+
+       // $offer = Offer::find($Offer_Id); //search in given tabel only by id
+       //طريقة تانية باستخدام الوير ..هى هى نفسها ولكن طريقة تانية 
+
+        // $offer = Offer::where('id', '=' , $Offer_Id)->first(); 
+        //نفسها الى تحت ..كانى حكتله يساوى يعنى ..اى واحدة صح 
+        $offer = Offer::where('id', $Offer_Id)->first(); 
+
+        if(! $offer){
+            return redirect()->to('offers/all')->with(['error_delete' => 'this id '. $Offer_Id .' not exist']);
+        }
+
+        $offer-> delete();
+
+        $offer = Offer::select('name_'.LaravelLocalization::getCurrentLocale().' as name') -> first();
+
+        return redirect()->route('offers.all')->with(['success_delete' => $offer -> name . ' : ' . __('messages.offer delete')]);
+
+    }
+
+
+
 }

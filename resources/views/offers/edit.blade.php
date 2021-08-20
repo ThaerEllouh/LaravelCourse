@@ -80,15 +80,15 @@
                 </button>
                 <a class="navbar-brand" href="#">Brand</a>
               </div>
-          
+
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                   <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
                   <li><a href="#">Link</a></li>
-                  
+
                 </ul>
-                
+
                 <ul class="nav navbar-nav navbar-right">
                     @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
 
@@ -126,6 +126,12 @@
                     {{ __('messages.Edit Your Offer')}}
                 </div>
 
+                @if (Session::has('error_id'))
+                    <div class="alert alert-danger">
+                        {{ Session::get('error_id') }}
+                    </div>
+                @endif
+
                 @if (Session::has('success'))
                     <div class="alert alert-success">
                         {{ Session::get('success') }}
@@ -137,6 +143,7 @@
                     @csrf
 
                     <div class="form-group">
+                        
 
                       <label for="offername">{{ __('messages.offer name in ar')}}</label>
                       <input type="text" class="form-control" name="name_ar" value="{{ $offer -> name_ar }}" id="offername" placeholder="{{ __('messages.offer name in ar')}}">
@@ -148,14 +155,14 @@
                     </div>
 
                     <div class="form-group">
-                        
+
                         <label for="offername">{{ __('messages.offer name in en')}}</label>
                         <input type="text" class="form-control" name="name_en" value="{{ $offer -> name_en }}" id="offername" placeholder="{{ __('messages.offer name in en')}}">
-  
+
                         @error('name_en')
                           <small class="form-text text-danger">{{$message}}</small>
                         @enderror
-  
+
                       </div>
 
                     <div class="form-group">
@@ -170,7 +177,7 @@
 
                     <div class="form-group">
 
-                        <label for="offerdetails">{{ __('messages.offer details in ar')}}</label>	
+                        <label for="offerdetails">{{ __('messages.offer details in ar')}}</label>
                         <input type="text" class="form-control" name="details_ar" value="{{ $offer -> details_ar }}" id="offerdetails" placeholder="{{ __('messages.offer details in ar')}}">
 
                         @error('details_ar')
@@ -180,8 +187,8 @@
                       </div>
 
                       <div class="form-group">
-                        
-                        <label for="offerdetails">{{ __('messages.offer details in en')}}</label>	
+
+                        <label for="offerdetails">{{ __('messages.offer details in en')}}</label>
                         <input type="text" class="form-control" name="details_en" value="{{ $offer -> details_en }}" id="offerdetails" placeholder="{{ __('messages.offer details in en')}}">
 
                         @error('details_en')
