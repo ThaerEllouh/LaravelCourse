@@ -37,6 +37,7 @@ return [
     'Operation'     => 'الاجراءات',
     'Edit'          => 'تعديل',
     'Delete'        => 'حذف',
+    'Delete Ajax'   => 'حذف بالاجاكس',
     
     //success delete message in all.blade.php
     'offer delete' => 'تم حذفه بنجاح',

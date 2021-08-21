@@ -231,6 +231,8 @@ Route::group([
     
             Route::get('create', 'OfferController@create')->name('ajax.offer.creat');
             Route::post('store', 'OfferController@store')->name('ajax.offer.store');
+            Route::get('all', 'OfferController@all')->name('ajax.offer.all');
+            Route::post('delete', 'OfferController@delete')->name('ajax.offer.delete');
         
         
         });
