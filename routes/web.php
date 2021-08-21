@@ -207,3 +207,34 @@ Route::group([
     });
 
 });
+
+
+
+
+###############################  Start Ajax Route ###############################
+
+// Route::group(['prefix' => 'ajax-offers'], function() {
+    
+//     Route::get('create', 'OfferController@create')->name('ajax.offer.creat');
+//     Route::post('store', 'OfferController@store')->name('ajax.offer.store');
+
+
+// });
+
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+
+    ], function() {
+
+        Route::group(['prefix' => 'ajax-offers'], function() {
+    
+            Route::get('create', 'OfferController@create')->name('ajax.offer.creat');
+            Route::post('store', 'OfferController@store')->name('ajax.offer.store');
+        
+        
+        });
+
+});
+###############################  End Ajax Route #################################
+
