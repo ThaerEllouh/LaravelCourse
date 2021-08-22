@@ -54,6 +54,12 @@
                 <a href="" offer-id="{{ $offer->id }}" id="delete_btn"  class="btn btn-danger">
                     {{ __('messages.Delete Ajax')}}
                 </a>
+
+                <a href="{{ route('ajax.offer.edit', $offer->id)}}"  class="btn btn-success">
+                    {{ __('messages.Edit Ajax')}}
+                </a>
+                
+
             </td>
           </tr>
           @endforeach
@@ -82,7 +88,7 @@
         },
         
         success:function(data){
-            
+
             if(data.status == true){
                 $('#success_delete_msg').show();
             }

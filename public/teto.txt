@@ -9708,3 +9708,209 @@ success:function(data){
 
              #069 - laravel update database using Ajax
   
+-الايديت والابديت 
+-نفس الكلام الى بنحكيه كل درس ..الشغل هو هو والميثودات هى هى ولكن بدنا نخليها اجاكس 
+
+-نروح نعمل الروات ..وبدون ما نمرر ال اى دى ..لانو حينا بنمرره بالفورم بودى ..هناك بالاجاكس بالداتا بناخده 
+
+Route::get('edit', 'OfferController@edit');
+Route::post('update', 'OfferController@update')->name('ajax.offer.update');
+
+==========
+
+-نروح نعمل دالة الايديت ..نفس  دالة الايديت القديمة بالزبط مع شوية تغير ..الريقويست والجيسون طبعا ..بدها تصير هيك 
+
+public function edit(Request $request){
+
+        $offer = Offer::find($request -> offer_id); //search in given tabel only by id
+
+        if(! $offer){
+            return response() -> json([
+                'status' => false,
+                'msg'  => 'هذا العرض غير موجود',
+            ]);
+        }
+
+        $offer = Offer::select('id','name_ar', 'name_en', 'details_ar', 'details_en', 'price') -> find($request -> offer_id);
+
+        return view('ajaxoffers/edit', compact('offer'));
+
+    }
+ 
+-طبعا انا هان سميته $request -> offer_id يبقى لا اعمل الاجاكس بدى اسميه بنفس الاسم offer_id لانو هو الى راح استلمه هان ..واروح عالداتا بيز اجيب بيانات الرو هاد بالفايند ..وحكينا الفايند زيها زى الفيرست بتجيبلى بيانات رو واحد فقط ...وبمررها للفيو وبعرضها هناك 
+
+=========
+
+
+-نروح نعمل الفورم تبعت الايديت ..برضو راح تكون نفس الفورم تبعت الكرييت ولكن بدنا نحط فيها الفاليو لليوزر عشان يعدل عليهم 
+
+-نسخنا صفحة الكرييت وحطيناها بصفحة الايديت وهلقيت بدنا نضيف بس الفاليو ع الحقول الى وصلتنى من الكنترولر لما مررتها 
+
+-زى هيك عليهم كلهم 
+<input type="text" class="form-control" name="name_ar" value="{{ $offer -> name_ar }}" id="offername" placeholder="{{ __('messages.offer name in ar')}}">
+
+-وحكينا الاكشن تبع الفورم ما بعهمنا ...واعطيناها اى دى عشان نتعامل معو بالاجاكس 
+خلينا نعطيها اى دى بالاسم هاد offerFormUpdate
+
+<form id="offerFormUpdate" method="POST"  action="" enctype="multipart/form-data">
+
+-وننزل تحت عالزر ...برضو نعطيه اى دى ..ونسميه ابديت مسلا ونترجمه 
+
+<button id="update_offer" class="btn btn-primary">{{ __('messages.send')}}</button>
+
+-هلقيت ننزل ع كود الاجاكس تحت ..نفس الى عملنا ولكن نغير اسم اى دى الززر للاسم الجديد تاع الابديت 
+
+    $(document).on('click', '#update_offer', function(e) {
+
+-ونغير اسم الفورم عشان ناخد منها كل بياانتها مرة واحدة الى انكتبت بالحقول عشان نحدثهم كلهم 
+
+        var formData = new FormData($('#offerFormUpdate')[0]);
+
+-شكل الاجاكس خلص هو هو ...راح مثبته عنا ونصير نشتغل عليه كل حاجة حكينا 
+النوع بوست واليو ار ال راح نعطيه اسم راوت الابديت الى احنا راح نروح عليه لما نضغط عالزر 
+
+-والباقى كله نفسه ..صار زى هيك الاجاكس 
+
+ $(document).on('click', '#update_offer', function(e) {
+        e.preventDefault();
+
+        var formData = new FormData($('#offerFormUpdate')[0]);
+
+    $.ajax({
+        type: 'post',
+        enctype: 'multipart/form-data',
+        url: "{{ route('ajax.offer.update')}}",
+        data: formData,
+        processData: false,
+        contentType: false,
+        cache: false,
+        success:function(data){
+            if(data.status == true)
+                $('#success_msg').show();
+        },
+        error:function(reject){
+        },
+    });
+
+    });
+    
+-هلقيت نروح ع صفحة الاوول ..ونورد زر جديد نسميه ايديت اجاكس 
+جنب زر حذف اجاكس ...عشان نبعته ع صفحة الفورم تبعت الايديت 
+
+-بس قبل ..احنا حكينا انو روات الايدت والابديت  ما بياخدو باراميتر ال اى دى وحذفناهم قلنا انهم بيتعامل بالريقويست 
+
+-لاااا ..الايديت بياخد اى دى ..اما الابديت ما بياخد ..خلينا نروح نعطى للايدت بارميتر ....ونعطيه تسميه كمان 
+
+-كانو زى هيك 
+Route::get('edit', 'OfferController@edit');
+Route::post('update', 'OfferController@update')->name('ajax.offer.update');
+
+-صارو هيك 
+Route::get('edit/{offer_id}', 'OfferController@edit')->name('ajax.offer.edit');
+Route::post('update', 'OfferController@update')->name('ajax.offer.update');
+
+-وهلقيت بدنا نرجع نعمل الزر تبع الايديت اجاكس ..ونباصى فيه ال اى دى تبع العرض الى احنا ضغطنا عليه 
+
+<a href="{{ route('ajax.offer.edit', $offer->id)}}"  class="btn btn-success">
+    {{ __('messages.Edit Ajax')}}
+</a>
+
+-وهلقيت روح اضغط ع زر تعديل اجاكس راح يطلعلك فورم التعديل
+
+-هلقيت بدنا نخليه يعمللها ابديت بالاجاكس 
+
+-بدنا نروح نعمل ميثود الابديت هلقيت ..الى راح تاخد من كود الاجاكس ...لانو حكينا لما نضغط ع زر الابديت الى هو حفظ ...بدو ياخد منى كود الاجاكس الى بروح ع راوت الابديت ..وروات الابديت بدو يروح ع ميثود الابديت 
+
+-نعمل الميثود 
+-اول حاجة بس نخليها ترجعلنا الريقويست نشوف شغلنا صح ولا لا والريقويست اجى معنا ولا لا 
+
+public function update(Request $request){
+
+        return $request;
+
+    }
+
+-اول حاجة الصفحة ما عمل معى ريلوود 
+-فعلا روح عالنيتوورك راح تلاقيها هيك 
+Name   Status   type
+update  200     xhr
+
+-ولو تفوت عليها 
+{"_token":"vtMGEZ7vE2gAZoqTjY1GPivoqh2oiqVzgM1bINwo","name_ar":"\u062c\u0648\u0627\u0644 \u0633\u0627\u0645\u0633\u0648\u0646\u062c 45","name_en":"Samsung Phone 45","price":"500","details_ar":"\u0631\u0627\u06456 \u062c\u064a\u062c\u0627","details_en":"Ram 6GB"}
+
+-نرجع لميثود الابديت راح تكون نفس ميثود الابديت العادية برضو 
+
+-بس قبل اى حاجة ...احنا بدنا ال اى دى تبع العرض الى انا بدى اعمله ابديت بالداتا بيز ...وانا مش باعت ال اى دى بالفورم مع البيانات الى اجتنى بالريقويست 
+
+-عادى ...بنروح بنحط فيللد مخفى ونحط فيها ال اى دى ونبعته مع الريقويست 
+        <input type="hidden" name="offer_id" value="{{ $offer -> id }}" >
+
+-هلقيت روح جرب كمان مرة راح تلاقيه وصلك بالريقويست مع الداتا الى معى 
+{"_token":"vtMGEZ7vE2gAZoqTjY1GPivoqh2oiqVzgM1bINwo","offer_id":"41","name_ar":"\u062c\u0648\u0627\u0644 \u0633\u0627\u0645\u0633\u0648\u0646\u062c 45","name_en":"Samsung Phone 45","price":"500","details_ar":"\u0631\u0627\u06456 \u062c\u064a\u062c\u0627","details_en":"Ram 6GB"}
+
+-هيو "id":"41" du] بعد التوكين ع طول 
+
+-هلقيت بدنا نروح ع دالة الابديت 
+
+public function update(Request $request){
+
+        //validation request
+
+        //check if offer is exist
+        $offer = Offer::find($request -> offer_id); //search in given tabel only by id
+
+        if(! $offer){
+            if(! $offer){
+                return response() -> json([
+                    'status' => false,
+                    'msg'  => 'هذا العرض غير موجود',
+                ]);
+            }
+        }
+
+        //update data
+        $offer -> update($request->all());
+        return response() -> json([
+            'status' => true,
+            'msg'  => 'تم التحديث بنجاح ',
+        ]);
+
+    }
+
+
+-هلقيت روح جرب ...راح يحدث معك البيانات ويطلعلك رسالة تم التحديث بنجاح 
+احنا عملناها بصفحة الايديت واخفيناها وعرضناها بالسكس تحت 
+
+-معلومة ..لما اقله 
+success:function(data){
+            if(data.status == true)
+                $('#success_msg').show();
+        },
+
+-الداتا هاد function(data) بيحصل عل كل البيانات الى احنا بنمررها بالجيسون هناك
+
+-يعنى بجيبلى كل البيانات الى انا بمررها هان 
+return response() -> json([
+            'status' => true,
+            'msg'  => 'تم التحديث بنجاح ',
+        ]);
+
+
+-ضل علينا كيف نعمل الفالديشن وكيف نظهر مسجات ايرور الفالديشن تحت الحقول ..للدرس الجاى 
+-لانى خلى بالك الايرور الى كنا نطبعه قبل الاجاكس الى زيك هيك 
+@error('details_ar')
+  <small class="form-text text-danger">{{$message}}</small>
+@enderror
+
+-هاد ما بينفع نعمله بالاجاكس ...لانو فش عنا سشن بالاجاكس حكينا يعنى مفش ايرور انعمل الو فلاش بالسشن ....بالاجاكس راح نعرضهم بطريقة تانية 
+
+
+-وبالنسبة كيف نحدث الصورة ما شرحها ..كان كل شرحها بدون الصورة 
+
+
+=================================================================================
+
+  #081 - laravel validate ajax request and show error messages - لأارافل اجاكس
+
+-كيف نعمل الفالديشن ونعرض الايرر تبعه بطريقة الاجاكس ...شارحه بفيديو 82
+

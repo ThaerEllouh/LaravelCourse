@@ -37,6 +37,7 @@ return [
     'Edit'          => 'Edit',
     'Delete'        => 'Delete',
     'Delete Ajax'   => 'Delete Ajax',
+    'Edit Ajax'     => 'Edit Ajax',
 
     //edit.blade.php
     'Edit Your Offer' => 'Edit Your Offer',
