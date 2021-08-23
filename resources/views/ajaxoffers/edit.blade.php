@@ -17,9 +17,7 @@
               <label for="offername">{{ __('messages.offer name in ar')}}</label>
               <input type="text" class="form-control" name="name_ar" value="{{ $offer -> name_ar }}" id="offername" placeholder="{{ __('messages.offer name in ar')}}">
 
-              @error('name_ar')
-                <small class="form-text text-danger">{{$message}}</small>
-              @enderror
+              <small id="name_ar_error" class="form-text text-danger"></small>
 
             </div>
 
@@ -28,9 +26,7 @@
                 <label for="offername">{{ __('messages.offer name in en')}}</label>
                 <input type="text" class="form-control" name="name_en" value="{{ $offer -> name_en }}" id="offername" placeholder="{{ __('messages.offer name in en')}}">
 
-                @error('name_en')
-                  <small class="form-text text-danger">{{$message}}</small>
-                @enderror
+                <small id="name_en_error" class="form-text text-danger"></small>
 
               </div>
 
@@ -38,9 +34,7 @@
               <label for="offerprice">{{ __('messages.offer price')}}</label>
               <input type="text" class="form-control" name="price" value="{{ $offer -> price }}" id="offerprice" placeholder="{{ __('messages.offer price')}}">
 
-              @error('price')
-                <small class="form-text text-danger">{{$message}}</small>
-              @enderror
+              <small id="price_error" class="form-text text-danger"></small>
 
             </div>
 
@@ -49,9 +43,7 @@
                 <label for="offerdetails">{{ __('messages.offer details in ar')}}</label>	
                 <input type="text" class="form-control" name="details_ar" value="{{ $offer -> details_ar }}" id="offerdetails" placeholder="{{ __('messages.offer details in ar')}}">
 
-                @error('details_ar')
-                <small class="form-text text-danger">{{$message}}</small>
-                @enderror
+                <small id="details_ar_error" class="form-text text-danger"></small>
 
               </div>
 
@@ -60,9 +52,7 @@
                 <label for="offerdetails">{{ __('messages.offer details in en')}}</label>	
                 <input type="text" class="form-control" name="details_en" value="{{ $offer -> details_en }}" id="offerdetails" placeholder="{{ __('messages.offer details in en')}}">
 
-                @error('details_en')
-                <small class="form-text text-danger">{{$message}}</small>
-                @enderror
+                <small id="details_en_error" class="form-text text-danger"></small>
 
               </div>
 
@@ -71,10 +61,7 @@
                 <label for="offerphoto">{{ __('messages.offer photo')}}</label>	
                 <input type="file" class="form-control" name="photo" id="offerphoto" >
 
-                @error('photo')
-                <small class="form-text text-danger">{{$message}}</small>
-                @enderror
-
+                <small id="photo_error" class="form-text text-danger"></small>
               </div>
 
 
@@ -88,6 +75,13 @@
 <script>
     $(document).on('click', '#update_offer', function(e) {
         e.preventDefault();
+
+        $("#name_ar_error").text("");
+        $("#name_en_error").text("");
+        $("#price_error").text("");
+        $("#details_ar_error").text("");
+        $("#details_en_error").text("");
+        $("#photo_error").text("");
 
         var formData = new FormData($('#offerFormUpdate')[0]);
 
@@ -104,6 +98,12 @@
                 $('#success_msg').show();
         },
         error:function(reject){
+
+            var response = $.parseJSON(reject.responseText);
+            $.each(response.errors, function(key, val){
+                $("#" + key + "_error").text(val[0]);
+            });
+
         },
     });
 
