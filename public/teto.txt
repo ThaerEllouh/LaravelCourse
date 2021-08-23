@@ -10150,3 +10150,6 @@ $(document).on('click', '#save_offer', function(e) {
 
 ================================================================================
 
+  #070-laravel Middleware create your custom middleware - لارافل middlewares
+
+-
