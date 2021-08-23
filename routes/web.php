@@ -242,3 +242,14 @@ Route::group([
 });
 ###############################  End Ajax Route #################################
 
+
+//الدرس 70 الميدل وير 
+###################  Start Authentication and guards ###########################
+
+Route::group(['middleware' => 'CheckAge', 'namespace' => 'Auth'], function(){
+
+    Route::get('adults', 'CustomAuthController@adult')->name('adult');
+
+});
+
+################### End Authentication and guards ###########################
