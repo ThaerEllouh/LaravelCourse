@@ -252,4 +252,9 @@ Route::group(['middleware' => 'CheckAge', 'namespace' => 'Auth'], function(){
 
 });
 
+//الدرس 71 guards
+Route::get('site', 'Auth\CustomAuthController@site')->name('site');
+Route::get('admins', 'Auth\CustomAuthController@admin')->name('admin');
+
+
 ################### End Authentication and guards ###########################
