@@ -253,8 +253,13 @@ Route::group(['middleware' => 'CheckAge', 'namespace' => 'Auth'], function(){
 });
 
 //الدرس 71 guards
-Route::get('site', 'Auth\CustomAuthController@site')->name('site');
-Route::get('admins', 'Auth\CustomAuthController@admin')->name('admin');
+Route::get('site', 'Auth\CustomAuthController@site')->middleware('auth:web')->name('site');
+
+Route::get('admins', 'Auth\CustomAuthController@admin')->middleware('auth:admin')->name('admin');
+
+Route::get('admin/login', 'Auth\CustomAuthController@adminLogin')->name('admin.login');
+
+Route::post('admin/login', 'Auth\CustomAuthController@checkAdminLogin')->name('save.admin.login');
 
 
 ################### End Authentication and guards ###########################
