@@ -11949,7 +11949,7 @@ public function hasOneRelationReverse() {
 
 ==========
 
--طيب لو بدنا نجيب اليوزر الى ما الهم تلفونات ..انا مدخل بس ليوزر 5 نلفون ..اما يوزر 6 و7 ما الهم تلفونات فى جدول الفون 
+-طيب لو بدنا نجيب اليوزر الى ما الهم تلفونات ..ا
 
 -لو بدى اطلعهم لحالهم كيف بنطلعهم
 
@@ -12072,3 +12072,834 @@ public function getUserHasNotPhone(){
 ============================================================================
 
    #077-laravel one to many relationship with real example - علاقة one to many laravel
+
+-علاقة ون تو منى 
+
+-بدنا نشرحها ع مثال طبى ....عنا مستشفيات 
+
+-المستشفى الواحدة فيها اكتر من دكتور ...والدكتور بينتمى لمسشتفى واحدة بس 
+هان العلاقة تسمى ون تو مينى 
+
+-زى لما اليوزر ينزل اكتر من اعلان ...والاعلان الواحد صاحبه يوزر واحد بس ولكن اليوزر الو اكتر من اعلان 
+
+-نرجع لمثالنا ...حكينا المستشفى تعتبر ون ...يعنى تسمى بروفايدور ..والكاترة مينى 
+
+-بدنا نعمل جدولين للمستشفى وللدكاترة ..ونعمللهم المودلات تعتهم ونتعلم كيف نربطهم ببعض 
+-وبدنا نتعلم كيف نحطهم بجدول ونعرضهم ...وكيف نحذف المستشفى بالدكاترة الى فيها كلهم 
+
+-عملت جدول hospitals 
+
+id   name  address   created_at   updated_at
+
+-وعملت جدول doctors
+
+id   name  title   hospital_id   created_at   updated_at
+
+-عملت بالجدولين عامودين الوقت التايم ستامب ...عشان ننوع بشغلنا يعنى 
+طالما لدى اعملهم بالمودل بترو يبقى لازم العامودين يكونى موجودين عنا بالجدول ...وحكينا بالمودل لو ما كتبناهم بترو هما باى ديفولت ترو خلص 
+
+-نروح نعمل مودل Hospital
+
+class Hospital extends Model
+{
+    protected $table = "hospitals";
+    protected $fillable = ['name', 'address', 'created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at'];
+}
+
+-هلقيت بدنا نعمل العلاقة في المودل ...طيب امشفى الها علاقة مع شو ..مع الدكاترة ..بتاخد اكتر من دكتور ...يبقى راح نسمى العلاقة doctors
+
+-هان راح نستخدم hasMany() لانو حكينا الها اكتر من دكتور يعنى علاقة منى 
+-هاز مينى شو ...دكتور وبنحكتبها باليم سبيس تعتها حكينا 
+
+public function doctors(){
+        return $this -> hasMany('App\Models\Doctor');
+    }
+
+-طيب ممكن نكتبها بشكل تانى ..عشان لو تشوفها بمكان تانى ما تستغرب 
+
+-ممكن تنكتب بالطريقة هادى Doctor::class  بس لازم نعمل يوز لكلاس الدكتور فوق 
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Doctor;
+
+class Hospital extends Model
+{
+    protected $table = "hospitals";
+    protected $fillable = ['name', 'address', 'created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at'];
+
+    public function doctors(){
+        return $this -> hasMany(Doctor::class);
+    }
+}
+
+-وخلص نتعود دايما نحط الفورن كى والبراميرى كى حتى لو كاتبينهم بالطريقة الديفولت 
+public function doctors(){
+        return $this -> hasMany(Doctor::class, 'hospital_id', 'id');
+    }
+
+=====================
+
+-نروح نعمل مودل الكتور ونعمل فيه العلاقة برضو 
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Doctor extends Model
+{
+    protected $table = "doctors";
+    protected $fillable = ['name', 'title', 'hospital_id', 'created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at'];
+
+    public function hospital(){
+        return $this -> belongsTo('App\Models\Hospital', 'hospital_id', 'id');
+    }
+}
+
+
+============================================================================
+
+  #078 - How to get data using one to many relationship by doctor example
+
+-بدى اروح ع جدول المشفى وادخل 3 مستشفيات من عندى يدوى 
+
+id        name                 address           created_at       updated_at
+1    غزة - تل الهوى         مستشفى الشفاء         Null             Null
+2    جنوب غزة - خانيونس      مستشفى الاوروبى       Null             Null
+3    شمال غزة - بيت لاهيا      مستشفى العودة       Null             Null
+
+
+-بدى ادخل 6 دكاترة ...واحط لكل مشفى دكتورين ...المشفى الاول دكتورين رجال
+الشمفى الاوربى دكتورين اناث ..مشفى العودة دكتور ذكر ودكتورة اناث 
+
+-وعشان لقدام راح اتعامل بشرط يكون ذكر ولا انثى بدى اضيف عامود جديد للجدول اسميه gender واقله ازا 0 يعنى ذكر وازا 1 يعنى انثى 
+
+id   hospital_id  gender(0->male, 1->female)      title            name
+1        1                0                  ثائر اللوح    استشارى باطنة   
+2        1                0                  حسن ابويوسف    استشارى جراحة   
+3        2                1                    نور اللوح    استشارى ولادة   
+4        2                1                  اسلام اللوح    استشارى اعصاب   
+5        3                0               محمود ابوجلمبو    استشارى مسالك   
+6        3                1                  شيماء اللوح    استشارى باطنة   
+
+===================
+
+-طيب احنا بدنا نجيب المستشفى رقم 1 
+
+-بدنا نعمل اول اشى الراوت عشان نجيب داكترة مشفى معينة 
+Route::get('hospital-has-many', 'Relations\RelationsController@getHospitalDoctors');
+
+-نعمل ميثود ترجعلنا مشفى رقم 1 
+
+public function getHospitalDoctors(){
+        $hospital = Hospital::find(1);
+        return $hospital;
+    }
+
+-او بطريقة الوير خلص صرنا فاهمين التنتين نفس الاشى 
+
+public function getHospitalDoctors(){
+        $hospital = Hospital::where('id', 1) -> first();
+        return $hospital;
+    }
+
+-او بطريقة تالتة جديدة راح نتعلمها اليوم ...بما انو المشفى هادى اول رو عندى بالجدول خلص بقله فيرست ع طول وهو بجيبلى اياها 
+
+public function getHospitalDoctors(){
+       return $hospital = Hospital::first();
+    }
+-رجعلى 
+
+{
+"id": 1,
+"name": "مستشفى الشفاء",
+"address": "غزة - تل الهوى"
+}
+
+===================================
+
+-طيب بدنا نجيب العلاقة معها ..خلص فهمنا كيف ...بدنا نجيب المشفى بالاطباء تعينها $hospital -> doctors;
+
+public function getHospitalDoctors(){
+        $hospital = Hospital::find(1);
+        $hospital -> doctors;
+        return $hospital;
+    }
+
+-رجعلى 
+
+{
+
+"id": 1,
+"name": "مستشفى الشفاء",
+"address": "غزة - تل الهوى",
+
+"doctors": [
+            {
+            "id": 1,
+            "name": "ثائر اللوح",
+            "title": "استشارى باطنة",
+            "hospital_id": 1,
+            "gender": 0
+            },
+            {
+            "id": 2,
+            "name": "حسن ابو يوسف",
+            "title": "استشارى جراجة ",
+            "hospital_id": 1,
+            "gender": 0
+            }
+          ]
+}
+
+-طيب لو بدى اجيب الدكاترة بس بدون ما ارجع المشفى ..بنعمل الريتورن على العلاقة بس 
+
+return $hospital -> doctors;
+
+public function getHospitalDoctors(){
+        $hospital = Hospital::find(1);
+        return $hospital -> doctors;
+    }
+
+-رجعلى بس الدكاترة 
+[
+{
+"id": 1,
+"name": "ثائر اللوح",
+"title": "استشارى باطنة",
+"hospital_id": 1,
+"gender": 0
+},
+{
+"id": 2,
+"name": "حسن ابو يوسف",
+"title": "استشارى جراجة ",
+"hospital_id": 1,
+"gender": 0
+}
+]
+
+=====================
+
+-ع فكرة انا بيرجعو معى لما اعمل ريتورن ...الهم برجعلى المشفى والدكاترة مع بعض ...يعنى المشفى مع العلاقة تعتها بدون ما استخدم with()
+
+-زى ما عملت بالمثال الاول 
+public function getHospitalDoctors(){
+        $hospital = Hospital::find(1);
+        $hospital -> doctors;
+        return $hospital;
+    }
+-هيك برجعلى الشمفى والدكاترة ..ومن الدرس الى فات بتزبط مع بس المهندس ما بيعملها هيك 
+
+-بيعملها بطريقة الوذ 
+
+========================
+
+-طيب نرجع للمهندس ..عشان نجيب المشفى مع الدكاترة بنستخ]l with()
+
+public function getHospitalDoctors(){
+        $hospital = Hospital::with('doctors') -> find(1);
+        return $hospital;
+    }
+
+-وهيك برجعلى زى المثال الاول المشفى مع الدكاترة تعونها 
+{
+"id": 1,
+"name": "مستشفى الشفاء",
+"address": "غزة - تل الهوى",
+"doctors": [
+            {
+            "id": 1,
+            "name": "ثائر اللوح",
+            "title": "استشارى باطنة",
+            "hospital_id": 1,
+            "gender": 0
+            },
+            {
+            "id": 2,
+            "name": "حسن ابو يوسف",
+            "title": "استشارى جراجة ",
+            "hospital_id": 1,
+            "gender": 0
+            }
+          ]
+}
+
+======================
+
+-طيب احنا عايزين نصل للداتا هادى الى رجعت ..كيف بنصللها 
+
+-مسلا بدى اصل لاسم المشفى 
+
+public function getHospitalDoctors(){
+
+        $hospital = Hospital::with('doctors') -> find(1);
+        return $hospital -> name;
+       
+    }
+
+-رجعلى 
+مستشفى الشفاء
+
+- بدى العنوان 
+        return $hospital -> address;
+
+-رجعلى 
+غزة - تل الهوى
+
+=========================
+
+-طيب بدى اصل لاسماء الدكاترة
+
+-اسماء الدكاترة اكتر من 1 ممكن يكون 5 ممكن 10 ...طيب انا كيف بدى اصلهم عن طريق الفور لوووب عليهم 
+
+-احنا حكينا انو هادى return $hospital -> doctors;  بتجيب الى اسماء الدكاترة
+
+-طيب خلينا نخزنها بمتغير نسميه $doctors  مسلا ونعمل فورايتش عليهم 
+
+-ومنو ناخد اسماء الداكترة مسلا او عناوينهم اى اى اشى بدى اياه 
+
+public function getHospitalDoctors(){
+
+        $hospital = Hospital::with('doctors') -> find(1);
+
+        $doctors = $hospital -> doctors;
+        foreach($doctors as $doctor){
+            echo $doctor -> name . "<br>";
+        }
+       
+    }
+
+-وهيك طبعلى اسماء الدكاترة الى بالمشفى 
+ثائر اللوح
+حسن ابو يوسف
+
+-هان استخدمت الايكو عشان اطبعهم لو اعمللهم ريتورن برجعلى بس اول اسم شكلو 
+
+-طيب لو بدى اطبع تخصصاتهم 
+
+            echo $doctor -> title . "<br>";
+
+-طبعلى 
+استشارى باطنة
+استشارى جراجة
+
+==============
+
+-بدى اطلع اسم الدكتور وجنبه تخصصه 
+
+foreach($doctors as $doctor){
+            echo $doctor -> name . ' : ' . $doctor -> title . "<br>";
+        }
+
+-طبعلى 
+ثائر اللوح : استشارى باطنة
+حسن ابو يوسف : استشارى جراجة
+
+========================================
+
+-طيب لو بدنا نعكس ...نجيب دكتور معين ..ونقله هاتلى المشفى تبعته 
+
+-خلص فهمناها من الدرس الى فات 
+
+
+public function getHospitalDoctors(){
+        $doctor = Doctor::find(5);
+        return $doctor -> hospital;      
+    }
+
+-حكتله دكتور رقم 5 الى هو محمود جلمبو ...رجعلى المشفى تعته 
+
+-فعلا رجعلى 
+{
+"id": 3,
+"name": "مستشفى العودة",
+"address": "شمال غزة - بيت لاهيا"
+}
+
+-طيب لو بدى اياه يرجعلى الدكتور والمشفى مع بعض 
+
+-اما ع طريقتى الى عرفتها انو اقله ريتورن للمتغير كله 
+-اجيب العلاقة يعنى بعدين اعمل ريتورن للمتغير 
+-او بالطريقة السريعة طريقة الوذ ...اقله وذ العلاقة واعمل ريتورن 
+
+public function getHospitalDoctors(){
+        $doctor = Doctor::find(5);
+        $doctor -> hospital;  
+        return $doctor    
+    }
+
+-رجعلى 
+
+{
+"id": 5,
+"name": "محمود جلمبو",
+"title": "ستشارى مسالك",
+"hospital_id": 3,
+"gender": 0,
+"hospital": {
+            "id": 3,
+            "name": "مستشفى العودة",
+            "address": "شمال غزة - بيت لاهيا"
+            }
+}
+
+-او بطريقة الوذ 
+$doctor = Doctor::with('hospital') -> find(5);
+        return $doctor;
+
+========================
+
+-طيب افرض انا بدى اياه يرجعلى من المشفى بس الاسم 
+$doctor = Doctor::with(['hospital' =>  function($q){
+            $q -> select('name');
+        }]) -> find(5);
+
+-ولكن هيك راح يرجعلى المشفى فاضى نل ...ليش لانو ما ضفنا البرايمرى كى 
+
+-طيب جدول المشفى ما فى برايمرى كى ...خلص حطيت ال id زبط معى 
+$doctor = Doctor::with(['hospital' =>  function($q){
+            $q -> select('name', 'id');
+        }]) -> find(5);
+
+-طيب ولكن انا ما بدى ال id  يظهر معى وهو راجع 
+بدى بس لااسم الى يرجعلى ...خلص بعمله هيدن 
+
+        $doctor -> hospital -> makeHidden(['id']);
+
+-طيب لو بدى اعمل ظهور لحقل الكرييت ات ..الى بدكتور شو بعمل 
+        $doctor -> makeVisible(['created_at']);
+
+-يعنى هيك الميثود 
+
+public function getHospitalDoctors(){
+        $doctor = Doctor::with(['hospital' =>  function($q){
+            $q -> select('name', 'id');
+        }]) -> find(5);
+
+        $doctor -> hospital -> makeHidden(['id']);
+        $doctor -> makeVisible(['created_at']);
+    
+        return $doctor;
+
+    }
+
+-رجعتلى 
+{
+"id": 5,
+"name": "محمود جلمبو",
+"title": "ستشارى مسالك",
+"hospital_id": 3,
+"gender": 0,
+"created_at": "2021-08-27T18:04:48.000000Z",
+"hospital": {
+        "name": "مستشفى العودة"
+        }
+}
+
+-طيب لو بدى ارجع الاسم والعنوان 
+$doctor = Doctor::with(['hospital' =>  function($q){
+            $q -> select('name', 'id', 'address');
+        }]) -> find(5);
+
+-رجعلى 
+{
+"id": 5,
+"name": "محمود جلمبو",
+"title": "ستشارى مسالك",
+"hospital_id": 3,
+"gender": 0,
+"created_at": "2021-08-27T18:04:48.000000Z",
+"hospital": {
+        "name": "مستشفى العودة",
+        "address": "شمال غزة - بيت لاهيا"
+        }
+}
+
+===================================
+
+-طيب عشان نفهم شغلنا هاد اكتر 
+
+-بدنا نعمل فيو فيها جدول يعرضلى المستشفيات ...ومقابل كل مستشفى زر اسمع عرض الاطباء ...لما ادوس عليه يعرضلى فيو تانى فيها الاطباء تبعين هاى المشفى بجدول 
+
+-بدنا نروح نعمل فولدر جديد نسميه mydoctors مسلا او اى اسم 
+
+ونعمل فيه 2 فيو واحد للمشفيات وواحد للدكاترة 
+
+-اول اشى نعمل الراوت 
+-راوت الدكاترة طبعا بدنا نمرره ال اى دى تبع المشفى الى بدنا نجيب دكاترتها 
+
+Route::get('all-hospital', 'Relations\RelationsController@getAllHospital');
+Route::get('all-doctors/{hospital_id}', 'Relations\RelationsController@getAllDoctors');
+-نروح نعمل ميثود تجيبلى كل المستشفيات وامررهم لفيو المسشتفى عشان اعرضهم بجدول 
+
+public function getAllHospital(){
+        $hospitals = Hospital::get();
+        return view('mydoctors.hospitals', compact('hospitals'));
+    }
+
+-او مكن نعمل سيليكت عشان نتعود عليها بلاش يكون عندى حقول كتير جدا وانا بدى بس حقول معينة ..عشان ايدنا تاخد عالسيليكت 
+
+public function getAllHospital(){
+        $hospitals = Hospital::select('id', 'name', 'address') -> get();
+        return view('mydoctors.hospitals', compact('hospitals'));
+    }
+
+-هى هى نفسها 
+
+-ومررت للفيو المتغير الى خزنا في المستشفيات 
+
+-هى الفيو المستشفيات 
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <h1 class="text-center">المستشفيات</h1>
+        <div class="table-responsive">
+            <table class="table text-center table-bordered ">
+              <tr>
+                  <td>#</td>
+                  <td>name</td>
+                  <td>address</td>
+                  <td>options</td>
+                </tr>
+      
+                @foreach ($hospitals as $hospital)
+                <tr>
+                  <td class="success">{{ $hospital -> id}}</td>
+                  <td class="warning">{{ $hospital -> name}}</td>
+                  <td class="warning">{{ $hospital -> address}}</td>
+                  <td class="default">
+                    <a href="{{url('all-doctors/'.$hospital -> id)}}"  class="btn btn-success">
+                        عرض الأطباء
+                    </a>
+                  </td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
+    </div>
+@endsection
+
+-نروح نزور الروات هلقيت 
+http://localhost/Laravel_Course/public/all-hospital
+
+-فعلا عرضلى ال 3 مستشفيات الى عنا بجدول 
+
+المستشفيات
+#	name	address	options
+1	مستشفى الشفاء	غزة - تل الهوى	
+2	مستشفى الاوروبى	جنوب غزة - خانيونس	
+3	مستشفى العودة	شمال غزة - بيت لاهيا	
+
+-ممكن قبل ما اعرضهم بالجدول اعمل تشيك عليهم ...هل المتغير الى اجانى فى مستشفيات فعلا ولا لا ...ازا فيه مستشفيات اقله يعرضلى اياهم بجدول اعمل فور ايشت عليهم 
+
+-وازا فاضى ما اخليه يعرضلى الجدول من اساسه واطلعله رسالة زى ايام الزيرو 
+واقله انو لا يوجد مستشفيات ..واعمله تحت الرسالة زر اضافة ازا حابب يضيف مستشفى 
+
+-يعنى قبل ما نعمل الفورايتش ..بدى اعمل اف تشيك عالمتغير الى اجانى من الميثود 
+
+-وهاى الطريقة بدك تصير تتبعها بكل شغلنا بد هيك خلص 
+
+-بدنا نقله هل المتغير موجود ..يعنى isset
+وكمان العدد تبعه اكبر من 0 
+
+يعنى هل هو موجود اصلا ..والعدد الى فيه اكبر من 0 ساعتها اعملى فور ايتش عليه 
+
+@if (isset($hospitals) && $hospitals -> count() > 0)
+    @foreach ($hospitals as $hospital)
+    <tr>
+    <td class="success">{{ $hospital -> id}}</td>
+    <td class="warning">{{ $hospital -> name}}</td>
+    <td class="warning">{{ $hospital -> address}}</td>
+    <td class="default">
+        <a href="{{url('all-doctors/'.$hospital -> id)}}"  class="btn btn-success">
+            عرض الأطباء
+        </a>
+    </td>
+    </tr>
+    @endforeach
+@endif
+
+-وممكن احطها بالجدول كله من برا عشان ما تعرضلى الجدول اساس لو ما فيه مشفيات 
+-انا ضفت مشفى الاقصى ..فاضى ما فى دكاترة عشان اجرب فكرتنا هادى عليها بالفيو تاع الدكاترة بدى اعمل التشيك قبل الجدول كله فيها 
+
+=============
+
+-نروح نعمل ميثود الى بتجيبلى الدكاترة بناءا ع المتغير الى مررته الى هو اى دى المشفى ...ونجيب منها الدكاترة تعين المشفى هاد ونعرضهم بالجدول الى بفيو الدكاترة 
+
+-راح نجيبهم كيف بالعلاقة ون تو مينى زى ما احنا عارفين 
+
+-اول حاجة مفرضو انو احنا نعمل فالديشن والكلام هاد ونفحص هل المشفى هادى موجودة بالجدول اصلا ولا لا 
+
+-بس احنا عارفين الكلام هاد وراح نجيب الدكاترة ع طول 
+
+-ممكن نجيبهم بطريقتين ...الطريقة الاولى 
+
+public function getAllDoctors($hospital_id){
+        $hospital = Hospital::find($hospital_id);
+        $doctors =  $hospital -> doctors;
+        return view('mydoctors.doctors', compact('doctors'));
+    }
+
+-انا جبت المستشفى ..بعدين حكتلو هاتلى العلاقة  منها وخزنتها بمتغير ومررته 
+
+-وممكن بالوذ برضو 
+public function getAllDoctors($hospital_id){
+        $hospital = Hospital::with('doctors') -> find($hospital_id);
+        $doctors =  $hospital -> doctors;
+        return view('mydoctors.doctors', compact('doctors'));
+    }
+
+-نروح لفيو الدكتور 
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <h1 class="text-center">الأطباء</h1>
+
+        @if (isset($doctors) && $doctors -> count() > 0)
+        <div class="table-responsive">
+            <table class="table text-center table-bordered ">
+              <tr>
+                  <td>#</td>
+                  <td>name</td>
+                  <td>title</td>
+                  <td>gender</td>
+                </tr>
+      
+                @foreach ($doctors as $doctor)
+                <tr>
+                  <td class="success">{{ $doctor -> id}}</td>
+                  <td class="warning">{{ $doctor -> name}}</td>
+                  <td class="warning">{{ $doctor -> title}}</td>
+                  <td class="warning">
+                    @if ($doctor -> gender == 0)
+                        {{"ذكر"}}
+                    @else
+                        {{"انثى"}}
+                    @endif
+                  </td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
+        @else
+            {{ "لا يوجد اطباء فى هذه المستشفى ..لاضافة طبيب " }}
+            <a href="#">اضغط هنا</a>
+        @endif
+    </div>
+@endsection
+
+-هلقيت اضغط ع اى مشفى راح يعرضلك الدكاترة تعينها بجدول 
+-واخر مشفى الى اسمها الاقصى لو تضغط عليها راح يطلعلك بس رسالة تقلك لا يوجد اطباء فى هذه المشفى اضغط هنا لاضافة اطباء 
+
+
+
+===========================================================================
+
+ #079 - laravel whereHas , whereDoesNotHave , with relationship one to many علاقه
+
+-بدنا نطبق الى درسناه الدرس الى فات 
+
+-بدنا نجيب المستشفيات الى الها دكاترة فقط 
+
+-نجيب المشفيات الى ما الها دكاترة 
+
+-ونجيب المستشفيات الى الها دكاترة بشرط ذكور فقط 
+
+-ونجيب المستشفيات الى الها دكاترة بشرط اناث فقط 
+
+-انا عملت 4 راوت ...ب 4 ميثود 
+-واشتغلت فيهم ع نفس فيو المستشفى وعرض لكل واحدة من ال 4 جدول 
+-ولكن فيو المشفى صار فيها الجدول الرئيسى تاع اخر مرة ...وال4 جداول الجداد 
+-عملت ع كل جدول قاعدة اف 
+
+-هى الراوت 
+//الدرس 79
+Route::get('hospital-exist-doctor', 'Relations\RelationsController@getHospitalExistDoctor');
+
+Route::get('hospital-not-exist-doctor', 'Relations\RelationsController@getHospitalNotExistDoctor');
+
+Route::get('hospital-exist-doctor-male', 'Relations\RelationsController@getHospitalExistDoctorMale');
+
+Route::get('hospital-exist-doctor-Femal', 'Relations\RelationsController@getHospitalExistDoctorFemale');
+
+-هى الميثودات 
+
+//الدرس 79
+
+    //مستشفيات بها اطباء
+    public function getHospitalExistDoctor(){
+        $hospitals1 = Hospital::whereHas('doctors') -> get();
+        return view('mydoctors.hospitals', compact('hospitals1'));
+    }
+
+    //مستشفيات لا يوجد بها اطباء
+    public function getHospitalNotExistDoctor(){
+        $hospitals2 = Hospital::whereDoesntHave('doctors') -> get();
+        return view('mydoctors.hospitals', compact('hospitals2'));
+    }
+
+    //مسشفيات تحتوى اطباء ذكور 
+    public function getHospitalExistDoctorMale(){
+        $hospitals3 = Hospital::whereHas('doctors', function($q){
+            $q -> where('gender', '0');
+        }) -> get();
+        return view('mydoctors.hospitals', compact('hospitals3'));
+    }
+
+    //مسشفيات تحتوى اطباء اناث 
+    public function getHospitalExistDoctorFemale(){
+        $hospitals4 = Hospital::whereHas('doctors', function($q){
+            $q -> where('gender', '1');
+        }) -> get();
+        return view('mydoctors.hospitals', compact('hospitals4'));
+    }
+
+-وعملت 4 ازرار تحت مكتوب عليهم كل واحد وين يروح 
+
+-ملاحظة اخيرا ..انا هان عشان معتمد ع الشغل القديم ..ومقابل كل مشفى فى زر عرض اطباء ..بتضغط عليه بيبعت عالميقود الى بتجيبلى الاطباء من العلاقة 
+
+-لو مشلا ما عنا شغل قديم وبدك تعرض المشفي مع الاطباء تعونها 
+-عادى بتقلو وذ العلاقة 
+-زى هيك ..نطبق ع اول ميثود عملناها 
+
+-بدل هيك 
+    //مستشفيات بها اطباء
+    public function getHospitalExistDoctor(){
+        $hospitals1 = Hospital::whereHas('doctors') -> get();
+        return view('mydoctors.hospitals', compact('hospitals1'));
+    }
+
+-ممكن هيك
+   //مستشفيات بها اطباء
+    public function getHospitalExistDoctor(){
+        $hospitals1 = Hospital::with('doctors') -> whereHas('doctors') -> get();
+        return view('mydoctors.hospitals', compact('hospitals1'));
+    }
+
+-التنتين نفس النتيجى راح يجيبولى عادى 
+
+============================================================================
+
+  #080 - laravel one to many relationship delete data from database العلاقات
+
+-بدنا نتعلم كيف نحذف مشفى بكل دكاترتها سواء كان 10 ولا 100 ولا 1000 
+بطريقة بسيطة جدا نمسحها 
+
+-راح نتعلم طريقتين ...الطريقة الاولى العادية الى بيستخدمها 90% من الناس 
+-والطريقة التانية الطريقة الاحترافية كيف نحذف عن طريق حاجة اسمها اوبسيرفر 
+طريقة كتابة كود احترافى وهاى قليل من الناس الى بيعرفها 
+
+-ممكن تبحث عنها لغاية ما نصل الها راح نشرحها الدرس الجاى 
+
+-طيب اول حاجة بدنا نروح نزود زر حذف جنب زر عرض الاطباء 
+باول جدول عملناه الى بجيبلى كل المشفيات 
+
+-واكيد لازم نعمل الراوت الى بياخد منا اى دى المشفى الى بدنا نحذفه
+
+//الدرس 80 حذف المشفى بكل دكاترته
+Route::get('all-hospitals/{hospital_id}', 'Relations\RelationsController@deleteHospital');
+
+-وهى الزر الى ضفناه 
+
+<td class="default">
+    <a href="{{url('all-doctors/'.$hospital -> id)}}"  class="btn btn-success">
+        عرض الأطباء
+    </a>
+    <a href="{{url('all-hospitals/'.$hospital -> id)}}"  class="btn btn-danger">
+        حذف المستشفى
+    </a>
+</td>
+
+-نروح نعمل الميثود deleteHospital
+-وزى ما حكينا اول حاجة لازم نعملها تشيك عالمتغير الى جاى الى الى هو اى دى المشفى هل هو موجود ولا لا زى ما كل مرة بنحكى 
+
+-اما بنستخدم طريقة findOrFails() الى تعلمناها انو لو مش موجود ترجعلى صفحة ايرور 404 باى ديفولت 
+
+-وممكن نعمل فايند وبعدها نعمل تشيك بقاعدة اف برضو عشان نعمل الى بدى اياه بايدينا ...ممكن اعملو ريدايركت لاى صفحة بمسج انا اكتبها اقله مسلا انو اى دى المشفى هاد مش موجود ....او ارجعه بايدى ع صفحة 404 زى ما بدى اعمل هلقيت
+-بدى اقله ازا ما لقيته اعملو ريتورن ع صفحة ال 404 ...يعنى اى طريقة بدك اياها اعملها 
+
+public function deleteHospital($hospital_id){
+
+        $hospital = Hospital::find($hospital_id);
+
+        if(! $hospital)
+            return abort('404');
+
+    }
+
+-طيب هلقيت لو بدى اعمل حذف للمشفى لحالها ..وهاد غلط طبعا لازم نحذف الابناء تعونها ازا الها ابناء الى هما الدكاترة الى فيها 
+
+-بنقله بكل بساطة 
+$hospital -> delete();
+
+-طيب انا مش عايز احذفها هى ...انا عايز احذف الى فيها وافضيها بعدين احذفها 
+-افضيها من شو ...من الدكاترة الى فيها ...طيب الدكاترة الى فيها كيف بجيبهام عن طريق العلاقة 
+
+-يبقى بالاول بحذف الابناء عن طريق العلاقة زى هيك 
+$hospital -> doctors -> delete();
+
+-بعدين بحذف المشفى نفسها الى هى الاب بقله 
+$hospital -> delete();
+
+-يعنى بدها تصير هيك
+$hospital -> doctors -> delete();
+$hospital -> delete();
+
+-وهادى الطريقة التقليدية الى معظم الناس بتعملها 
+-وممكن انت بعد ما تحذف تعملو ريتورن ردايركت باك او ريدايركت ع اى صفحة انت عايزها وترجعله رسالة مسلا 
+
+-صارت الميثود عنا هيك 
+
+public function deleteHospital($hospital_id){
+
+        $hospital = Hospital::find($hospital_id);
+
+        if(! $hospital)
+            return abort('404');
+
+        $hospital -> doctors() -> delete();
+        $hospital -> delete();
+
+        return redirect() -> back();
+
+    }
+
+-خلى بالك العلاقة بالحف لازم نحط الها اقواس بدون اقواس طلعلى ايرور doctors()
+-زى هيك بتنكتب يعنى 
+        $hospital -> doctors() -> delete();
+
+-جرب ضيف اى مستشفيات واحذفها راح تنحذف معك بكل سهولة هلقيت 
+
+-وع فكرة انا جربت احذف المشفى مباشرة بدون ما احدف العلاقة ..وحذفها معى عادى 
+-زى هيك يعنى 
+public function deleteHospital($hospital_id){
+
+        $hospital = Hospital::find($hospital_id);
+
+        if(! $hospital)
+            return abort('404');
+
+        $hospital -> delete();
+
+        return redirect() -> back();
+
+    }
+
+============================================================================
+
+   #082 - Laravel Complete Tutorial #082 - laravel many to many relationship - علاقه many to many laravel
+ - علاقه many to many laravel
+
+
+
+

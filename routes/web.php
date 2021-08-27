@@ -275,6 +275,26 @@ Route::get('has-user-has-phone', 'Relations\RelationsController@getUserHasPhone'
 
 Route::get('has-user-has-not-phone', 'Relations\RelationsController@getUserHasNotPhone');
 
+################### One To Many Relation ###################################
+
+Route::get('hospital-has-many', 'Relations\RelationsController@getHospitalDoctors');
+
+Route::get('all-hospital', 'Relations\RelationsController@getAllHospital');
+
+Route::get('all-doctors/{hospital_id}', 'Relations\RelationsController@getAllDoctors');
+
+//الدرس 79
+Route::get('hospital-exist-doctor', 'Relations\RelationsController@getHospitalExistDoctor');
+
+Route::get('hospital-not-exist-doctor', 'Relations\RelationsController@getHospitalNotExistDoctor');
+
+Route::get('hospital-exist-doctor-male', 'Relations\RelationsController@getHospitalExistDoctorMale');
+
+Route::get('hospital-exist-doctor-Femal', 'Relations\RelationsController@getHospitalExistDoctorFemale');
+
+//الدرس 80 حذف المشفى بكل دكاترته
+Route::get('all-hospitals/{hospital_id}', 'Relations\RelationsController@deleteHospital');
+
 ################### End Relation Routes ####################################
 
 
