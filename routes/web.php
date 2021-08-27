@@ -263,3 +263,18 @@ Route::post('admin/login', 'Auth\CustomAuthController@checkAdminLogin')->name('s
 
 
 ################### End Authentication and guards ###########################
+
+
+################### Starat Relation Routes #################################
+
+Route::get('has-one', 'Relations\RelationsController@hasOneRelation');
+
+Route::get('has-one-reverse', 'Relations\RelationsController@hasOneRelationReverse');
+
+Route::get('has-user-has-phone', 'Relations\RelationsController@getUserHasPhone');
+
+Route::get('has-user-has-not-phone', 'Relations\RelationsController@getUserHasNotPhone');
+
+################### End Relation Routes ####################################
+
+
