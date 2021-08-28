@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Doctor;
 use App\Models\Hospital;
 use App\Models\Phone;
+use App\Models\Service;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -172,6 +173,53 @@ class RelationsController extends Controller
         return redirect() -> back();
 
     }
+
+
+    ############ Start Many To Many Relation الدرس 82#############
+
+    public function geDoctorServices(){
+        $doctor = Doctor::with(['services' => function($query){
+            $query -> select('name');
+        }]) -> find(1);
+        return $doctor;
+    }
+
+    public function getServiceDoctors(){
+        $service = Service::with(['doctors' => function($query){
+            $query -> select('doctors.name', 'doctors.title', 'doctors.id');
+        }]) -> find(2);
+        return $service;
+    }
+
+    //الدرس83 
+    public function geDoctorServicesAll($doctor_id){
+        $doctor = Doctor::find($doctor_id);
+
+        $services = $doctor -> services; 
+
+        $allDoctors = Doctor::select('id', 'name') -> get();
+
+        $allServices = Service::select('id', 'name') -> get();
+
+        return view('mydoctors.services', compact('services', 'allDoctors', 'allServices'));
+    }
+
+    public function saveServicesToDoctors(Request $request){
+        $doctor = Doctor::find($request -> doctorId);
+
+        if(! $doctor)
+            return abort('404');
+        
+        //many to many insert to DB
+        // $doctor -> services() -> attach($request -> servicesIds);
+        // $doctor -> services() -> sync($request -> servicesIds);
+        $doctor -> services() -> syncWithoutDetaching($request -> servicesIds);
+
+        return redirect() -> back() -> with('success', 'تم الحفظ بنجاح');
+    }
+
+    
+
 
     
 }

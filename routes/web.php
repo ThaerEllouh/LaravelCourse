@@ -295,6 +295,18 @@ Route::get('hospital-exist-doctor-Femal', 'Relations\RelationsController@getHosp
 //الدرس 80 حذف المشفى بكل دكاترته
 Route::get('all-hospitals/{hospital_id}', 'Relations\RelationsController@deleteHospital');
 
+################### Many To Many Relation ###################################
+
+Route::get('doctor-services', 'Relations\RelationsController@geDoctorServices');
+
+Route::get('service-doctors', 'Relations\RelationsController@getServiceDoctors');
+
+//الدرس 83 بدنا نعرض خدمات لدكتور بجدول
+Route::get('doctor-services-all/{doctor_id}', 'Relations\RelationsController@geDoctorServicesAll')->name('doctor.services');
+
+//الدرس 83 بدنا نحفظ البيانات تبعت الخدمات الى ضفناها بالداتا بيز 
+Route::post('save-services','Relations\RelationsController@saveServicesToDoctors')-> name('save.services');
+
 ################### End Relation Routes ####################################
 
 

@@ -12,6 +12,7 @@
                   <td>name</td>
                   <td>title</td>
                   <td>gender</td>
+                  <td>operation</td>
                 </tr>
       
                 @foreach ($doctors as $doctor)
@@ -26,6 +27,11 @@
                         {{"انثى"}}
                     @endif
                   </td>
+                  <td class="default">
+                    <a href="{{route('doctor.services', $doctor -> id)}}"  class="btn btn-success">
+                        عرض الخدمات
+                    </a>
+                </td>
                 </tr>
                 @endforeach
             </table>

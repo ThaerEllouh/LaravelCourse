@@ -12897,8 +12897,730 @@ public function deleteHospital($hospital_id){
 
 ============================================================================
 
-   #082 - Laravel Complete Tutorial #082 - laravel many to many relationship - علاقه many to many laravel
- - علاقه many to many laravel
+   #082 - laravel many to many relationship - علاقه many to many laravel
+
+-علاقة منى تو منى 
+
+-راح نستخدمها ع مثال الدكتور والخدمات الى بقدمها ...مسلا 
+
+-طبيب الاسنان بقدم اكتر من خدمة ...خدمة تبيض اسنان خدمة تقويم خدمة حشو عصب 
+ولكن هاى الخدمة برضو مش محتكرة للدكتور نفسه ...ممكن خدمة تبيض الاسنان يكون الها اكتر من دكتور وكذلك خدمة العصب وهكذا .....هان تعتبر علاقة منى تو منى 
+
+-الدكتور الواحد بقدم اكتر من خدمة ....والخدمة الواحدة بقدمها اكتر من دكتور 
+
+-طالما ظهرت معلاقة المنى تو منى ..يبقى لازم يظهر معنا جدول وسيط اسمه 
+pivot table هاد هو الجدول الى بيبط الجدولين ببعض جدل الدكتور وجدول الخدمات 
+
+-بياخد ال اى دى من جدول الدكاترة وال اى دى من جدول الخدمات ...كانو هو جدول الوسيط ما بينهم 
+
+-جدول الدكتور موجود عنا من قبل ...بدنا نعمل جدول الخدمات راح ياخد اسم الخدمة ورقمها ...نسميه services 
+وضفنا عليه خدمات ...تقويم اسنان وتبيض وحشو وزراعة 
+
+-طبعا الخدمات هيك مش محتكرة ع دكتور واحد ممكن اكتر من دكتور يكون بيشتغل تبيض اسنان زى ما حكينا 
+
+-نروح نعمل المودل تبع الجدول نسميه Service
+class Service extends Model
+{
+    protected $table = "services";
+    protected $fillable = ['name', 'created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at'];
+}
+
+=======
+
+-حكينا طالما عنا علاقة منى تو منى بين جدولين يبقى لازم نعمل جدول تالت وسيط بينهم اسمه pivot table 
+
+-الجدول هاد الو طريقة بالتسمية الطريقة الديفولت والصح الى مفروض نشمى عليها 
+
+-عنا جدول doctors وجدول services يبقى الوسيط اسمه doctor_srvice
+الاتنين بدون اس الجمع وبينهم اندرسكور 
+
+-نروح نعمل الجدول التالت ونسميه بنفس الاسم doctor_srvice
+-راح ياخد طبعا id زى اى جدول يوكون براميرى 
+-وياخد doctor_id
+-وياخد service_id
+
+-هدول عمودين فورين كى عشان نربطه مع الجدولين 
+
+
+-صار الجدول doctor_service
+
+id    doctor_id     service_id
+
+-طيب خلينا نضيف يدوى خدمات لبعض الدكاترة بالجدول الوسيط هاد 
+
+-عنا الدكاترة بدى اخد اول 3 مسلا الى هما 
+1   ثائر
+2   حسن
+3   نور 
+
+-عنا الخدمات كانت
+1    تقويم اسنان
+2    تبيض اسنان 
+3    زراعة عصب 
+
+-بدى اعطى ثائر ال3 خدمات ...وحسن اول خدمتين ونوؤ الاول والتالتة مسلا 
+
+-يبقى بدنا نروح ع الجدول الوسيط ونحطهم بالارقام طبعا 
+
+id    doctor_id     service_id
+1        1             1
+2        1             2
+3        1             3
+4        2             1
+5        2             2
+6        3             1
+7        3             3
+
+-هى هادى العلاقة منى توى منى 
+
+-طيب كيف بدنا نكتب العلاقة بالمودل تبعها ...نروح ع مودل الدكتور عشان نربطه بالخدمات تبعته 
+
+-احنا بدنا نجيب الخدمان تعين الدكتور هاد ف من الطبيعى نسمى العلاقة services
+
+public function services(){
+        return $this -> belongsToMany('App\Models\Service', 'doctor_service', 'doctor_id', 'service_id', 'id', 'id');
+    }
+
+-بتعمل ريتورن لهذا الدكتور يعنى ذس ...يعنى  الى اخترته من الداتا بيز ....بعدين بنقله belongsToMany 
+
+-هاى بنستخدمها بالعلاقة مينى تو مينى ..يعنى بينتمى لاكتر من حاجة 
+
+-اول حاجة بنكتبها بالدالة ...الى هى ينتمى لمين ..طبعا ينتمى للخدمات بنحطله مودل الخدمات 
+
+-بعدين بنكتبله الجدول الوسيط لارافيل بتطلبه عشان لما تعمله العلاقة بالكود 
+
+-تالت حاجة الفورن كى ...انت واقف بالدكتور يبقى بتحط فورن كى الدكتور اول اشى 
+
+-بعدين بنحطله الفورن كى التانى الى بيربط بالخدمات 
+
+-بعدين البرايمرى كى تبع جدول الدكتور الى هى id 
+
+-بعدين البرايمرى كى تبع جدول الخدمات الى هو برضو id 
+
+-واخر 4 طبعا زى ما حكينا لو انت متبع طرق التسمية الصحيحة مش ضرورى تكتبهم ..الى هما الفورن كى والبرايمرى كى 
+
+belongsToMany($related, $table = null, $foreignPivotKey = null, $relatedPivotKey = null, $parentKey = null, $relatedKey = null, $relation = null)
+
+-وهيك عملنا علاقة تربطلى الدكتور بخدماته 
+
+=========
+
+-طيب نروح ع مودل الخدمات نعمل نفس العلاقة ما عملناها هان ..علاقة تربطلى الخدمة بالدكاترة تعونها ....يبقى لازم نسميها doctors 
+
+ public function doctors(){
+        return $this -> belongsToMany('App\Models\Doctor', 'doctor_service', 'service_id', 'doctor_id', 'id', 'id');
+    }
+
+-خلى بالك فورن كى تاع الخدمات قبل فورن كى تاع الدكتور الاول تبع المودل الى انت بتكون فيه دايما 
+
+=============
+
+-طيب روح هلقيت نعمل راوت عشان نشوف فيه شغلنا 
+
+-بدنا نعمل راوت ..نعطيه بالميثود دكتور معين ..وهو يرجعلى الخدمات تبعته 
+
+Route::get('doctor-services', 'Relations\RelationsController@geDoctorServices');
+
+-نروح نعمل الميثود geDoctorServices
+
+-اول حاجة نجيب الدكتور ونعملو ريتورن نتاكد من شغلنا 
+public function geDoctorServices(){
+        return $doctor = Doctor::find(1);
+    }
+
+-فعلا رجعلنا دكتور رقم 1 ثائر اللوح
+{
+"id": 1,
+"name": "ثائر اللوح",
+"title": "استشارى باطنة",
+"hospital_id": 1,
+"gender": 0
+}
+
+=======================
+
+-طيب بدنا الخدمات تعين الدكتور رقم 1 ...خلص عرفنا كيف نجيبهم من العلاقة 
+public function geDoctorServices(){
+        $doctor = Doctor::find(1);
+        return $doctor -> services;
+    }
+
+-فعلا رجعلى خدمات الدكتور لحالهم بدون الدكتور لانى عملت ريتورن للعلاقة ان 
+
+[
+    {
+    "id": 1,
+    "name": "تقويم اسنان",
+    "pivot": {
+    "doctor_id": 1,
+    "service_id": 1
+    }
+    },
+    {
+    "id": 2,
+    "name": "تبيض اسنان",
+    "pivot": {
+    "doctor_id": 1,
+    "service_id": 2
+    }
+    },
+    {
+    "id": 3,
+    "name": "زراعة عصب",
+    "pivot": {
+    "doctor_id": 1,
+    "service_id": 3
+    }
+    }
+]
+
+=============
+
+-طيب بدنا نرجع الدكتور مع الخدمات ...برضو عارفين يا بنقلو ريتورن للمتغير بعد ما اخدنا منو علاقة زى هيك 
+public function geDoctorServices(){
+        $doctor = Doctor::find(1);
+        $doctor -> services;
+        return $doctor;
+    }
+
+-او بنقله وذ العلاقة واعمله ريتورن 
+public function geDoctorServices(){
+        $doctor = Doctor::with('services') -> find(1);
+        return $doctor;
+    }
+
+-فعلا رجعلى الدكتور مع العلاقة 
+{
+    "id": 1,
+    "name": "ثائر اللوح",
+    "title": "استشارى باطنة",
+    "hospital_id": 1,
+    "gender": 0,
+    "services": [
+                {
+                "id": 1,
+                "name": "تقويم اسنان",
+                "pivot": {
+                "doctor_id": 1,
+                "service_id": 1
+                }
+                },
+                {
+                "id": 2,
+                "name": "تبيض اسنان",
+                "pivot": {
+                "doctor_id": 1,
+                "service_id": 2
+                }
+                },
+                {
+                "id": 3,
+                "name": "زراعة عصب",
+                "pivot": {
+                "doctor_id": 1,
+                "service_id": 3
+                }
+                }
+            ]
+}
+
+-طيب شو هاد البيفوت الى بيرجع معى 
+"pivot": {
+        "doctor_id": 1,
+        "service_id": 3
+    
+-انا ما بدى اياه يرجعو معى ...وهاد لا يعتبر حقل بالداتا بيز بالجدول برضو 
+
+-ولكن لو ما بدك اياه يرجع معك بتروح الخدمات وبتحطه بالهيدن خلص ببطل يرجع 
+
+-بالطريقة هادى 
+class Service extends Model
+{
+    protected $table = "services";
+    protected $fillable = ['name', 'created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'pivot'];
+
+-هلقيت ما بيرجع معى بالعلاقة خلص ..روح حدث الصفحة راح تلاقيها رجعت هيك 
+
+{
+    "id": 1,
+    "name": "ثائر اللوح",
+    "title": "استشارى باطنة",
+    "hospital_id": 1,
+    "gender": 0,
+    "services": [
+                    {
+                    "id": 1,
+                    "name": "تقويم اسنان"
+                    },
+                    {
+                    "id": 2,
+                    "name": "تبيض اسنان"
+                    },
+                    {
+                    "id": 3,
+                    "name": "زراعة عصب"
+                    }
+                ]
+}
+
+======================
+
+-طيب انا لو بدى ارجع من العلاقة بس اسم الخدمة وخلص مش عايز اى حاجة غيرها ....برضو عرفنا كيف ....بنمرر جملة كويرى للفنكشن وبنعمل سيليكت للاشياء الى عايزينها 
+
+public function geDoctorServices(){
+        $doctor = Doctor::with(['services' => function($query){
+            $query -> select('name');
+        }]) -> find(1);
+        return $doctor;
+    }
+
+-فعلا رجعلى بس الاسم 
+{
+    "id": 1,
+    "name": "ثائر اللوح",
+    "title": "استشارى باطنة",
+    "hospital_id": 1,
+    "gender": 0,
+    "services": [
+                    {
+                    "name": "تقويم اسنان"
+                    },
+                    {
+                    "name": "تبيض اسنان"
+                    },
+                    {
+                    "name": "زراعة عصب"
+                    }
+                ]
+}
+
+================
+
+-طيب نروح نعكس العلاقة ...بدنا نعمل راوت جيبلنا الدكاترة تبيعن الخدمة الى بدى اعطيه اياها 
+
+Route::get('service-doctors', 'Relations\RelationsController@geServiceDoctors');
+
+-نعمل الميثود ونعطيها الخدمة الى احنا عايزينه عشان نجيب دكاترتها مسلا خدمة رقم 2 ثائ وحسن بيشتركوا فيه 
+
+public function getServiceDoctors(){
+        $service = Service::find(2);
+        return $service;
+    }
+
+-رجلعى الخدمة التانية 
+{
+"id": 2,
+"name": "تبيض اسنان"
+}
+
+=========
+
+-طيب بدنا نجيبها مع الدكاترة تعينها 
+public function getServiceDoctors(){
+        $service = Service::with('doctors') -> find(2);
+        return $service;
+    }
+
+-رجعلى اياها هى والدكاترة تعونها 
+{
+"id": 2,
+"name": "تبيض اسنان",
+"doctors": [
+{
+"id": 1,
+"name": "ثائر اللوح",
+"title": "استشارى باطنة",
+"hospital_id": 1,
+"gender": 0,
+"pivot": {
+"service_id": 2,
+"doctor_id": 1
+}
+},
+{
+"id": 2,
+"name": "حسن ابو يوسف",
+"title": "استشارى جراجة ",
+"hospital_id": 1,
+"gender": 0,
+"pivot": {
+"service_id": 2,
+"doctor_id": 2
+}
+}
+]
+}
+
+-طيب ما بدى ال بيفوت يرجعلى بالدكتور ...خلص فهمنا ..بنروح ع مودل الدكتور وبنحطه بالهيدن 
+class Doctor extends Model
+{
+    protected $table = "doctors";
+    protected $fillable = ['name', 'title', 'hospital_id', 'created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'pivot'];
+
+-هيك ما راح يرجعولى 
+
+-طيب انا بدى ارجع بس اسم الدكتور وتخصصه مسلا 
+public function getServiceDoctors(){
+        $service = Service::with(['doctors' => function($query){
+            $query -> select('name', 'title');
+        }]) -> find(2);
+        return $service;
+    }
+
+-رجعلى بس الاسم والتخصص 
+
+{
+    "id": 2,
+    "name": "تبيض اسنان",
+    "doctors": [
+                    {
+                    "name": "ثائر اللوح",
+                    "title": "استشارى باطنة"
+                    },
+                    {
+                    "name": "حسن ابو يوسف",
+                    "title": "استشارى جراجة "
+                    }
+                ]
+}
+
+-طيب لو انا بدى ارجع الاسم التخصص ومعهم ال اى دى كمان 
+public function getServiceDoctors(){
+        $service = Service::with(['doctors' => function($query){
+            $query -> select('name', 'title', 'id');
+        }]) -> find(2);
+        return $service;
+    }
+
+-هان طلعلى ايرور 
+SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'id' in field list is ambiguous (SQL: select `name`, `title`, `id`, `doctor_service`.`service_id` as `pivot_service_id`, `doctor_service`.`doctor_id` as `pivot_doctor_id` from `doctors` inner join `doctor_service` on `doctors`.`id` = `doctor_service`.`doctor_id` where `doctor_service`.`service_id` in (2))
+
+-انت طالب id وهان اختلف عليه الامر لانو هو بيتعامل مع 3 جداول ف بقلك مش عارف اى اى دى انت بدك ...خلص بنروح بنقله اسم الجدول الى بدى اياه دوت ال اى دى 
+
+public function getServiceDoctors(){
+        $service = Service::with(['doctors' => function($query){
+            $query -> select('name', 'title', 'doctors.id');
+        }]) -> find(2);
+        return $service;
+    }
+
+-وهيك رجعلى ال اى دى مع الاسم والتخصص
+{
+"id": 2,
+"name": "تبيض اسنان",
+    "doctors": [
+            {
+            "name": "ثائر اللوح",
+            "title": "استشارى باطنة",
+            "id": 1
+            },
+            {
+            "name": "حسن ابو يوسف",
+            "title": "استشارى جراجة ",
+            "id": 2
+            }
+            ]
+}
+
+-وعادى لو اعملهم كلهم هيك باسم الجدول ما راح يطلعلى خطا 
+public function getServiceDoctors(){
+        $service = Service::with(['doctors' => function($query){
+            $query -> select('doctors.name', 'doctors.title', 'doctors.id');
+        }]) -> find(2);
+        return $service;
+    }
+
+============================================================================
+
+  #083 - laravel many to many relationship insert data to database Attach
+
+-بدنا نتعلم كيف نعمل انسيرت للعلاقة مينى تو مينى 
+
+-انا بدى اروح اضيف بجدول الدكاترة ..زر يظهرلى الخدمات تعين هاد الدكتور 
+لما اضغط عليه يظهر خدمات الدكتور بجدول 
+
+-الراوت
+
+Route::get('doctor-services-all/{doctor_id}', 'Relations\RelationsController@geDoctorServicesAll')->name('doctor.services');
+
+-الزر
+
+<td class="default">
+    <a href="{{route('doctor.services', $doctor -> id)}}"  class="btn btn-success">
+        عرض الخدمات
+    </a>
+</td>
+
+-الميثود 
+
+public function geDoctorServicesAll($doctor_id){
+        $doctor = Doctor::find($doctor_id);
+
+        $services = $doctor -> services;
+
+        return view('mydoctors.services', compact('services'));
+    }
+
+-وعملت صفحة services وفيها جدول وعرضنا فيه خدمات الطبيب 
+
+==================
+
+-هلقيت بدنا نرجع لصفحة الدكتور ونضيف زر جديد اسمه اضافة خدمة جنب زر عرض الخدمات 
+
+-عشان نتعلم كيف نعمل انسيرت بالعلاقة المينى تو مينى 
+
+-وبدنا نعمل فورم نضيف فيها حقلين سيليكت بوكس ...حقل يكون فيها اسماء الدكاترة واختار منو دكتور واحد 
+
+-وحقل سيليكت تانى يكون فيه اسماء الخدمات الى عنا ويكون ملتى ...بقدر اختار منو اكتر من خدمة يعنى اعمل سيليكت لاكتر من خدمة بالتالى راح يكون النيم تبعه اريه زى ما عارفين 
+
+-بدى اعمل الفورم بنفس صفحة الخدمات تحت الجدول نخليها بدل ما نعمل صفحة جديدة 
+
+-طيب عملنا الفورم وفيها حقلين سيليكت عشان اختار الدكاترة والخدمات 
+
+-يبقى بدى اروح امرر لصفحة الخدمات برضو الدكاترة كلهم عشان اعمل عليهم لووب واعرضهم بالسيليكت 
+
+-وامررها الخدمات كلهم برضو ..عشان اعمل عليهم فور لووب بالسيليكت التانى 
+
+public function geDoctorServicesAll($doctor_id){
+        $doctor = Doctor::find($doctor_id);
+
+        $services = $doctor -> services;
+
+        $allDoctors = Doctor::get();
+
+        $allServices = Service::get();
+
+        return view('mydoctors.services', compact('services', 'allDoctors', 'allServices'));
+    }
+
+-وممكن انا اختار بس ال اى دى والاسم وخلص ليش ارجع كل الحقول معى واعمل لوود عندى 
+public function geDoctorServicesAll($doctor_id){
+        $doctor = Doctor::find($doctor_id);
+
+        $services = $doctor -> services;
+
+        $allDoctors = Doctor::select('id', 'name') -> get();
+
+        $allServices = Service::select('id', 'name') -> get();
+
+        return view('mydoctors.services', compact('services', 'allDoctors', 'allServices'));
+    }
+
+-ولقدام راح نتعلم كيف نعرض بالباجينيشن الى هو تعدد الصفحات افرض انا كان عندى 50 دكتور وبدى اعرض كل 10 بصفحة مسلا 
+
+-ضل علينا نعمل الاكشن تبع الفورم ...الراوت الى بدها تروح عليه عشان يعملى حفظ بالداتا بيز 
+
+Route::post('save-services','Relations\RelationsController@saveServicesToDoctors')-> name('save.services');
+
+-واكشن الفورم 
+<form method="POST" action="{{route('save.doctors.services')}}">
+
+<form method="POST" action="{{route('save.services')}}">
+                    @csrf
+                    {{-- <input name="_token" value="{{csrf_token()}}"> --}}
+
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">أحتر طبيب</label>
+                        <select class="form-control" name="doctorId" >
+                            <option value="0">...</option>
+                            @foreach($allDoctors as $allDoctor)
+                                <option value="{{$allDoctor -> id}}">{{$allDoctor -> name}}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">أختر الخدمات </label>
+
+                        <select class="form-control" name="servicesIds[]" multiple>
+                            @foreach($allServices as $allService)
+                                <option value="{{$allService -> id}}">{{$allService -> name}}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">حفظ</button>
+                </form>
+
+-وهيك كلو تمام 
+
+-ضل علينا كيف نعمل انسيرت للى بدى اختارهم 
+
+-نروح نعمل الميثود 
+
+-اول حاجة طالما الراوت بوست وجاى من فورم يبقى بصل للبيانات الى اجتنى عن طريق الريقويست زى ما احان عارفين 
+
+-انا بس بدى اشوف البياانت الى رجعتلى 
+public function saveServicesToDoctors(Request $request){
+        return $request;
+    }
+
+-بدى اعلم على نور ااى دى تبعها 3 ..واختار الخدمة 1 و3 و 5 
+
+-رجعلى 
+
+{
+"_token": "kpw7qCwmynpb4fHm0YLBYbLGHTWRxdKUA2Lk8yrZ",
+"doctorId": "3",
+"servicesIds": [
+                    "1",
+                    "3",
+                    "5"
+                ]
+}
+
+-هى ال3 حقول الى بالفورم وهى رجعلى قيمهم الى انا اخترتهم 
+
+-طيب هو ليش رجعلى ارقام ال اى دى مش الاسماء ..لانو انا عندى علاقة مينى تو مينى بتخزن بالداتا بيز بال اى دى ...واساس احنا عاملين سيليكت بوكس ...والفاليو تبعت الاوبشن انا حاططها ال اى دى تبع الدكتور وال اى دى تبع الخدمة 
+
+<option value="{{$allDoctor -> id}}">{{$allDoctor -> name}}</option>
+
+-ما حطيت الفاليو تكون اسم الدكتور لا ..الفاليو خليتها ال اى دى لانو انا بدى اخزن بال اى دى بالعلاقة المنى تو منى 
+
+======================
+
+-راح نتعلم ميثود جديدة بتعمل انسيرت للداتا بسطر واحد بعلاقة المنى تو منى 
+
+-بس اول حاجة راح نجيب الدكتور ..والدكتور طبعا جاى الى بالريقويست الى انا اخترته 
+
+        $doctor = Doctor::find($request -> doctorId);
+
+-هلقيت المفروض نعمل عليه تشيك .نقله لو الدكتور هاد موجود خزن الو البيانات هادى وازا مش موجود ارجعلى ورا برسالة ايرور او احوله ع صفحة 404 
+
+$doctor = Doctor::find($request -> doctorId); 
+if(! $doctor)
+    return abort('404');
+
+-طيب انا كيف بدى اخزن الخدمات الى اجتنى بالريقويست للدكتور هادا الى اجانى بالريقويست بالداتا بيز 
+
+-عن طريق دالة اسمها Attach 
+وهو هاد السطر الوحيد الجديد بدرس اليوم 
+
+        $doctor -> attach($request -> servicesIds);
+
+-لوكن لو تجرب هيك راح يطلعلك ايرور 
+BadMethodCallException
+Call to undefined method App\Models\Doctor::attach()
+
+-ليش انو انت قاعد بتعمل اتتاش للدكتور نفسه ..ولكن احنا بدنا نعمل الا اتاش للخدمات ..يعنى بدنا نضيف الخدمات الى اجتنى للخدمات ..كيف بجيبها من العلاقة الى معو الدكتور ...وهى هادى كل درسنا عشان نصل للمعلومة هادى 
+انو دالة الاتاش تستخدم بالاضافة بالعلاقة منى توى منى 
+
+-يبقى بدى اقله 
+
+     $doctor -> services() -> attach($request -> servicesIds);
+
+-والعلاقة بحط الها اقواس خلى بالك 
+
+-صارت الميثود تاعتنا بكل بساطة 
+
+public function saveServicesToDoctors(Request $request){
+        $doctor = Doctor::find($request -> doctorId);
+
+        if(! $doctor)
+          return abort('404');
+        
+        //many to many insert to DB
+        $doctor -> services() -> attach($request -> servicesIds);
+
+        return redirect() -> back() -> with('success', 'تم الحفظ بنجاح');
+    }
+
+-هلقيت نروح عالفورم ونختار لنور 
+
+-نور عندها خدمتين تقويم اسنان وزراعة عصب 
+
+-انا بدى اختار الها تقويم اسنان ..مع انو هى مضيوفة خلى بالك ...واختار كمان واحدة جديدة حشو عصب 
+
+-فعلا تم الحفظ بنجاح ولكن نور صار عندها 4 خدمات 
+
+1	تقويم اسنان
+3	زراعة عصب
+1	تقويم اسنان
+4	حشو عصب
+
+-لاحظ تقويم الاسنان تكررت ..ولو اروح اضيفه كمان مرة ..راح يضيفها كمان مرة عادى 
+
+-هى هادى دالة attach بتعملى اضافة مع التكرار حتى لو كان موجود 
+
+-الدرس الجاى راح نتعلم دالتين جداد ...دالة بتعملى اضافة وبتحذف القديم كله بس بتضف الجديد وهاى تقريبا بنستخدمها بالابديت ...ودالة بتعملى انسيرت عالقديم بدون التكرار بدون ما تكرر القديم ..ازا لقت الشغلة موجودة خلص ما بتضيفها كمان مرة 
+
+============================================================================
+
+#084 laravel many to many sync attach and syncWithoutDetaching شرح العلاقات
+
+-بدنا نشرح 3 ميثود ..شرحنا منهم واحدة الدرس الى فات وهما 
+
+sync   -   attach    -    syncWithoutDetaching
+
+- attach : حكينا تستخدم لل انسيرت بعلاقة مينى تو ميى ولكن بتعملى انسيرت للقديم حتى لو موجود بتضيفه كمان مرة 
+
+وممكن احنا نتغلب عالقصة هادى انو نعمل تشيك عالحاجة قبل ما اضيفها ...اقله ازا الشغلة هاى موجودة قبل ما تضيفها وانا بستخدم دالة اتاش 
+
+ولكن انا بديش اغلب حالى ولا اعمل تشيك ولا اشى ..شو الحل ...بستخدم دالة 
+sync
+
+============
+
+- sync : هاى الدالة بتعمل سيرش قبل ما تضيف ازا لقت الحاجة موجودة من قبل ما بتضيفها ...ولكن ..ركز ....ولكن ازا ضفت حاجة مش موجودة من قبل 
+بضيفها الك وبيمسح كل القديم 
+
+-راح نرجع للميثود ونستخدم هاى الدالة بدل اتاش ..نفسه هى هى بس بدى استخدم التانية 
+
+public function saveServicesToDoctors(Request $request){
+        $doctor = Doctor::find($request -> doctorId);
+
+        if(! $doctor)
+            return abort('404');
+        
+        //many to many insert to DB
+        // $doctor -> services() -> attach($request -> servicesIds);
+        $doctor -> services() -> sync($request -> servicesIds);
+
+        return redirect() -> back() -> with('success', 'تم الحفظ بنجاح');
+    }
+
+-خلينا نجربها على دكتور ما فيى عندو حاجة متكررة ..عندى اسلام 
+عندها خدمتين 
+باطنة حريمى ....تبيض اسنان 
+
+-لو اروح اضيفهم كمان مرة ...مش راح يضفلى اشى منهم خلص لانو لقاهم موجودين 
+
+-طيب لو اضيف باطنة حريمى كمان مرة لحالها ...راح يحفظ باطنة حريمى لحالها ويحذف تبيض اسنان ...طيب لو اروح اختار تقويم اسنان ...راح يحذف الى قبل ويخلى بس تقويم اسنا 
+
+-يعنى بتقدر تعتبر الدالة هادى بنستخدمها للتحديث الابديت ...بتمسح القديم وبحفظ بس الى اخترته جديد 
+
+==============
+
+syncWithoutDetaching : هادى بتعملى انسيرت عالقديم بدون ما تحذف اشى 
+
+والاشى الموجود ما بتضيفه ..يعنى هى هادى الى راح تحتاجها للاضافة اشى جديد 
+
+public function saveServicesToDoctors(Request $request){
+        $doctor = Doctor::find($request -> doctorId);
+
+        if(! $doctor)
+            return abort('404');
+        
+        //many to many insert to DB
+        // $doctor -> services() -> attach($request -> servicesIds);
+        // $doctor -> services() -> sync($request -> servicesIds);
+        $doctor -> services() -> syncWithoutDetaching($request -> servicesIds);
+
+        return redirect() -> back() -> with('success', 'تم الحفظ بنجاح');
+    }
+
+-اى اشى جدبد راح تضيفه راح يدخل عالقديم ...اوزا دخلت اشى من القديم ما راح يضيفه كمان مرة 
+
+============================================================================
+
+   #085 - laravel has one through relationship - شرح علاقه has one through
 
 
 
