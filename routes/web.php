@@ -307,6 +307,15 @@ Route::get('doctor-services-all/{doctor_id}', 'Relations\RelationsController@geD
 //الدرس 83 بدنا نحفظ البيانات تبعت الخدمات الى ضفناها بالداتا بيز 
 Route::post('save-services','Relations\RelationsController@saveServicesToDoctors')-> name('save.services');
 
+
+
+################### has one through relationship ###########################
+
+//الدرس 85
+
+Route::get('has-one-through', 'Relations\RelationsController@getPatientDoctor');
+
+
 ################### End Relation Routes ####################################
 
 

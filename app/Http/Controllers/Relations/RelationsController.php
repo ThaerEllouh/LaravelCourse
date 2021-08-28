@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Relations;
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
 use App\Models\Hospital;
+use App\Models\Patient;
 use App\Models\Phone;
 use App\Models\Service;
 use App\User;
@@ -31,13 +32,13 @@ class RelationsController extends Controller
         $qq -> select('id','name');
     }]) -> find(1);
 
-    //make some attribute visible 
+    //make some attribute visible
     // $phone -> makeVisible(['user_id']);
     // $phone -> makeHidden(['code', 'phone']);
     // return $phone;
 
     //return user of this phone
-    //return $phone -> user;    
+    //return $phone -> user;
 
     //get all data phone & user
     // return $phone;
@@ -56,7 +57,7 @@ class RelationsController extends Controller
         return $user;
 
     }
-    
+
     public function getUserHasNotPhone(){
         $user =  User::whereDoesntHave('phone') -> get();
         return $user;
@@ -70,7 +71,7 @@ class RelationsController extends Controller
 
         //return hospital doctors only
         // $hospital = Hospital::find(1);
-        // return $hospital -> doctors;  
+        // return $hospital -> doctors;
 
             ##############################
 
@@ -96,11 +97,11 @@ class RelationsController extends Controller
             echo $doctor -> name . ' : ' . $doctor -> title . "<br>";
         }
 
-            
+
             ##############################
 
         //invers relation
-        
+
         $doctor = Doctor::with(['hospital' =>  function($q){
             $q -> select('name', 'id');
         }]) -> find(5);
@@ -141,7 +142,7 @@ class RelationsController extends Controller
         return view('mydoctors.hospitals', compact('hospitals2'));
     }
 
-    //مسشفيات تحتوى اطباء ذكور 
+    //مسشفيات تحتوى اطباء ذكور
     public function getHospitalExistDoctorMale(){
         $hospitals3 = Hospital::whereHas('doctors', function($q){
             $q -> where('gender', '0');
@@ -149,7 +150,7 @@ class RelationsController extends Controller
         return view('mydoctors.hospitals', compact('hospitals3'));
     }
 
-    //مسشفيات تحتوى اطباء اناث 
+    //مسشفيات تحتوى اطباء اناث
     public function getHospitalExistDoctorFemale(){
         $hospitals4 = Hospital::whereHas('doctors', function($q){
             $q -> where('gender', '1');
@@ -157,9 +158,9 @@ class RelationsController extends Controller
         return view('mydoctors.hospitals', compact('hospitals4'));
     }
 
-    
 
-    //الدرس 80 حذف المشفى بكل دكاترته 
+
+    //الدرس 80 حذف المشفى بكل دكاترته
     public function deleteHospital($hospital_id){
 
         $hospital = Hospital::find($hospital_id);
@@ -191,11 +192,11 @@ class RelationsController extends Controller
         return $service;
     }
 
-    //الدرس83 
+    //الدرس83
     public function geDoctorServicesAll($doctor_id){
         $doctor = Doctor::find($doctor_id);
 
-        $services = $doctor -> services; 
+        $services = $doctor -> services;
 
         $allDoctors = Doctor::select('id', 'name') -> get();
 
@@ -209,7 +210,7 @@ class RelationsController extends Controller
 
         if(! $doctor)
             return abort('404');
-        
+
         //many to many insert to DB
         // $doctor -> services() -> attach($request -> servicesIds);
         // $doctor -> services() -> sync($request -> servicesIds);
@@ -218,10 +219,18 @@ class RelationsController extends Controller
         return redirect() -> back() -> with('success', 'تم الحفظ بنجاح');
     }
 
-    
 
 
-    
+################### has one through relationship ###########################
+    //الدرس 85
+
+    public function getPatientDoctor(){
+        $patient = Patient::with('doctor') -> find(3);
+        return $patient;
+        // return $patient -> doctor;
+    }
+
+
 }
 
 
