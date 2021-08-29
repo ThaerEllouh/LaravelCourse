@@ -316,6 +316,13 @@ Route::post('save-services','Relations\RelationsController@saveServicesToDoctors
 Route::get('has-one-through', 'Relations\RelationsController@getPatientDoctor');
 
 
+################### has many through relationship ###########################
+
+//الدرس 86
+
+Route::get('has-many-through', 'Relations\RelationsController@getCountryDoctor');
+
+
 ################### End Relation Routes ####################################
 
 

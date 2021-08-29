@@ -13738,7 +13738,7 @@ public function getPatientDoctor(){
         return $patient -> doctor;
     }
 
--فعلا المريض رقم 2 كان حسن والدكتورة تبعته نور ..رجعلى 
+-فعلا المريض رقم 2 كان حسن والدكتورة تبعته نور ..رجعلى
 
 {
 "id": 3,
@@ -13750,13 +13750,13 @@ public function getPatientDoctor(){
 "laravel_through_key": 2
 }
 
--طيب لو بدى ارجع المريض مع العلاقة 
+-طيب لو بدى ارجع المريض مع العلاقة
 public function getPatientDoctor(){
         $patient = Patient::with('doctor') -> find(2);
         return $patient;
     }
 
--رجعلى 
+-رجعلى
 {
 "id": 2,
 "name": "حسن",
@@ -13772,11 +13772,11 @@ public function getPatientDoctor(){
         }
 }
 
--بالنسة لهاد "laravel_through_key": 2 لا يعتبر حقل ..ولكن يعامل معاملة الحقل عادى زى ما حكينا ممكن نروح ع مودل الدكتور ونحطه بالهيدن برضو ...هاد الى لافيل بتربطلى فيه الجدولين ومنو بتعملى كل اشى وانا متريح 
+-بالنسة لهاد "laravel_through_key": 2 لا يعتبر حقل ..ولكن يعامل معاملة الحقل عادى زى ما حكينا ممكن نروح ع مودل الدكتور ونحطه بالهيدن برضو ...هاد الى لافيل بتربطلى فيه الجدولين ومنو بتعملى كل اشى وانا متريح
 
     protected $hidden = ['created_at', 'updated_at', 'pivot', 'laravel_through_key'];
 
--وهيك رجعلى البيانات بدونه 
+-وهيك رجعلى البيانات بدونه
 {
 "id": 2,
 "name": "حسن",
@@ -13791,13 +13791,13 @@ public function getPatientDoctor(){
     }
 }
 
--طيب لو بدى اجيب المريض رقم 3 واعرف الدكتور تبعه 
+-طيب لو بدى اجيب المريض رقم 3 واعرف الدكتور تبعه
 public function getPatientDoctor(){
         $patient = Patient::with('doctor') -> find(3);
         return $patient;
     }
 
--رجعلى فعلا 
+-رجعلى فعلا
 {
 "id": 3,
 "name": "محمود",
@@ -13815,3 +13815,118 @@ public function getPatientDoctor(){
 ================================================================================
 
   #086 - laravel has many through relationship - شرح علاقه has many through
+
+-راح نتكلم عن اخر علاقة معنا has many through
+
+-نفس العلاقة الى قبل ..علاقة ما بين 3 جدول عن طريق جدول وسيط
+
+-ولكن العلاقة بين الجدول الاول والتانى ون تو مينى وبين التانى والتالت ون تو مينى برضو
+
+واحنا عن طريق الجدول التانى المشترك بدنا نعمل علاقة بين الجدول الاول والتال هان بنستخدم العلاقة الاخيرة has many through
+
+-برضو راح ننفذها ع مثال طبي
+
+-عنا الدولة فيها اكتر من مشفى ...والمشفى فى اكتر من دكتور
+يعنى العلاقة بين الدولة والمشفى ون تو مينى ..والعلاقة بين المشفى والدكتور برضو ون تو مين فيها اكتر من دكتور المشفى ...ولكن ما فى علاقة بين الدولة والدكاترة
+
+-هان بدنا نعمل بينهم علاقة عن طريق الجدول المشترك الى هو المستشفى
+
+countries      hospitals    doctord
+id               id            id
+name             name          name
+                 country_id    hospital_id
+
+-راح نعمل نفس شغل الدرس الى فات نعم لجدول الدولة ونعمله مودل وجدول المشفى والدكتور عنا من قبل بس نضيف عليهم الفورين كى الجداد
+
+class Country extends Model
+{
+    protected $table = "countries";
+    protected $fillable = ['name'];
+    public $timestamps = false;
+}
+
+-ورحت مودل المشفى وحطيت فورين كى الدولة بالفيلبل
+    protected $fillable = ['name', 'address', 'country_id', 'created_at', 'updated_at'];
+
+-وبالنسبة لمودل الدكتور مربوط بالمشفى بفورن كى من الاول hospital_id
+
+-بدى ادخل دولتين ...فلسطين ومصر
+
+-واروح عالمشفيات واحط لمستشفيتين اى دى الدولة مرة فلسطين ومرة مصر
+-حطيت مشفى الشفاءوالاوروبى بفلسطين ومشفى العودة والاقصى بمصر 
+
+-نروح نكتب العلاقة الى بتربطلى الدولة بالدكاترة هلقيت 
+بدنا نعمل علاقة تجيبلى كل دكاترة الدولة عن طريق الجدول الوسيط بينهم الى هو المستشفيات 
+
+-بدنا نروح ع جدول الدولة ونعمل علاقة ونسميها doctors
+
+public function doctors(){
+        return $this -> hasManyThrough('App\Models\Doctor', 'App\Models\Hospital', 'country_id', 'hospital_id', 'id', 'id');
+    }
+
+-نفس الدرس الى فات بس اسم العلاقة تغير 
+
+public function hasManyThrough(
+    $related,
+    $through,
+    $firstKey = null,
+    $secondKey = null,
+    $localKey = null,
+    $secondLocalKey = null
+)
+
+-نروح نعمل راوت وميثود 
+
+Route::get('has-many-through', 'Relations\RelationsController@getCountryDoctor');
+
+
+-الميثود 
+ public function getCountryDoctor(){
+        $country = Country::with('doctors') -> find(1);
+        return $country;
+    }
+
+-فعلا دولة رقم 1 فلسطين كان فيها 2 مشفى الشفا والاوربى ..الشفا كان فيها ثائر وحسن ...والاوروبى نور واسلا ...رجعلى الربع دكاترة كلهم بالعلاقة 
+
+{
+"id": 1,
+"name": "فلسطين",
+"doctors": [
+            {
+            "id": 1,
+            "name": "ثائر اللوح",
+            "title": "استشارى باطنة",
+            "hospital_id": 1,
+            "gender": 0,
+            "medical_id": 4
+            },
+            {
+            "id": 2,
+            "name": "حسن ابو يوسف",
+            "title": "استشارى جراجة ",
+            "hospital_id": 1,
+            "gender": 0,
+            "medical_id": 3
+            },
+            {
+            "id": 3,
+            "name": "نور اللوح",
+            "title": "استشارى ولادة",
+            "hospital_id": 2,
+            "gender": 1,
+            "medical_id": 2
+            },
+            {
+            "id": 4,
+            "name": "اسلام اللوح ",
+            "title": "استشارى اعصاب",
+            "hospital_id": 2,
+            "gender": 1,
+            "medical_id": 1
+            }
+            ]
+}
+
+================================================================================
+
+      #087 - Laravel pagination how to paginate database results
